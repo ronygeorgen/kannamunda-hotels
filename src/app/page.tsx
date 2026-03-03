@@ -89,21 +89,20 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
       style={{ x, rotate, opacity }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.05} // Feels more deliberate, like a luxury physical card
-      dragTransition={{ bounceStiffness: 600, bounceDamping: 25 }}
+      dragElastic={0.15}
       onDragEnd={(e, info) => {
-        // Increased threshold for 2026/Large screen phones: 150px
-        if (info.offset.x > 150) onSwipe('right');
-        else if (info.offset.x < -150) onSwipe('left');
+        // Reduced threshold to 120px for a smoother, more responsive trigger
+        if (info.offset.x > 120) onSwipe('right');
+        else if (info.offset.x < -120) onSwipe('left');
       }}
       initial={{ scale: 0.95, opacity: 0, rotate: 0 }}
       animate={{ scale: 1, opacity: 1, rotate: 0 }}
       exit={{
         x: x.get() < 0 ? -600 : 600,
         opacity: 0,
-        scale: 0.8,
-        rotate: x.get() < 0 ? -45 : 45,
-        transition: { duration: 0.4, ease: "circIn" }
+        scale: 0.85,
+        rotate: x.get() < 0 ? -30 : 30,
+        transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
       }}
       className="absolute inset-0 z-10 touch-none cursor-grab active:cursor-grabbing"
     >
