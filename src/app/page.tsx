@@ -138,7 +138,7 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
         </motion.div>
 
         <div className="absolute inset-0 p-8 flex flex-col justify-end">
-          <span className="text-primary text-[10px] tracking-widest uppercase font-bold mb-3 block">
+          <span className="text-white text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block bg-primary px-4 py-1.5 rounded-sm shadow-xl border border-white/10">
             {item.tag}
           </span>
           <h3 className="text-3xl font-serif text-white mb-3">
