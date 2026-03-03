@@ -31,42 +31,42 @@ const portalItems = [
   {
     title: "Premium Amenities",
     desc: "Experience unmatched luxury with our curated services designed for your ultimate comfort.",
-    img: "/amenities/amenities-1.jpg",
+    img: "/amenities/amenities-1.webp",
     link: "/amenities",
     tag: "Signatures"
   },
   {
     title: "Business Projects",
     desc: "Exploring our diverse ventures from construction to hospitality across Kerala.",
-    img: "/projects/projects-1.png",
+    img: "/projects/projects-1.webp",
     link: "/projects",
     tag: "Ventures"
   },
   {
     title: "Our Locations",
     desc: "Discover our beautiful properties nestled in the heart of Erattupetta and Poonjar.",
-    img: "/destination/kannamunda-main-building.jpg",
+    img: "/destination/kannamunda-main-building.webp",
     link: "/destination",
     tag: "Destinations"
   },
   {
     title: "Local Attractions",
     desc: "Hidden gems and iconic landmarks just steps away from our residency.",
-    img: "/nearby-attractions/location3.jpg",
+    img: "/nearby-attractions/location3.webp",
     link: "/nearby-attractions",
     tag: "Nearby"
   },
   {
     title: "Captured Moments",
     desc: "A visual journey through our architecture, ambiance, and the smiles of our guests.",
-    img: "/gallery/interior-room-image-edited.png",
+    img: "/gallery/interior-room-image-edited.webp",
     link: "/gallery",
     tag: "Gallery"
   },
   {
     title: "Reach Out to Us",
     desc: "We are always here to assist you. Plan your stay or send us an inquiry.",
-    img: "/contact/contact-us.jpg",
+    img: "/contact/contact-us.webp",
     link: "/contact",
     tag: "Inquiry"
   }
@@ -182,7 +182,7 @@ export default function Home() {
           {/* Desktop Overlay Image */}
           <div className="hidden md:block absolute inset-0">
             <Image
-              src="/home/home-hero-section-landscape.png"
+              src="/home/home-hero-section-landscape.webp"
               alt="Kannamundayil Residency - Desktop View"
               fill className="object-cover object-right-bottom"
               priority
@@ -191,7 +191,7 @@ export default function Home() {
           {/* Mobile Overlay Image */}
           <div className="block md:hidden absolute inset-0">
             <Image
-              src="/destination/kannamunda-main-building.jpg"
+              src="/destination/kannamunda-main-building.webp"
               alt="Kannamundayil Residency - Mobile View"
               fill className="object-cover object-right-bottom"
               priority
@@ -305,7 +305,7 @@ export default function Home() {
                 viewport={{ once: true, margin: "-50px" }}
                 className="relative z-10 w-full h-full"
               >
-                <Image src="/home/home-image-2.jpg" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
+                <Image src="/home/home-image-2.webp" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
               </motion.div>
             </div>
 

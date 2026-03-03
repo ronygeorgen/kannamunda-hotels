@@ -31,7 +31,7 @@ export default function AmenitiesPage() {
             {/* ── Parallax Hero ── */}
             <section ref={containerRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src="/amenities/amenities-3.jpg" alt="Amenities" fill className="object-cover" style={{ objectPosition: "center 75%" }} priority />
+                    <Image src="/amenities/amenities-3.webp" alt="Amenities" fill className="object-cover" style={{ objectPosition: "center 75%" }} priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 
@@ -94,8 +94,8 @@ export default function AmenitiesPage() {
                         className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     >
                         {[
-                            { src: "/gallery/interior-room-image-edited.png", alt: "Premium Rooms", cls: "aspect-[4/3]" },
-                            { src: "/gallery/interior-room-image-2.jpg", alt: "Relaxation Spaces", cls: "aspect-[4/3]" },
+                            { src: "/gallery/interior-room-image-edited.webp", alt: "Premium Rooms", cls: "aspect-[4/3]" },
+                            { src: "/gallery/interior-room-image-2.webp", alt: "Relaxation Spaces", cls: "aspect-[4/3]" },
                         ].map((img, idx) => (
                             <motion.div key={idx} variants={galleryItem} className={`relative ${img.cls} overflow-hidden group shadow-xl`}>
                                 <motion.div

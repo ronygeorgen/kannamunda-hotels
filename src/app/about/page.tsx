@@ -26,7 +26,7 @@ export default function AboutPage() {
             {/* ── Hero ── */}
             <section ref={containerRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src="/about/about-us-hero-section.png" alt="About Us" fill className="object-cover object-bottom" priority />
+                    <Image src="/about/about-us-hero-section.webp" alt="About Us" fill className="object-cover object-bottom" priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 
@@ -85,7 +85,7 @@ export default function AboutPage() {
                                 viewport={{ once: true, margin: "-100px" }}
                                 className="relative z-10 w-full h-full"
                             >
-                                <Image src="/about/about-us-right-image.jpg" alt="History" fill className="object-cover object-right shadow-2xl" />
+                                <Image src="/about/about-us-right-image.webp" alt="History" fill className="object-cover object-right shadow-2xl" />
                             </motion.div>
                         </Reveal>
                     </div>
@@ -103,7 +103,7 @@ export default function AboutPage() {
 
                     <RevealGroup className="flex flex-col md:flex-row gap-16 items-center">
                         <motion.div variants={scaleUp} className="relative w-64 h-64 md:w-80 md:h-80 shrink-0 border-2 border-primary/20 overflow-hidden shadow-xl bg-white">
-                            <Image src="/common/Kannamunda-logo.png" alt="Abilash K Mathew" fill className="object-contain p-10" />
+                            <Image src="/common/Kannamunda-logo.webp" alt="Abilash K Mathew" fill className="object-contain p-10" />
                         </motion.div>
 
                         <div>

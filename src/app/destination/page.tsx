@@ -19,7 +19,7 @@ export default function DestinationPage() {
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src="/gallery/location2.jpg" alt="Destinations" fill className="object-cover object-center" priority />
+                    <Image src="/gallery/location2.webp" alt="Destinations" fill className="object-cover object-center" priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">
@@ -43,7 +43,7 @@ export default function DestinationPage() {
                         <Reveal variants={fadeLeft} className="w-full lg:w-1/2 relative h-[350px] md:h-[560px] shadow-2xl overflow-hidden" viewport={{ once: false, amount: 0.1, margin: "-20px" }}>
                             <div className="absolute inset-5 border border-primary/20 -translate-x-3 -translate-y-3 z-0" />
                             <motion.div variants={clipReveal} className="relative z-10 w-full h-full">
-                                <Image src="/destination/kannamunda-main-building.jpg" alt="Erattupetta" fill className="object-cover" />
+                                <Image src="/destination/kannamunda-main-building.webp" alt="Erattupetta" fill className="object-cover" />
                             </motion.div>
                         </Reveal>
 
@@ -73,7 +73,7 @@ export default function DestinationPage() {
                         <Reveal variants={fadeRight} className="w-full lg:w-1/2 relative h-[350px] md:h-[560px] shadow-2xl overflow-hidden" viewport={{ once: false, amount: 0.1, margin: "-20px" }}>
                             <div className="absolute inset-5 border border-primary/20 translate-x-3 -translate-y-3 z-0" />
                             <motion.div variants={clipReveal} className="relative z-10 w-full h-full">
-                                <Image src="/destination/poonjar-kannamunda.png" alt="Poonjar" fill className="object-cover" />
+                                <Image src="/destination/poonjar-kannamunda.webp" alt="Poonjar" fill className="object-cover" />
                             </motion.div>
                         </Reveal>
                     </div>

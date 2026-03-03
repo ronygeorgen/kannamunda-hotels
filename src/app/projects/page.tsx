@@ -12,7 +12,7 @@ const projects = [
         title: "Kannamundayil Residency",
         type: "Hospitality",
         icon: Building2,
-        image: "/destination/kannamunda-main-building.jpg",
+        image: "/destination/kannamunda-main-building.webp",
         status: "Operating",
         desc: "Our premium family-run tourist homes offering a blend of modern amenities with Kerala's traditional hospitality. Branches in Erattupetta and Poonjar.",
     },
@@ -20,7 +20,7 @@ const projects = [
         title: "Kannamundayil Finance",
         type: "Financial Services",
         icon: Coins,
-        image: "/gallery/interior-room-image-2-edited.png",
+        image: "/gallery/interior-room-image-2-edited.webp",
         status: "Expanding",
         desc: "Starting as a financier, we have grown into a trusted financial institution providing gold loan services across Kottayam district with a legacy of trust.",
     },
@@ -28,7 +28,7 @@ const projects = [
         title: "Kannamundayil Bakes",
         type: "Food & Beverage",
         icon: Briefcase,
-        image: "/gallery/interior-room-image-edited.png",
+        image: "/gallery/interior-room-image-edited.webp",
         status: "Operating",
         desc: "Our foray into the culinary world, delivering exceptional baked goods, sweets and savory items—maintaining our commitment to quality.",
     },
@@ -135,7 +135,7 @@ export default function ProjectsPage() {
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
-                    <Image src="/projects/projects-1.png" alt="Portfolio" fill className="object-cover object-bottom" priority />
+                    <Image src="/projects/projects-1.webp" alt="Portfolio" fill className="object-cover object-bottom" priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">

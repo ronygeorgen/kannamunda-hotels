@@ -85,7 +85,7 @@ export default function BookingPage() {
             <section ref={heroRef} className="relative h-[60vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image
-                        src="/bookings/booking-hero-image.jpg"
+                        src="/bookings/booking-hero-image.webp"
                         alt="Book Your Stay"
                         fill
                         className="object-cover"

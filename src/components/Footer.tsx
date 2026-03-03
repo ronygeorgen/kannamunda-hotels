@@ -17,7 +17,7 @@ export function Footer() {
                     <div className="lg:col-span-4 space-y-6">
                         {/* Logo — directly on dark bg, no white box */}
                         <Image
-                            src="/common/footer-logo.png"
+                            src="/common/footer-logo.webp"
                             alt="Kannamundayil Residency"
                             width={260}
                             height={90}

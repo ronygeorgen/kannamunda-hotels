@@ -16,16 +16,16 @@ import {
 import { PageCTA } from "@/components/PageCTA";
 
 const galleryImages = [
-    { src: "/gallery/interior-room-image-edited.png", alt: "Luxurious Room Interior", span: "lg:col-span-2" },
-    { src: "/gallery/interior-room-image-7.png", alt: "Grand Reception & Lobby", span: "row-span-2" },
-    { src: "/gallery/interior-room-image-6.png", alt: "Premium Executive Suite", span: "" },
-    { src: "/gallery/interior-room-image-2-edited.png", alt: "Relaxation & Lounge Area", span: "" },
-    { src: "/gallery/poonjar-kannamunda-edited.png", alt: "Building - Poonjar", span: "row-span-2" },
-    { src: "/destination/kannamunda-main-building.jpg", alt: "Main Building – Erattupetta", span: "" },
-    { src: "/gallery/interior-room-image-4.png", alt: "Modern Suite Comfort", span: "" },
-    { src: "/gallery/interior-room-image-8.png", alt: "Exclusive Guest Lounge", span: "" },
-    { src: "/gallery/interior-room-image-5.png", alt: "Elegant Bedding & Decor", span: "" },
-    { src: "/gallery/interior-room-image-3.png", alt: "Sophisticated Guest Suites", span: "lg:col-start-2" },
+    { src: "/gallery/interior-room-image-edited.webp", alt: "Luxurious Room Interior", span: "lg:col-span-2" },
+    { src: "/gallery/interior-room-image-7.webp", alt: "Grand Reception & Lobby", span: "row-span-2" },
+    { src: "/gallery/interior-room-image-6.webp", alt: "Premium Executive Suite", span: "" },
+    { src: "/gallery/interior-room-image-2-edited.webp", alt: "Relaxation & Lounge Area", span: "" },
+    { src: "/gallery/poonjar-kannamunda-edited.webp", alt: "Building - Poonjar", span: "row-span-2" },
+    { src: "/destination/kannamunda-main-building.webp", alt: "Main Building – Erattupetta", span: "" },
+    { src: "/gallery/interior-room-image-4.webp", alt: "Modern Suite Comfort", span: "" },
+    { src: "/gallery/interior-room-image-8.webp", alt: "Exclusive Guest Lounge", span: "" },
+    { src: "/gallery/interior-room-image-5.webp", alt: "Elegant Bedding & Decor", span: "" },
+    { src: "/gallery/interior-room-image-3.webp", alt: "Sophisticated Guest Suites", span: "lg:col-start-2" },
 ];
 
 export default function GalleryPage() {
@@ -99,7 +99,7 @@ export default function GalleryPage() {
             {/* ── Parallax Hero ── */}
             <section ref={containerRef} className="relative h-[70vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 w-full h-full z-0">
-                    <Image src="/gallery/interior-room-image-edited.png" alt="Gallery hero" fill className="object-cover" style={{ objectPosition: "center 80%" }} priority />
+                    <Image src="/gallery/interior-room-image-edited.webp" alt="Gallery hero" fill className="object-cover" style={{ objectPosition: "center 80%" }} priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 
