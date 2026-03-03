@@ -296,8 +296,8 @@ export default function Home() {
 
         <div className="container px-6 mx-auto max-w-7xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="relative h-[400px] md:h-[620px] w-full order-first lg:order-none">
-              <div className="absolute inset-4 md:inset-6 border border-primary/20 z-0 -translate-x-3 translate-y-3 md:-translate-x-5 md:translate-y-5" />
+            <div className="relative h-[620px] w-full hidden lg:block">
+              <div className="absolute inset-6 border border-primary/20 z-0 -translate-x-5 translate-y-5" />
               <motion.div
                 variants={clipReveal}
                 initial="hidden"
@@ -305,7 +305,7 @@ export default function Home() {
                 viewport={{ once: true, margin: "-50px" }}
                 className="relative z-10 w-full h-full"
               >
-                <Image src="/home/home-image-2.jpg" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="(max-width: 1024px) 100vw, 50vw" />
+                <Image src="/home/home-image-2.jpg" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
               </motion.div>
             </div>
 
