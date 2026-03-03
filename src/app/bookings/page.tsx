@@ -264,7 +264,7 @@ export default function BookingPage() {
                                             required
                                             value={formData.email}
                                             placeholder="name@email.com"
-                                            className={inputClasses}
+                                            className={`${inputClasses} pr-12`}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         />
                                     </div>

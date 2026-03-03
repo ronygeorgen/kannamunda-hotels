@@ -267,7 +267,7 @@ export default function Home() {
               </Button>
             </Link>
             <Link href="/amenities">
-              <Button size="lg" variant="outline" className="rounded-none h-14 px-10 text-sm tracking-widest uppercase border-white/50 hover:bg-white hover:text-black bg-transparent text-white transition-all duration-300">
+              <Button size="lg" variant="outline" className="rounded-none h-14 px-10 text-sm tracking-widest uppercase border-white/40 hover:bg-white hover:text-black bg-white/10 backdrop-blur-md text-white transition-all duration-300">
                 Explore Amenities
               </Button>
             </Link>
