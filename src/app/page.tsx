@@ -75,34 +75,35 @@ const portalItems = [
 
 const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-300, 300], [-35, 35]);
-  const opacity = useTransform(x, [-250, -200, 0, 200, 250], [0, 1, 1, 1, 0]);
+  // Gentle rotation — keeps it feeling light, not heavy
+  const rotate = useTransform(x, [-200, 200], [-15, 15]);
+  const opacity = useTransform(x, [-180, -120, 0, 120, 180], [0, 1, 1, 1, 0]);
 
-  // Dynamic feedback (Indicators appear after 60px swipe, reach full at 150px)
-  const nextOpacity = useTransform(x, [-150, -60], [1, 0]);
-  const visitOpacity = useTransform(x, [60, 150], [0, 1]);
-  const nextScale = useTransform(x, [-180, -60], [1.1, 0.8]);
-  const visitScale = useTransform(x, [60, 180], [0.8, 1.1]);
+  // Indicators appear early (40px) so user gets visual feedback quickly
+  const nextOpacity = useTransform(x, [-100, -40], [1, 0]);
+  const visitOpacity = useTransform(x, [40, 100], [0, 1]);
+  const nextScale = useTransform(x, [-120, -40], [1.1, 0.8]);
+  const visitScale = useTransform(x, [40, 120], [0.8, 1.1]);
 
   return (
     <motion.div
       style={{ x, rotate, opacity }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.15}
+      dragElastic={1}         // Full elasticity — card follows finger with ZERO resistance
+      dragMomentum={true}     // Momentum carries the card after release, like Bumble
       onDragEnd={(e, info) => {
-        // Reduced threshold to 120px for a smoother, more responsive trigger
-        if (info.offset.x > 120) onSwipe('right');
-        else if (info.offset.x < -120) onSwipe('left');
+        // 80px threshold — easy to trigger, no need to "force" swipe
+        if (info.offset.x > 80 || info.velocity.x > 500) onSwipe('right');
+        else if (info.offset.x < -80 || info.velocity.x < -500) onSwipe('left');
       }}
-      initial={{ scale: 0.95, opacity: 0, rotate: 0 }}
-      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+      initial={{ scale: 0.97, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
       exit={{
-        x: x.get() < 0 ? -600 : 600,
+        x: x.get() < 0 ? -700 : 700,
         opacity: 0,
-        scale: 0.85,
-        rotate: x.get() < 0 ? -30 : 30,
-        transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+        rotate: x.get() < 0 ? -20 : 20,
+        transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] }
       }}
       className="absolute inset-0 z-10 touch-none cursor-grab active:cursor-grabbing"
     >
