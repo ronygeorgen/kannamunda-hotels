@@ -51,7 +51,7 @@ export function Navbar() {
                         <div className="flex-shrink-0 z-50">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                                 <Image
-                                    src="/Kannamunda-logo.png"
+                                    src="/common/Kannamunda-logo.png"
                                     alt="Kannamundayil Residency"
                                     width={150}
                                     height={50}
