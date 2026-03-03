@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion";
 import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -74,31 +74,35 @@ const portalItems = [
 
 const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-25, 25]);
-  const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
+  const rotate = useTransform(x, [-300, 300], [-35, 35]);
+  const opacity = useTransform(x, [-250, -200, 0, 200, 250], [0, 1, 1, 1, 0]);
 
-  // Dynamic feedback for the user while dragging
-  const nextOpacity = useTransform(x, [-100, -50], [1, 0]);
-  const visitOpacity = useTransform(x, [50, 100], [0, 1]);
-  const nextScale = useTransform(x, [-150, -50], [1.2, 0.8]);
-  const visitScale = useTransform(x, [50, 150], [0.8, 1.2]);
+  // Dynamic feedback (Indicators appear after 60px swipe, reach full at 150px)
+  const nextOpacity = useTransform(x, [-150, -60], [1, 0]);
+  const visitOpacity = useTransform(x, [60, 150], [0, 1]);
+  const nextScale = useTransform(x, [-180, -60], [1.1, 0.8]);
+  const visitScale = useTransform(x, [60, 180], [0.8, 1.1]);
 
   return (
     <motion.div
       style={{ x, rotate, opacity }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.05} // Feels more deliberate, like a luxury physical card
+      dragTransition={{ bounceStiffness: 600, bounceDamping: 25 }}
       onDragEnd={(e, info) => {
-        if (info.offset.x > 100) onSwipe('right');
-        else if (info.offset.x < -100) onSwipe('left');
+        // Increased threshold for 2026/Large screen phones: 150px
+        if (info.offset.x > 150) onSwipe('right');
+        else if (info.offset.x < -150) onSwipe('left');
       }}
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ scale: 0.95, opacity: 0, rotate: 0 }}
+      animate={{ scale: 1, opacity: 1, rotate: 0 }}
       exit={{
-        x: x.get() < 0 ? -500 : 500,
+        x: x.get() < 0 ? -600 : 600,
         opacity: 0,
-        scale: 0.5,
-        transition: { duration: 0.3 }
+        scale: 0.8,
+        rotate: x.get() < 0 ? -45 : 45,
+        transition: { duration: 0.4, ease: "circIn" }
       }}
       className="absolute inset-0 z-10 touch-none cursor-grab active:cursor-grabbing"
     >
@@ -159,6 +163,7 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
 };
 
 export default function Home() {
+  const router = useRouter();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
@@ -166,6 +171,14 @@ export default function Home() {
 
   const [brandIndex, setBrandIndex] = useState(0);
   const [activePortalIndex, setActivePortalIndex] = useState(0);
+
+  const handleManualSwipe = useCallback((dir: 'left' | 'right') => {
+    if (dir === 'left') {
+      setActivePortalIndex((prev) => (prev + 1) % portalItems.length);
+    } else {
+      router.push(portalItems[activePortalIndex].link);
+    }
+  }, [activePortalIndex, router]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -408,17 +421,11 @@ export default function Home() {
           {/* Mobile Swipe Deck (Bumble Style) */}
           <div className="md:hidden relative px-4 h-[520px]">
             <div className="relative w-full h-full">
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="popLayout" initial={false}>
                 <SwipeCard
                   key={activePortalIndex}
                   item={portalItems[activePortalIndex]}
-                  onSwipe={(dir) => {
-                    if (dir === 'left') {
-                      setActivePortalIndex((prev) => (prev + 1) % portalItems.length);
-                    } else {
-                      window.location.href = portalItems[activePortalIndex].link;
-                    }
-                  }}
+                  onSwipe={handleManualSwipe}
                 />
               </AnimatePresence>
             </div>
@@ -479,21 +486,20 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-all duration-700" />
 
                 {/* Content */}
-                <div className="absolute inset-0 p-10 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                  {/* Tag — hero-style badge on hover */}
-                  <span className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block transition-all duration-500 ${'opacity-0 group-hover:opacity-100 group-hover:bg-primary group-hover:text-white group-hover:px-3 group-hover:py-1 group-hover:rounded-sm group-hover:shadow-xl group-hover:border group-hover:border-white/10 text-primary'
-                    }`}>
+                <div className="absolute inset-0 p-10 flex flex-col justify-end lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-700">
+                  {/* Tag — Highlighted by default on mobile, hover on desktop */}
+                  <span className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block transition-all duration-500 bg-primary text-white px-3 py-1 rounded-sm shadow-xl border border-white/10 lg:opacity-0 lg:group-hover:opacity-100 lg:bg-transparent lg:text-primary lg:border-none lg:shadow-none lg:px-0 lg:py-0 lg:group-hover:bg-primary lg:group-hover:text-white lg:group-hover:px-3 lg:group-hover:py-1 lg:group-hover:rounded-sm lg:group-hover:shadow-xl lg:group-hover:border lg:group-hover:border-white/10`}>
                     {item.tag}
                   </span>
 
-                  {/* Title — highlighted on hover */}
-                  <h3 className="text-2xl font-serif mb-4 drop-shadow-lg transition-all duration-500 text-white/70 group-hover:text-white group-hover:[text-shadow:_0_2px_16px_rgba(0,0,0,0.9)]">
+                  {/* Title — White on mobile, highlighted on hover desktop */}
+                  <h3 className="text-2xl font-serif mb-4 drop-shadow-lg transition-all duration-500 text-white lg:text-white/70 lg:group-hover:text-white lg:group-hover:[text-shadow:_0_2px_16px_rgba(0,0,0,0.9)]">
                     {item.title}
                   </h3>
-                  <div className="h-[2px] w-0 bg-primary group-hover:w-12 transition-all duration-700 mb-4" />
+                  <div className="h-[2px] bg-primary mb-4 w-12 lg:w-0 lg:group-hover:w-12 transition-all duration-700" />
 
-                  {/* Description — appears with text highlight background on hover */}
-                  <p className="font-light text-sm leading-relaxed mb-8 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 text-white/90 group-hover:[text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
+                  {/* Description — Always visible on mobile, hover on desktop */}
+                  <p className="font-light text-sm leading-relaxed mb-8 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-500 delay-100 text-white/90 lg:group-hover:[text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
                     {item.desc}
                   </p>
                   <Link href={item.link}>
