@@ -348,14 +348,14 @@ export default function Home() {
         </div>
       </section>
       {/* ───── AMENITIES (Signatures of Comfort) ───── */}
-      <section className="bg-gray-50 py-32 border-t border-gray-100">
+      <section className="bg-[#3a0a14] py-32 border-t border-white/5">
         <div className="container px-6 mx-auto max-w-7xl">
           <Reveal className="text-center mb-20">
-            <p className="text-primary uppercase tracking-[0.25em] text-sm mb-3">Our Commitments</p>
-            <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Signatures of Comfort</h2>
+            <p className="text-white uppercase tracking-[0.25em] text-sm mb-3">Our Commitments</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-white">Signatures of Comfort</h2>
             <motion.div
               variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }}
-              className="h-[2px] w-16 bg-primary mx-auto mt-8"
+              className="h-[2px] w-16 bg-white mx-auto mt-8"
             />
           </Reveal>
 
@@ -364,13 +364,13 @@ export default function Home() {
               <motion.div
                 key={i}
                 variants={fadeUp}
-                className="bg-white p-10 group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100 border-t-4 border-t-primary/20 hover:border-t-primary flex flex-col items-center text-center"
+                className="bg-white/5 backdrop-blur-sm p-10 group hover:bg-white/10 hover:-translate-y-1 transition-all duration-500 border border-white/10 border-t-4 border-t-primary/40 hover:border-t-primary flex flex-col items-center text-center"
               >
-                <div className="w-20 h-20 bg-primary/8 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary/15 transition-colors duration-500">
-                  <item.icon className="h-9 w-9 text-primary/60 group-hover:text-primary transition-colors duration-500 stroke-[1.25]" />
+                <div className="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-white/15 transition-colors duration-500">
+                  <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
                 </div>
-                <h3 className="text-xl font-serif text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-400 font-light leading-relaxed group-hover:text-gray-600 transition-colors duration-500">{item.desc}</p>
+                <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
+                <p className="text-white/40 font-light leading-relaxed group-hover:text-white/60 transition-colors duration-500">{item.desc}</p>
               </motion.div>
             ))}
           </RevealGroup>
