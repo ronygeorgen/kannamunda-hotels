@@ -200,10 +200,10 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-neutral-950/90" />
         </motion.div>
 
-        <motion.div style={{ opacity: opac }} className="relative z-10 container px-6 text-center flex flex-col items-center">
+        <motion.div style={{ opacity: opac }} className="relative z-10 container px-6 text-center flex flex-col items-center pt-24 md:pt-32">
           <motion.div
             variants={heroTagline} initial="hidden" whileInView="visible" viewport={{ once: false }}
-            className="text-white/80 uppercase mb-6 text-xs md:text-sm font-medium tracking-[0.3em] flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
+            className="text-white/80 uppercase mb-4 text-xs md:text-sm font-medium tracking-[0.3em] flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
           >
             <span>Welcome to</span>
             <span className="md:bg-primary/90 text-white md:px-3 md:py-1 md:rounded-sm md:shadow-xl font-bold font-serif md:border md:border-white/10 md:brightness-110">
@@ -229,7 +229,7 @@ export default function Home() {
             variants={staggerChildren}
             initial="hidden"
             animate="visible"
-            className="text-5xl md:text-8xl font-serif leading-tight max-w-5xl text-white drop-shadow-2xl mb-6"
+            className="text-4xl md:text-7xl font-serif leading-tight max-w-5xl text-white drop-shadow-2xl mb-4"
             style={{ perspective: "1000px" }}
           >
             {["A", "Haven", "of"].map((word, i) => (
@@ -250,12 +250,12 @@ export default function Home() {
             </motion.span>
           </motion.h1>
 
-          <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[3px] w-32 bg-primary mt-8 md:mb-4 mb-8 drop-shadow-md" />
+          <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[3px] w-32 bg-primary mt-6 md:mb-2 mb-6 drop-shadow-md" />
 
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="text-white drop-shadow-md text-lg md:text-xl max-w-2xl mb-14 md:mb-20 font-medium leading-relaxed"
+            className="text-white drop-shadow-md text-lg md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed"
           >
             Nestled in the heart of Erattupetta &amp; Poonjar where Kerala's warmth meets unparalleled comfort.
           </motion.p>
@@ -272,20 +272,20 @@ export default function Home() {
               </Button>
             </Link>
           </motion.div>
-        </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-        >
-          <span className="text-white/40 text-xs tracking-[0.25em] uppercase">Scroll</span>
+          {/* Scroll indicator — below buttons */}
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent"
-          />
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="flex flex-col items-center gap-2 mt-12"
+          >
+            <span className="text-white/40 text-xs tracking-[0.25em] uppercase">Scroll</span>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent"
+            />
+          </motion.div>
         </motion.div>
       </section>
 
@@ -296,16 +296,16 @@ export default function Home() {
 
         <div className="container px-6 mx-auto max-w-7xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="relative h-[620px] w-full hidden lg:block">
-              <div className="absolute inset-6 border border-primary/20 z-0 -translate-x-5 translate-y-5" />
+            <div className="relative h-[400px] md:h-[620px] w-full order-first lg:order-none">
+              <div className="absolute inset-4 md:inset-6 border border-primary/20 z-0 -translate-x-3 translate-y-3 md:-translate-x-5 md:translate-y-5" />
               <motion.div
                 variants={clipReveal}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-150px" }}
+                viewport={{ once: true, margin: "-50px" }}
                 className="relative z-10 w-full h-full"
               >
-                <Image src="/home/home-image-2.jpg" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
+                <Image src="/home/home-image-2.jpg" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="(max-width: 1024px) 100vw, 50vw" />
               </motion.div>
             </div>
 
