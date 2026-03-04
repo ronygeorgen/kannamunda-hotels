@@ -55,7 +55,7 @@ export default function AmenitiesPage() {
             <section className="bg-white text-gray-900 py-20 md:py-32">
                 <div className="container px-6 mx-auto max-w-7xl">
                     <Reveal className="text-center mb-12 md:mb-20">
-                        <p className="text-primary uppercase tracking-[0.25em] text-xs md:text-sm mb-4">Designed for Your Comfort</p>
+                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[10px] md:text-xs mb-4">Designed for Your Comfort</p>
                         <h2 className="text-3xl md:text-5xl font-serif text-gray-900">What We Offer</h2>
                         <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-16 bg-primary mx-auto mt-6 md:mt-8" />
                     </Reveal>
@@ -71,7 +71,7 @@ export default function AmenitiesPage() {
                                     <item.icon className="w-8 h-8 md:w-10 md:h-10 text-gray-700 group-hover:text-primary transition-colors duration-500 stroke-[1.25]" />
                                 </motion.div>
                                 <h3 className="text-lg md:text-xl font-serif text-gray-900 mb-2 md:mb-3 tracking-wide">{item.title}</h3>
-                                <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-xs font-light">{item.desc}</p>
+                                <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-xs font-light">{item.desc}</p>
                             </motion.div>
                         ))}
                     </RevealGroup>

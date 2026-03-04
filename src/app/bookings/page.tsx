@@ -119,7 +119,7 @@ export default function BookingPage() {
                 <div className="container px-6 max-w-4xl mx-auto">
                     <Reveal className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-4">Confirm Your Reservation</h2>
-                        <p className="text-gray-500 font-light max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
                             Complete the form below to book your luxury experience at Kannamundayil Residency. Our team will contact you shortly to confirm your details.
                         </p>
                     </Reveal>

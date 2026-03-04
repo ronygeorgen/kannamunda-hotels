@@ -47,7 +47,7 @@ export function Footer() {
 
                     {/* Quick Links */}
                     <div className="lg:col-span-2">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/40 mb-5">Navigation</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Navigation</h3>
                         <ul className="space-y-3">
                             {[
                                 { name: "Home", href: "/" },
@@ -75,7 +75,7 @@ export function Footer() {
 
                     {/* Erattupetta */}
                     <div className="lg:col-span-3">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/40 mb-5">Erattupetta</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Erattupetta</h3>
                         <ul className="space-y-4">
                             <li>
                                 <Link
@@ -106,7 +106,7 @@ export function Footer() {
 
                     {/* Poonjar */}
                     <div className="lg:col-span-3">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/40 mb-5">Poonjar</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Poonjar</h3>
                         <ul className="space-y-4">
                             <li>
                                 <Link

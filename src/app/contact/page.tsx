@@ -166,7 +166,7 @@ function ContactContent() {
                                     <card.icon className="text-white w-7 h-7" />
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-line font-light">
+                                <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line font-light">
                                     {card.content}
                                 </p>
 
@@ -209,11 +209,11 @@ function ContactContent() {
 
                                 <div className="space-y-8 flex-grow text-center">
                                     <div>
-                                        <p className="text-gray-400 tracking-widest uppercase text-xs mb-2">Address</p>
+                                        <p className="text-gray-600 tracking-widest uppercase text-[10px] mb-2">Address</p>
                                         <p className="text-gray-700 font-light leading-relaxed text-lg">{branch.address}</p>
                                     </div>
                                     <div>
-                                        <p className="text-gray-400 tracking-widest uppercase text-xs mb-2">Reservations</p>
+                                        <p className="text-gray-600 tracking-widest uppercase text-[10px] mb-2">Reservations</p>
                                         {branch.phones.map((p, pi) => (
                                             <a key={pi} href={`tel:${p.replace(/\s/g, '')}`} className="block text-gray-700 hover:text-primary font-medium text-lg transition-colors">{p}</a>
                                         ))}
@@ -237,7 +237,7 @@ function ContactContent() {
             <section ref={formSectionRef} className="py-20 md:py-32 bg-white text-gray-900 border-t border-gray-50">
                 <div className="container px-6 max-w-6xl mx-auto">
                     <Reveal className="mb-16">
-                        <p className="text-primary uppercase tracking-[0.25em] text-sm mb-3">Send an Inquiry</p>
+                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[10px] mb-3">Send an Inquiry</p>
                         <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-2">Leave Us a Message</h2>
                         <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-16 bg-primary mt-6" />
                     </Reveal>

@@ -48,11 +48,11 @@ export default function DestinationPage() {
                         </Reveal>
 
                         <RevealGroup className="w-full lg:w-1/2 space-y-5 md:space-y-6" viewport={{ once: false, amount: 0.1, margin: "-20px" }}>
-                            <motion.div variants={fadeUp} className="inline-block border border-primary/30 text-primary uppercase tracking-[0.2em] text-[10px] md:text-xs px-4 py-1.5 mb-2">Erattupetta</motion.div>
+                            <motion.div variants={fadeUp} className="inline-block border border-gray-600/30 text-gray-600 uppercase tracking-[0.2em] text-[10px] md:text-xs px-4 py-1.5 mb-2">Erattupetta</motion.div>
                             <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-serif text-gray-900 leading-tight">A Captivating<br />Tourist Destination</motion.h2>
                             <motion.div variants={lineWipe} className="h-[2px] w-16 bg-primary" />
-                            <motion.p variants={fadeUp} className="text-gray-500 text-lg md:text-xl leading-relaxed font-light">Located in Kottayam district, Erattupetta is a captivating tourist destination featuring the historic Poonjar Palace, the breathtaking Thiruvarppu Waterfalls, and lush spice plantations.</motion.p>
-                            <motion.p variants={fadeUp} className="text-gray-500 text-lg md:text-xl leading-relaxed font-light">With its unique blend of natural beauty, rich heritage, and warm hospitality, Erattupetta is an ideal getaway for travelers seeking a tranquil and enriching experience.</motion.p>
+                            <motion.p variants={fadeUp} className="text-gray-600 text-lg md:text-xl leading-relaxed font-light">Located in Kottayam district, Erattupetta is a captivating tourist destination featuring the historic Poonjar Palace, the breathtaking Thiruvarppu Waterfalls, and lush spice plantations.</motion.p>
+                            <motion.p variants={fadeUp} className="text-gray-600 text-lg md:text-xl leading-relaxed font-light">With its unique blend of natural beauty, rich heritage, and warm hospitality, Erattupetta is an ideal getaway for travelers seeking a tranquil and enriching experience.</motion.p>
                         </RevealGroup>
                     </div>
                 </div>
@@ -63,10 +63,10 @@ export default function DestinationPage() {
                 <div className="container px-6 max-w-7xl mx-auto">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
                         <RevealGroup className="w-full lg:w-1/2 space-y-5 md:space-y-6" viewport={{ once: false, amount: 0.1, margin: "-20px" }}>
-                            <motion.div variants={fadeUp} className="inline-block border border-primary/30 text-primary uppercase tracking-[0.2em] text-[10px] md:text-xs px-4 py-1.5 mb-2">Poonjar</motion.div>
+                            <motion.div variants={fadeUp} className="inline-block border border-gray-600/30 text-gray-600 uppercase tracking-[0.2em] text-[10px] md:text-xs px-4 py-1.5 mb-2">Poonjar</motion.div>
                             <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-serif text-gray-900 leading-tight">A Charming Town<br />with Rich History</motion.h2>
                             <motion.div variants={lineWipe} className="h-[2px] w-16 bg-primary" />
-                            <motion.p variants={fadeUp} className="text-gray-500 text-lg md:text-xl leading-relaxed font-light">Poonjar is a charming town nestled in the picturesque Kottayam district of Kerala, offering a unique blend of history, culture, and absolute natural beauty that captivates every visitor.</motion.p>
+                            <motion.p variants={fadeUp} className="text-gray-600 text-lg md:text-xl leading-relaxed font-light">Poonjar is a charms town nestled in the picturesque Kottayam district of Kerala, offering a unique blend of history, culture, and absolute natural beauty that captivates every visitor.</motion.p>
                         </RevealGroup>
 
                         {/* Image */}

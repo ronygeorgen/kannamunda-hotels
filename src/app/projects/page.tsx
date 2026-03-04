@@ -100,12 +100,12 @@ function ProjectCard({
                     {/* Text */}
                     <div className="w-full lg:w-1/2">
                         <div className="flex items-center gap-3 mb-5">
-                            <project.icon className="w-6 h-6 text-primary stroke-[1.5]" />
-                            <span className="text-primary uppercase tracking-[0.2em] text-xs font-medium">{project.type}</span>
+                            <project.icon className="w-6 h-6 text-gray-600 stroke-[1.5]" />
+                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[10px] font-medium">{project.type}</span>
                         </div>
                         <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-8 leading-tight">{project.title}</h2>
                         <div className="h-[2px] w-16 bg-primary mb-8" />
-                        <p className="text-gray-500 text-xl leading-relaxed font-light mb-12">{project.desc}</p>
+                        <p className="text-gray-600 text-xl leading-relaxed font-light mb-12">{project.desc}</p>
                         <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-gray-900 text-lg rounded-none hover:text-primary pl-1 h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
                             Discover More <ArrowRight className="ml-3 w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                         </Button>
@@ -176,12 +176,12 @@ export default function ProjectsPage() {
 
                         {/* Text */}
                         <div className="flex items-center gap-3 mb-4">
-                            <project.icon className="w-5 h-5 text-primary stroke-[1.5]" />
-                            <span className="text-primary uppercase tracking-[0.2em] text-xs font-medium">{project.type}</span>
+                            <project.icon className="w-5 h-5 text-gray-600 stroke-[1.5]" />
+                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[10px] font-medium">{project.type}</span>
                         </div>
                         <h2 className="text-3xl font-serif text-gray-900 mb-5 leading-tight">{project.title}</h2>
                         <div className="h-[2px] w-12 bg-primary mb-5" />
-                        <p className="text-gray-500 text-base leading-relaxed font-light mb-8">{project.desc}</p>
+                        <p className="text-gray-600 text-base leading-relaxed font-light mb-8">{project.desc}</p>
                         <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-gray-900 rounded-none hover:text-primary h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
                             Discover More <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                         </Button>

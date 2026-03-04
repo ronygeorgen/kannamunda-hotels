@@ -93,7 +93,7 @@ export default function NearbyAttractionsPage() {
                                                 <h3 className="font-serif text-xl text-gray-800 group-hover:text-primary transition-colors">{place.name}</h3>
                                                 <span className="text-xs font-semibold tracking-widest text-primary uppercase ml-3 shrink-0">{place.km}</span>
                                             </div>
-                                            <p className="text-gray-400 font-light leading-relaxed group-hover:text-gray-600 transition-colors">{place.desc}</p>
+                                            <p className="text-gray-600 font-light leading-relaxed group-hover:text-gray-600 transition-colors">{place.desc}</p>
                                         </div>
                                     ))}
                                 </div>

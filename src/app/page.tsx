@@ -324,15 +324,15 @@ export default function Home() {
             </div>
 
             <RevealGroup>
-              <motion.p variants={fadeUp} className="text-primary font-medium tracking-[0.25em] uppercase text-sm mb-3">Discover the Residency</motion.p>
+              <motion.p variants={fadeUp} className="text-gray-600 font-medium tracking-[0.25em] uppercase text-xs mb-3">Discover the Residency</motion.p>
               <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-serif mb-6 text-gray-900 leading-tight">
                 A Home Away From Home in Kerala
               </motion.h2>
               <motion.div variants={lineWipe} className="h-[2px] w-16 bg-primary mb-8" />
-              <motion.p variants={fadeUp} className="text-gray-500 text-lg leading-relaxed font-light mb-5">
+              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light mb-5">
                 Nestled in the heart of Erattupetta and Poonjar, Kannamundayil Residency is a family-run tourist home that embodies the warmth and hospitality of Kerala.
               </motion.p>
-              <motion.p variants={fadeUp} className="text-gray-500 text-lg leading-relaxed font-light mb-12">
+              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light mb-12">
                 Whether visiting for business or leisure, we offer an environment blending modern convenience with traditional charm.
               </motion.p>
               <motion.div variants={fadeUp}>
@@ -351,7 +351,7 @@ export default function Home() {
       <section className="bg-[#3a0a14] py-32 border-t border-white/5">
         <div className="container px-6 mx-auto max-w-7xl">
           <Reveal className="text-center mb-20">
-            <p className="text-white uppercase tracking-[0.25em] text-sm mb-3">Our Commitments</p>
+            <p className="text-white/60 uppercase tracking-[0.25em] text-xs mb-3">Our Commitments</p>
             <h2 className="text-4xl md:text-5xl font-serif text-white">Signatures of Comfort</h2>
             <motion.div
               variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }}
@@ -370,7 +370,7 @@ export default function Home() {
                   <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
                 </div>
                 <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
-                <p className="text-white/40 font-light leading-relaxed group-hover:text-white/60 transition-colors duration-500">{item.desc}</p>
+                <p className="text-white/60 font-light leading-relaxed group-hover:text-white/80 transition-colors duration-500">{item.desc}</p>
               </motion.div>
             ))}
           </RevealGroup>
@@ -383,7 +383,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
             <RevealGroup className="max-w-2xl">
               <Reveal variants={fadeUp}>
-                <p className="text-primary uppercase tracking-[0.25em] text-sm mb-3">
+                <p className="text-gray-600 uppercase tracking-[0.25em] text-xs mb-3">
                   Gateway to Excellence
                 </p>
               </Reveal>
@@ -413,7 +413,7 @@ export default function Home() {
             </RevealGroup>
 
             <Reveal variants={fadeUp} delay={0.6} className="hidden lg:block text-right">
-              <p className="text-gray-500 font-light max-w-md">
+              <p className="text-gray-600 font-light max-w-md">
                 From world-class amenities to local charms, discover everything that makes your stay at Kannamundayil truly unforgettable.
               </p>
             </Reveal>
@@ -442,7 +442,7 @@ export default function Home() {
               ))}
             </div>
 
-            <p className="text-center text-[10px] text-gray-400 uppercase tracking-widest mt-4">
+            <p className="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-4">
               Swipe Left for next • Swipe Right to visit
             </p>
           </div>

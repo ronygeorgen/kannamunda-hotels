@@ -194,7 +194,7 @@ export default function GalleryPage() {
                     >
                         {/* Toolbar */}
                         <div className="absolute top-0 inset-x-0 h-16 flex items-center justify-between px-6 z-[120] bg-black/40 backdrop-blur-sm">
-                            <div className="text-white/80 font-medium text-sm tracking-widest uppercase">
+                            <div className="text-white/70 font-medium text-[10px] tracking-widest uppercase">
                                 {lightboxIndex + 1} <span className="mx-1">/</span> {galleryImages.length}
                             </div>
 
@@ -259,7 +259,7 @@ export default function GalleryPage() {
 
                         {/* Caption */}
                         <div className="absolute bottom-4 inset-x-0 text-center z-[110]">
-                            <p className="text-white/90 font-serif text-lg md:text-xl tracking-wide drop-shadow-lg">
+                            <p className="text-white/70 font-serif text-lg md:text-xl tracking-wide drop-shadow-lg">
                                 {galleryImages[lightboxIndex].alt}
                             </p>
                         </div>
