@@ -269,7 +269,7 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="text-white drop-shadow-md text-lg md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed"
+            className="text-white drop-shadow-md text-base md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4 md:px-0"
           >
             Nestled in the heart of Erattupetta &amp; Poonjar where Kerala's warmth meets unparalleled comfort.
           </motion.p>
