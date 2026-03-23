@@ -204,17 +204,17 @@ export default function GalleryPage() {
                                 {lightboxIndex + 1} <span className="mx-1">/</span> {galleryImages.length}
                             </div>
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 md:gap-4">
                                 {galleryImages[lightboxIndex].category && (
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setIsBookingOpen(true);
                                         }}
-                                        className="hidden md:flex items-center gap-2 bg-primary hover:bg-white hover:text-primary text-white px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300 shadow-lg cursor-pointer"
+                                        className="flex items-center gap-2 bg-primary hover:bg-white hover:text-primary text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap"
                                     >
                                         <ShoppingBag size={14} />
-                                        Book This Room
+                                        <span>Book<span className="hidden md:inline"> This Room</span></span>
                                     </button>
                                 )}
                                 <button onClick={handleZoomOut} className="p-2 text-white/70 hover:text-white transition-colors" title="Zoom Out">
