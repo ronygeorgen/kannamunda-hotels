@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Kannamundayil Residency | Luxurious Accommodation",
   description: "Nestled in the heart of Erattupetta and Poonjar, Kannamundayil Residency is a family-run tourist home that embodies the warmth and hospitality of Kerala.",
   icons: {
-    icon: "/common/Kannamunda-logo.webp",
+    icon: "/common/Kannamunda-logo_2.webp",
   },
 };
 
