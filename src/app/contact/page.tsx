@@ -58,7 +58,7 @@ function ContactPageContent() {
             {/* Background Image Layer */}
             <div className="fixed top-0 left-0 w-screen h-screen z-0 overflow-hidden pointer-events-none">
                 <Image
-                    src="/landing-page/contact/landing-contact.webp"
+                    src="/landing-page/Contact/landing-contact.webp"
                     alt="Contact Background"
                     fill
                     className="object-cover"
