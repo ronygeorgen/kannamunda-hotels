@@ -42,6 +42,7 @@ function buildHotelNav(base: string): NavItem[] {
 
 /** Root level nav (on landing / finance / bakery) */
 const rootNavItems: NavItem[] = [
+    { name: "Group Home", href: "/" },
     {
         name: "Hotels",
         href: "#",
@@ -174,7 +175,9 @@ export function Navbar() {
                         {/* Desktop nav */}
                         <div className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-7">
                             {navigation.map((item) => {
-                                const isActive = pathname === item.href || (item.href !== activeHotel?.base && pathname.startsWith(item.href));
+                                const isActive = item.href === "/"
+                                    ? pathname === "/"
+                                    : pathname === item.href || (item.href !== activeHotel?.base && item.href !== "#" && pathname.startsWith(item.href));
 
                                 if (item.items) {
                                     return (
@@ -214,6 +217,7 @@ export function Navbar() {
                                         className={cn(
                                             "text-sm font-medium transition-all duration-300 relative group",
                                             isDarkStyle ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary",
+                                            isActive && isDarkStyle && "text-white font-semibold",
                                             isActive && !isDarkStyle && "text-primary font-semibold"
                                         )}
                                     >
@@ -221,7 +225,7 @@ export function Navbar() {
                                         <span className={cn(
                                             "absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full",
                                             isDarkStyle ? "bg-white" : "bg-primary",
-                                            isActive && !isDarkStyle ? "w-full" : ""
+                                            isActive ? "w-full" : ""
                                         )} />
                                     </Link>
                                 );

@@ -27,8 +27,8 @@ const amenities = [
 
 const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
     const x = useMotionValue(0);
-    const rotate = useTransform(x, [-200, 200], [-15, 15]);
-    const opacity = useTransform(x, [-180, -120, 0, 120, 180], [0, 1, 1, 1, 0]);
+    const rotate = useTransform(x, [-200, 200], [-30, 30]);
+    const opacity = useTransform(x, [-180, -120, 0, 120, 180], [0.6, 1, 1, 1, 0.6]);
     const nextOpacity = useTransform(x, [-100, -40], [1, 0]);
     const visitOpacity = useTransform(x, [40, 100], [0, 1]);
     const nextScale = useTransform(x, [-120, -40], [1.1, 0.8]);
@@ -42,8 +42,8 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
             dragElastic={1}
             dragMomentum={true}
             onDragEnd={(e, info) => {
-                if (info.offset.x > 80 || info.velocity.x > 500) onSwipe('right');
-                else if (info.offset.x < -80 || info.velocity.x < -500) onSwipe('left');
+                if (info.offset.x > 130 || info.velocity.x > 600) onSwipe('right');
+                else if (info.offset.x < -130 || info.velocity.x < -600) onSwipe('left');
             }}
             initial={{ scale: 0.97, opacity: 0 }}
             animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
@@ -123,25 +123,18 @@ export default function HotelHomePage() {
 
     const portalItems = [
         {
+            title: "About Our Heritage",
+            desc: "Discover the legacy of hospitality and the values that define our residency.",
+            img: `/${hotel.imagePrefix}-home/home-image-2.webp`,
+            link: `${hotel.basePath}/about`,
+            tag: "History"
+        },
+        {
             title: "Premium Amenities",
             desc: "Experience unmatched luxury with our curated services designed for your ultimate comfort.",
             img: `/${hotel.imagePrefix}-amenities/amenities-1.webp`,
             link: `${hotel.basePath}/amenities`,
-            tag: "Signatures"
-        },
-        {
-            title: "Business Projects",
-            desc: "Exploring our diverse ventures from construction to hospitality across Kerala.",
-            img: `/${hotel.imagePrefix}-projects/projects-1.webp`,
-            link: `${hotel.basePath}/projects`,
-            tag: "Ventures"
-        },
-        {
-            title: "Our Locations",
-            desc: `Discover our beautiful properties nestled in the heart of ${hotel.name}.`,
-            img: `/${hotel.imagePrefix}-destination/kannamunda-main-building.webp`,
-            link: `${hotel.basePath}/destination`,
-            tag: "Destinations"
+            tag: "Luxury"
         },
         {
             title: "Local Attractions",
@@ -163,6 +156,13 @@ export default function HotelHomePage() {
             img: `/${hotel.imagePrefix}-contact/contact-us.webp`,
             link: `${hotel.basePath}/contact`,
             tag: "Inquiry"
+        },
+        {
+            title: "Book Your Stay",
+            desc: "Reserve your luxury experience directly with us for the best rates and services.",
+            img: `/${hotel.imagePrefix}-gallery/interior-room-image-3.webp`,
+            link: `${hotel.basePath}/bookings`,
+            tag: "Booking"
         }
     ];
 
@@ -412,6 +412,19 @@ export default function HotelHomePage() {
                     {/* Mobile Swipe Deck */}
                     <div className="md:hidden relative px-4 h-[520px]">
                         <div className="relative w-full h-full">
+                            {/* Next card peeking behind — visible during drag */}
+                            <div className="absolute inset-0 z-0 scale-[0.93] opacity-60 rounded-3xl overflow-hidden">
+                                <div className="relative h-full w-full overflow-hidden rounded-3xl border border-white/10">
+                                    <Image
+                                        src={portalItems[(activePortalIndex + 1) % portalItems.length].img}
+                                        alt="next"
+                                        fill
+                                        className="object-cover pointer-events-none"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-95" />
+                                </div>
+                            </div>
+
                             <AnimatePresence mode="popLayout" initial={false}>
                                 <SwipeCard
                                     key={activePortalIndex}

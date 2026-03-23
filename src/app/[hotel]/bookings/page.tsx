@@ -95,7 +95,7 @@ export default function BookingPage() {
     };
 
     const inputClasses = "w-full bg-white border border-gray-200 rounded-xl px-5 py-4 text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light";
-    const labelClasses = "block text-xs uppercase tracking-widest font-bold text-gray-500 mb-2 ml-1";
+    const labelClasses = "block text-xs uppercase tracking-widest font-bold text-gray-800 mb-2 ml-1";
 
     const today = new Date().toISOString().split('T')[0];
 

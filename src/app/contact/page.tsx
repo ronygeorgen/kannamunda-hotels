@@ -124,7 +124,7 @@ function ContactPageContent() {
                                 <form className="space-y-8" onSubmit={handleSubmit}>
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div className="space-y-2">
-                                            <label className="text-[10px] uppercase tracking-widest font-bold text-white/30">First Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-bold text-white">First Name</label>
                                             <input
                                                 type="text"
                                                 required
@@ -135,7 +135,7 @@ function ContactPageContent() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[10px] uppercase tracking-widest font-bold text-white/30">Last Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-bold text-white">Last Name</label>
                                             <input
                                                 type="text"
                                                 required
@@ -147,7 +147,7 @@ function ContactPageContent() {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] uppercase tracking-widest font-bold text-white/30">Email Address</label>
+                                        <label className="text-xs uppercase tracking-widest font-bold text-white">Email Address</label>
                                         <input
                                             type="email"
                                             required
@@ -158,7 +158,7 @@ function ContactPageContent() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] uppercase tracking-widest font-bold text-white/30">Your Message</label>
+                                        <label className="text-xs uppercase tracking-widest font-bold text-white">Your Message</label>
                                         <textarea
                                             rows={4}
                                             required

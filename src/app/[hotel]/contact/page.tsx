@@ -316,7 +316,7 @@ function ContactContent() {
                                 <form className="space-y-10" onSubmit={handleSubmit}>
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div className="space-y-2">
-                                            <label className="text-xs uppercase tracking-widest font-medium text-gray-400">First Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-medium text-gray-800">First Name</label>
                                             <input
                                                 type="text"
                                                 required
@@ -327,7 +327,7 @@ function ContactContent() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-xs uppercase tracking-widest font-medium text-gray-400">Last Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-medium text-gray-800">Last Name</label>
                                             <input
                                                 type="text"
                                                 required
@@ -339,7 +339,7 @@ function ContactContent() {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs uppercase tracking-widest font-medium text-gray-400">Email</label>
+                                        <label className="text-xs uppercase tracking-widest font-medium text-gray-800">Email Address</label>
                                         <input
                                             type="email"
                                             required
@@ -350,7 +350,7 @@ function ContactContent() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs uppercase tracking-widest font-medium text-gray-400">Message</label>
+                                        <label className="text-xs uppercase tracking-widest font-medium text-gray-800">Your Message</label>
                                         <textarea
                                             rows={3}
                                             required

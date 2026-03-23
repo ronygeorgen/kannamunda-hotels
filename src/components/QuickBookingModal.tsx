@@ -69,7 +69,7 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
     };
 
     const inputClasses = "w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light text-sm";
-    const labelClasses = "block text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1 ml-1";
+    const labelClasses = "block text-[10px] uppercase tracking-widest font-bold text-gray-800 mb-1 ml-1";
     const today = new Date().toISOString().split('T')[0];
 
     return (

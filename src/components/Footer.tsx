@@ -1,14 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
     const pathname = usePathname();
+    const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const isPoonjar = pathname.startsWith("/poonjar-hotel");
     const base = isPoonjar ? "/poonjar-hotel" : "/erattupetta-hotel";
+
+    // Determine which logo(s) to show in the footer
+    const isHotel = pathname.startsWith("/erattupetta-hotel") || pathname.startsWith("/poonjar-hotel");
+    const isFinance = pathname.startsWith("/finance");
+    const isBakery = pathname.startsWith("/bakery");
+    const isMainOrContact = !isHotel && !isFinance && !isBakery; // covers "/" and "/contact"
     return (
         <footer className="bg-[#3a0a14] text-white relative z-10">
             {/* Top decorative border */}
@@ -21,14 +30,23 @@ export function Footer() {
 
                     {/* Brand — wider column */}
                     <div className="lg:col-span-4 space-y-6">
-                        {/* Logo — directly on dark bg, no white box */}
-                        <Image
-                            src="/common/footer-logo.webp"
-                            alt="Kannamundayil Residency"
-                            width={260}
-                            height={90}
-                            className="w-56 h-auto object-contain"
-                        />
+                        {/* Logo — context-aware per page */}
+                        {isMainOrContact && (
+                            <div className="flex items-center gap-4 flex-wrap">
+                                <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={100} height={50} className="h-10 w-auto object-contain" />
+                                <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={100} height={50} className="h-10 w-auto object-contain" />
+                                <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={100} height={50} className="h-10 w-auto object-contain" />
+                            </div>
+                        )}
+                        {isHotel && (
+                            <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={200} height={70} className="w-44 h-auto object-contain" />
+                        )}
+                        {isFinance && (
+                            <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={200} height={70} className="w-44 h-auto object-contain" />
+                        )}
+                        {isBakery && (
+                            <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={200} height={70} className="w-44 h-auto object-contain" />
+                        )}
 
                         <p className="text-white/60 text-sm leading-relaxed max-w-xs font-light">
                             Luxurious Accommodation, Unparalleled Comfort. A family-run tourist home embodying the warmth and hospitality of Kerala.
@@ -99,11 +117,20 @@ export function Footer() {
                                 },
                             ].map((item) => (
                                 <li key={item.name} className="group/item">
-                                    <span className="text-white/60 group-hover/item:text-white transition-colors text-sm flex items-center gap-2 cursor-default select-none">
-                                        <span className="w-0 group-hover/item:w-3 h-px bg-white transition-all duration-300 inline-block" />
+                                    <button
+                                        onClick={() => setActiveMenu(activeMenu === item.name ? null : item.name)}
+                                        className="text-white/60 group-hover/item:text-white transition-colors text-sm flex items-center gap-2 cursor-pointer select-none w-full text-left outline-none"
+                                    >
+                                        <span className={cn(
+                                            "h-px bg-white transition-all duration-300 inline-block",
+                                            activeMenu === item.name ? "w-3" : "w-0 group-hover/item:w-3"
+                                        )} />
                                         {item.name}
-                                    </span>
-                                    <ul className={`pl-5 mt-1.5 space-y-1.5 overflow-hidden max-h-0 group-hover/item:max-h-28 transition-all duration-300`}>
+                                    </button>
+                                    <ul className={cn(
+                                        "pl-5 mt-1.5 space-y-1.5 overflow-hidden transition-all duration-300",
+                                        activeMenu === item.name ? "max-h-28 opacity-100" : "max-h-0 opacity-0 group-hover/item:max-h-28 group-hover/item:opacity-100"
+                                    )}>
                                         {item.sub.map((s) => (
                                             <li key={s.href}>
                                                 <Link
