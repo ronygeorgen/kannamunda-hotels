@@ -39,7 +39,7 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-jost), 'Jost', sans-serif" }}
       >
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow min-h-screen bg-neutral-950">
           {children}
         </main>
         <Footer />
