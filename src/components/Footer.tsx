@@ -55,25 +55,67 @@ export function Footer() {
                     <div className="lg:col-span-2">
                         <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Navigation</h3>
                         <ul className="space-y-3">
+                            {/* All nav items with inline sub-links */}
                             {[
-                                { name: "Home", href: "/" },
-                                { name: "About", href: `${base}/about` },
-                                { name: "Amenities", href: `${base}/amenities` },
-                                { name: "Projects", href: `${base}/projects` },
-                                { name: "Location", href: `${base}/destination` },
-                                { name: "Attractions", href: `${base}/nearby-attractions` },
-                                { name: "Gallery", href: `${base}/gallery` },
-                                { name: "Contact Us", href: `${base}/contact` },
-                                { name: "Book Your Stay", href: `${base}/bookings` },
-                            ].map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-white/60 hover:text-white transition-colors text-sm flex items-center gap-2 group"
-                                    >
-                                        <span className="w-0 group-hover:w-3 h-px bg-white transition-all duration-300 inline-block" />
-                                        {link.name}
-                                    </Link>
+                                {
+                                    name: "Home",
+                                    sub: [
+                                        { label: "Main Home", href: "/" },
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel" },
+                                    ],
+                                },
+                                {
+                                    name: "About", sub: [
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel/about" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel/about" },
+                                    ]
+                                },
+                                {
+                                    name: "Amenities", sub: [
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel/amenities" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel/amenities" },
+                                    ]
+                                },
+                                {
+                                    name: "Attractions", sub: [
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel/nearby-attractions" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel/nearby-attractions" },
+                                    ]
+                                },
+                                {
+                                    name: "Gallery", sub: [
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel/gallery" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel/gallery" },
+                                    ]
+                                },
+                                {
+                                    name: "Contact",
+                                    sub: [
+                                        { label: "Group Contact", href: "/contact" },
+                                        { label: "Hotel-Erattupetta", href: "/erattupetta-hotel/contact" },
+                                        { label: "Hotel-Poonjar", href: "/poonjar-hotel/contact" },
+                                    ],
+                                },
+                            ].map((item) => (
+                                <li key={item.name} className="group/item">
+                                    <span className="text-white/60 group-hover/item:text-white transition-colors text-sm flex items-center gap-2 cursor-default select-none">
+                                        <span className="w-0 group-hover/item:w-3 h-px bg-white transition-all duration-300 inline-block" />
+                                        {item.name}
+                                    </span>
+                                    <ul className={`pl-5 mt-1.5 space-y-1.5 overflow-hidden max-h-0 group-hover/item:max-h-28 transition-all duration-300`}>
+                                        {item.sub.map((s) => (
+                                            <li key={s.href}>
+                                                <Link
+                                                    href={s.href}
+                                                    className="text-white/40 hover:text-white transition-colors text-xs flex items-center gap-2 group"
+                                                >
+                                                    <span className="w-0 group-hover:w-2 h-px bg-white/50 transition-all duration-300 inline-block" />
+                                                    {s.label}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </li>
                             ))}
                         </ul>

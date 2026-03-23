@@ -34,8 +34,6 @@ function buildHotelNav(base: string): NavItem[] {
         { name: "Home", href: base },
         { name: "About", href: `${base}/about` },
         { name: "Amenities", href: `${base}/amenities` },
-        { name: "Projects", href: `${base}/projects` },
-        { name: "Location", href: `${base}/destination` },
         { name: "Attractions", href: `${base}/nearby-attractions` },
         { name: "Gallery", href: `${base}/gallery` },
         { name: "Contact", href: `${base}/contact` },
@@ -76,6 +74,19 @@ export function Navbar() {
     const isHeroPage = heroPages.includes(pathname);
     const isTransparent = isHeroPage && !scrolled && !isOpen;
     const isDarkStyle = isTransparent || (groupPages.includes(pathname) && !isOpen);
+
+    // Determine the active top-level section for the mobile switcher
+    const activeSectionHref = pathname.startsWith("/erattupetta-hotel")
+        ? "/erattupetta-hotel"
+        : pathname.startsWith("/poonjar-hotel")
+            ? "/poonjar-hotel"
+            : pathname.startsWith("/finance")
+                ? "/finance"
+                : pathname.startsWith("/bakery")
+                    ? "/bakery"
+                    : pathname.startsWith("/contact")
+                        ? "/contact"
+                        : "/";
 
     // Decide which nav to show
     const navigation: NavItem[] = activeHotel
@@ -263,35 +274,35 @@ export function Navbar() {
                         className="fixed inset-0 z-40 bg-white pt-24 pb-6 px-4 overflow-y-auto"
                     >
                         <div className="flex flex-col items-center space-y-6 text-center">
-                            {/* Branch Switcher in mobile menu */}
-                            {!!activeHotel && (
-                                <div className="w-full px-6 mb-8">
-                                    <p className="text-[10px] tracking-[0.25em] uppercase text-gray-400 font-bold mb-4">Switch Branch</p>
-                                    <div className="grid grid-cols-1 gap-2">
-                                        {[
-                                            { name: "Main Page", href: "/" },
-                                            { name: "Erattupetta Hotel", href: "/erattupetta-hotel" },
-                                            { name: "Poonjar Hotel", href: "/poonjar-hotel" },
-                                            { name: "Finance", href: "/finance" },
-                                            { name: "Bakery", href: "/bakery" },
-                                        ].map((branch) => (
-                                            <Link
-                                                key={branch.href}
-                                                href={branch.href}
-                                                onClick={() => setIsOpen(false)}
-                                                className={cn(
-                                                    "w-full py-4 px-6 rounded-xl text-sm font-bold uppercase tracking-widest transition-all",
-                                                    pathname === branch.href
-                                                        ? "bg-primary text-white shadow-lg"
-                                                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-                                                )}
-                                            >
-                                                {branch.name}
-                                            </Link>
-                                        ))}
-                                    </div>
+                            {/* ── Section Switcher (always visible on mobile) ── */}
+                            <div className="w-full px-4 mb-6">
+                                <p className="text-[10px] tracking-[0.25em] uppercase text-gray-400 font-bold mb-3 text-center">You are in</p>
+                                <div className="grid grid-cols-1 gap-2">
+                                    {[
+                                        { name: "Main Home", href: "/" },
+                                        { name: "Erattupetta Hotel", href: "/erattupetta-hotel" },
+                                        { name: "Poonjar Hotel", href: "/poonjar-hotel" },
+                                        { name: "Finance", href: "/finance" },
+                                        { name: "Bakery", href: "/bakery" },
+                                    ].map((branch) => (
+                                        <Link
+                                            key={branch.href}
+                                            href={branch.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={cn(
+                                                "w-full py-3 px-6 rounded-xl text-sm font-bold uppercase tracking-widest transition-all text-center",
+                                                activeSectionHref === branch.href
+                                                    ? "bg-primary text-white shadow-lg"
+                                                    : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                                            )}
+                                        >
+                                            {branch.name}
+                                        </Link>
+                                    ))}
                                 </div>
-                            )}
+                            </div>
+
+                            <div className="w-full h-px bg-gray-100 mb-2" />
 
                             {navigation.map((item, i) => {
                                 const isActive = pathname === item.href;

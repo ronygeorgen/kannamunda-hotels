@@ -45,7 +45,7 @@ export default function FinancePage() {
     const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-neutral-950 text-white overflow-x-hidden">
             {/* ── HERO ── */}
             <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
@@ -62,16 +62,16 @@ export default function FinancePage() {
                 <div className="absolute inset-0 bg-gradient-to-b from-amber-950/70 via-black/60 to-neutral-950 z-[1]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-[1]" />
 
-                <motion.div style={{ opacity }} className="relative z-10 container mx-auto px-6 max-w-5xl text-center">
+                <motion.div style={{ opacity }} className="relative z-10 w-full px-4 sm:px-6 max-w-5xl mx-auto text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.8 }}
-                        className="flex items-center justify-center gap-3 mb-6"
+                        className="flex items-center justify-center gap-2 mb-6"
                     >
-                        <div className="h-px w-12 bg-amber-400/40" />
-                        <span className="text-amber-400/70 text-[10px] tracking-[0.4em] uppercase">Kannamundayil Group</span>
-                        <div className="h-px w-12 bg-amber-400/40" />
+                        <div className="h-px w-8 bg-amber-400/40" />
+                        <span className="text-amber-400/70 text-[9px] tracking-[0.25em] uppercase">Kannamundayil Group</span>
+                        <div className="h-px w-8 bg-amber-400/40" />
                     </motion.div>
 
                     <motion.div
@@ -87,7 +87,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.55, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-4 drop-shadow-2xl leading-tight"
+                        className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-4 drop-shadow-2xl leading-tight"
                     >
                         Kannamundayil
                         <br />
@@ -114,7 +114,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                        className="flex flex-col gap-3 sm:flex-row sm:gap-4 justify-center px-4 sm:px-0"
                     >
                         <a
                             href="tel:+919447131750"

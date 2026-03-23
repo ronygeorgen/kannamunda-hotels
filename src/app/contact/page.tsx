@@ -30,6 +30,16 @@ function ContactPageContent() {
 
             if (response.ok) {
                 setFormStatus("success");
+
+                // Open WhatsApp with inquiry details pre-filled
+                const msg = [
+                    `📩 *New Inquiry — Kannamundayil Group*`,
+                    `*Name:* ${formData.firstName} ${formData.lastName}`,
+                    `*Email:* ${formData.email}`,
+                    `*Message:* ${formData.message}`,
+                ].join("\n");
+                window.open(`https://wa.me/918590443083?text=${encodeURIComponent(msg)}`, "_blank");
+
                 setFormData({ firstName: "", lastName: "", email: "", message: "" });
                 setTimeout(() => setFormStatus("idle"), 5000);
             } else {

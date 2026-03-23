@@ -370,10 +370,10 @@ export default function HotelHomePage() {
             {/* ───── PORTAL SHOWCASE ───── */}
             <section className="bg-white py-32 border-t border-gray-50 overflow-hidden">
                 <div className="container px-6 mx-auto max-w-[1400px]">
-                    <div className="mb-16">
-                        <RevealGroup className="max-w-3xl">
+                    <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-16 gap-8">
+                        <RevealGroup className="max-w-xl">
                             <Reveal variants={fadeUp}>
-                                <p className="text-gray-600 uppercase tracking-[0.25em] text-xs mb-3">
+                                <p className="text-[#4b6b80] uppercase tracking-[0.2em] text-[10px] font-bold mb-4">
                                     Gateway to Excellence
                                 </p>
                             </Reveal>
@@ -391,22 +391,22 @@ export default function HotelHomePage() {
                                     initial="hidden"
                                     whileInView="visible"
                                     viewport={{ once: true }}
-                                    className="text-4xl md:text-5xl font-serif text-gray-900 leading-tight"
+                                    className="text-4xl lg:text-5xl font-serif text-gray-900 leading-tight"
                                 >
-                                    Explore the {hotel.name} Residency
+                                    Explore the Residency Experience
                                 </motion.h2>
                             </div>
 
-                            <Reveal variants={fadeUp} delay={0.4}>
-                                <p className="text-gray-600 font-light text-lg mb-8 leading-relaxed">
-                                    From world-class amenities to local charms, discover everything that makes your stay at Kannamundayil {hotel.name} truly unforgettable.
-                                </p>
-                            </Reveal>
-
-                            <Reveal variants={lineWipe} delay={0.6}>
-                                <div className="h-[2px] w-16 bg-primary" />
+                            <Reveal variants={lineWipe} delay={0.4}>
+                                <div className="h-[2px] w-16 bg-[#6a1224]" />
                             </Reveal>
                         </RevealGroup>
+
+                        <Reveal variants={fadeUp} delay={0.6} className="lg:max-w-md lg:text-right">
+                            <p className="text-[#4b6b80] font-light text-[15px] leading-relaxed">
+                                From world-class amenities to local charms, discover everything that makes your stay at Kannamundayil truly unforgettable.
+                            </p>
+                        </Reveal>
                     </div>
 
                     {/* Mobile Swipe Deck */}

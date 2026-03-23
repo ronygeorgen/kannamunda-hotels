@@ -13,6 +13,7 @@ import {
 } from "@/components/animations";
 
 function ContactContent() {
+    const hotel = useHotel();
     const heroRef = useRef(null);
     const formSectionRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -61,6 +62,16 @@ function ContactContent() {
 
             if (response.ok) {
                 setFormStatus("success");
+
+                // Open WhatsApp with inquiry details pre-filled
+                const msg = [
+                    `📩 *New Inquiry — Kannamundayil Hotels*`,
+                    `*Name:* ${formData.firstName} ${formData.lastName}`,
+                    `*Email:* ${formData.email}`,
+                    `*Message:* ${formData.message}`,
+                ].join("\n");
+                window.open(`https://wa.me/918590443083?text=${encodeURIComponent(msg)}`, "_blank");
+
                 setFormData({ firstName: "", lastName: "", email: "", message: "" });
                 setTimeout(() => setFormStatus("idle"), 5000);
             } else {
@@ -84,7 +95,7 @@ function ContactContent() {
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src="/contact/contact-us.webp" alt="Contact Us" fill className="object-cover" style={{ objectPosition: "center 25%" }} priority />
+                    <Image src={`/${hotel.imagePrefix}-contact/contact-us.webp`} alt="Contact Us" fill className="object-cover" style={{ objectPosition: "center 25%" }} priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">

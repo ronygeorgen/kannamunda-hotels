@@ -39,6 +39,20 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
 
             if (response.ok) {
                 setFormStatus("success");
+
+                // Open WhatsApp with booking details pre-filled
+                const msg = [
+                    `🏨 *New Booking Request*`,
+                    `*Hotel:* ${hotelName}`,
+                    `*Name:* ${formData.name}`,
+                    `*Phone:* ${formData.phone}`,
+                    `*Email:* ${formData.email}`,
+                    `*Check-in:* ${formData.checkIn}`,
+                    `*Check-out:* ${formData.checkOut}`,
+                    `*Room:* ${formData.room || "Not specified"}`,
+                ].filter(Boolean).join("\n");
+                window.open(`https://wa.me/918590443083?text=${encodeURIComponent(msg)}`, "_blank");
+
                 setTimeout(() => {
                     setFormStatus("idle");
                     onClose();
