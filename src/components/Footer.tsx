@@ -1,10 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
 export function Footer() {
+    const pathname = usePathname();
+    const isPoonjar = pathname.startsWith("/poonjar-hotel");
+    const base = isPoonjar ? "/poonjar-hotel" : "/erattupetta-hotel";
     return (
-        <footer className="bg-[#3a0a14] text-white">
+        <footer className="bg-[#3a0a14] text-white relative z-10">
             {/* Top decorative border */}
             <div className="h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
@@ -51,14 +57,14 @@ export function Footer() {
                         <ul className="space-y-3">
                             {[
                                 { name: "Home", href: "/" },
-                                { name: "About", href: "/about" },
-                                { name: "Amenities", href: "/amenities" },
-                                { name: "Projects", href: "/projects" },
-                                { name: "Location", href: "/destination" },
-                                { name: "Attractions", href: "/nearby-attractions" },
-                                { name: "Gallery", href: "/gallery" },
-                                { name: "Contact Us", href: "/contact" },
-                                { name: "Book Your Stay", href: "/bookings" },
+                                { name: "About", href: `${base}/about` },
+                                { name: "Amenities", href: `${base}/amenities` },
+                                { name: "Projects", href: `${base}/projects` },
+                                { name: "Location", href: `${base}/destination` },
+                                { name: "Attractions", href: `${base}/nearby-attractions` },
+                                { name: "Gallery", href: `${base}/gallery` },
+                                { name: "Contact Us", href: `${base}/contact` },
+                                { name: "Book Your Stay", href: `${base}/bookings` },
                             ].map((link) => (
                                 <li key={link.name}>
                                     <Link

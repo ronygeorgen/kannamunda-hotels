@@ -2,519 +2,587 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion";
-import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useRef, useEffect, useState } from "react";
 import {
-  heroTagline, heroTitle, heroCta, lineWipe,
-  staggerChildren, wordLuxuryReveal,
-  staggerContainer, staggerContainerSlow, fadeUp, fadeLeft, fadeRight, zoomIn,
-  RevealGroup, Reveal, scaleUp, clipReveal,
-} from "@/components/animations";
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useInView,
+} from "framer-motion";
+import { ArrowRight, Building2, Landmark, UtensilsCrossed, ChevronDown, MapPin } from "lucide-react";
 
-
-const amenities = [
-  { icon: Wind, title: "A/C & Non-A/C Rooms", desc: "Choose the comfort that suits your needs." },
-  { icon: Wifi, title: "Free High-Speed WiFi", desc: "Stay connected with complimentary access." },
-  { icon: ShieldCheck, title: "24/7 Security", desc: "Ensuring utmost safety for all our guests." },
-  { icon: Car, title: "Ample Parking", desc: "Spacious parking facility for your vehicles." },
+// ──────────────────────────────────────────────────────────────────
+//  Data
+// ──────────────────────────────────────────────────────────────────
+const businesses = [
+  {
+    id: "hotels",
+    label: "Hotels",
+    icon: Building2,
+    tagline: "Luxury Stays in Kerala's Heart",
+    description:
+      "Experience unparalleled hospitality at Kannamundayil Residency. Two iconic properties — Erattupetta & Poonjar — each offering warmth, comfort, and the spirit of Kerala.",
+    accentColor: "#6a1224",
+    bgGradient: "from-[#3a0a14] via-[#6a1224]/80 to-black/60",
+    borderColor: "border-[#6a1224]",
+    badgeStyle: "bg-[#6a1224] text-white",
+    children: [
+      {
+        name: "Erattupetta",
+        subtitle: "Kannamundayil Residency",
+        link: "/erattupetta-hotel",
+        img: "/landing-page/Hotels/Erattupetta-hotel-new-landing-demo.webp",
+        location: "Erattupetta, Kottayam",
+      },
+      {
+        name: "Poonjar",
+        subtitle: "Kannamundayil Residency",
+        link: "/poonjar-hotel",
+        img: "/landing-page/Hotels/Poonjar-hotel-new-landing-demo.webp",
+        location: "Poonjar, Kottayam",
+      },
+    ],
+  },
+  {
+    id: "finance",
+    label: "Finance",
+    icon: Landmark,
+    tagline: "Trusted Gold Loan & Financial Services",
+    description:
+      "Kannamundayil Finance offers reliable gold loan services and financial solutions built on decades of trust across Kottayam district.",
+    accentColor: "#b8860b",
+    bgGradient: "from-[#3d2f00] via-[#b8860b]/60 to-black/60",
+    borderColor: "border-amber-600",
+    badgeStyle: "bg-amber-600 text-white",
+    link: "/finance",
+    img: "/landing-page/Finance/Finance-gold-demo.webp",
+    children: null,
+  },
+  {
+    id: "bakery",
+    label: "Bakery",
+    icon: UtensilsCrossed,
+    tagline: "Fresh Bakes, Every Day",
+    description:
+      "Kannamundayil Bakes brings you artisan breads, pastries, and confections crafted with love — a local favourite since day one.",
+    accentColor: "#c05a2d",
+    bgGradient: "from-[#3d1500] via-[#c05a2d]/60 to-black/60",
+    borderColor: "border-orange-600",
+    badgeStyle: "bg-orange-600 text-white",
+    link: "/bakery",
+    img: "/landing-page/Bakery/Bakery-demo.webp",
+    children: null,
+  },
 ];
 
-const brands = [
-  { name: "Residency", styles: "bg-white text-gray-900 border-white/20" },
-  { name: "Finance", styles: "bg-amber-600 text-white border-amber-400/30" },
-  { name: "Bakery", styles: "bg-orange-600 text-white border-orange-400/30" },
-];
+// ──────────────────────────────────────────────────────────────────
+//  Sub-components
+// ──────────────────────────────────────────────────────────────────
 
-const portalItems = [
-  {
-    title: "Premium Amenities",
-    desc: "Experience unmatched luxury with our curated services designed for your ultimate comfort.",
-    img: "/amenities/amenities-1.webp",
-    link: "/amenities",
-    tag: "Signatures"
-  },
-  {
-    title: "Business Projects",
-    desc: "Exploring our diverse ventures from construction to hospitality across Kerala.",
-    img: "/projects/projects-1.webp",
-    link: "/projects",
-    tag: "Ventures"
-  },
-  {
-    title: "Our Locations",
-    desc: "Discover our beautiful properties nestled in the heart of Erattupetta and Poonjar.",
-    img: "/destination/kannamunda-main-building.webp",
-    link: "/destination",
-    tag: "Destinations"
-  },
-  {
-    title: "Local Attractions",
-    desc: "Hidden gems and iconic landmarks just steps away from our residency.",
-    img: "/nearby-attractions/location3.webp",
-    link: "/nearby-attractions",
-    tag: "Nearby"
-  },
-  {
-    title: "Captured Moments",
-    desc: "A visual journey through our architecture, ambiance, and the smiles of our guests.",
-    img: "/gallery/interior-room-image-edited.webp",
-    link: "/gallery",
-    tag: "Gallery"
-  },
-  {
-    title: "Reach Out to Us",
-    desc: "We are always here to assist you. Plan your stay or send us an inquiry.",
-    img: "/contact/contact-us.webp",
-    link: "/contact",
-    tag: "Inquiry"
-  }
-];
+/** Animated counter */
+function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
 
-const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
-  const x = useMotionValue(0);
-  // Gentle rotation — keeps it feeling light, not heavy
-  const rotate = useTransform(x, [-200, 200], [-15, 15]);
-  const opacity = useTransform(x, [-180, -120, 0, 120, 180], [0, 1, 1, 1, 0]);
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 1800;
+    const step = (timestamp: number, startTime: number) => {
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) requestAnimationFrame((ts) => step(ts, startTime));
+    };
+    requestAnimationFrame((ts) => step(ts, ts));
+  }, [inView, target]);
 
-  // Indicators appear early (40px) so user gets visual feedback quickly
-  const nextOpacity = useTransform(x, [-100, -40], [1, 0]);
-  const visitOpacity = useTransform(x, [40, 100], [0, 1]);
-  const nextScale = useTransform(x, [-120, -40], [1.1, 0.8]);
-  const visitScale = useTransform(x, [40, 120], [0.8, 1.1]);
+  return (
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+/** Single hotel card inside Hotels section */
+function HotelCard({ child, i }: { child: NonNullable<(typeof businesses)[0]["children"]>[0]; i: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
     <motion.div
-      style={{ x, rotate, opacity }}
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={1}         // Full elasticity — card follows finger with ZERO resistance
-      dragMomentum={true}     // Momentum carries the card after release, like Bumble
-      onDragEnd={(e, info) => {
-        // 80px threshold — easy to trigger, no need to "force" swipe
-        if (info.offset.x > 80 || info.velocity.x > 500) onSwipe('right');
-        else if (info.offset.x < -80 || info.velocity.x < -500) onSwipe('left');
-      }}
-      initial={{ scale: 0.97, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-      exit={{
-        x: x.get() < 0 ? -700 : 700,
-        opacity: 0,
-        rotate: x.get() < 0 ? -20 : 20,
-        transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] }
-      }}
-      className="absolute inset-0 z-10 touch-none cursor-grab active:cursor-grabbing"
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
+      className="group relative overflow-hidden rounded-2xl cursor-pointer"
     >
-      <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-2xl border border-white/10">
-        <Image
-          src={item.img}
-          alt={item.title}
-          fill
-          className="object-cover pointer-events-none"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-95" />
+      <Link href={child.link} className="block h-full">
+        {/* Image */}
+        <div className="relative h-[460px] md:h-[580px] overflow-hidden">
+          <Image
+            src={child.img}
+            alt={child.name}
+            fill
+            className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
 
-        {/* Swipe Indicators (Bumble Style) */}
-        <motion.div
-          style={{ opacity: nextOpacity, scale: nextScale }}
-          className="absolute top-10 right-10 z-20 pointer-events-none flex flex-col items-center gap-2"
-        >
-          <div className="w-14 h-14 rounded-full border-2 border-primary/50 bg-black/40 backdrop-blur-md flex items-center justify-center">
-            <RotateCcw className="text-primary h-6 w-6 -rotate-45" />
+          {/* Dark overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 group-hover:from-black/90 transition-all duration-700" />
+
+          {/* Corner flourish */}
+          <div className="absolute top-5 right-5 w-12 h-12 border-t-2 border-r-2 border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110" />
+          <div className="absolute bottom-5 left-5 w-12 h-12 border-b-2 border-l-2 border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110" />
+
+          {/* Location badge */}
+          <div className="absolute top-5 left-5">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.4 + i * 0.15, duration: 0.6 }}
+              className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10"
+            >
+              <MapPin size={12} className="text-[#6a1224]" />
+              <span className="text-white/80 text-[10px] tracking-[0.2em] uppercase">{child.location}</span>
+            </motion.div>
           </div>
-          <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Next</span>
-        </motion.div>
 
-        <motion.div
-          style={{ opacity: visitOpacity, scale: visitScale }}
-          className="absolute top-10 left-10 z-20 pointer-events-none flex flex-col items-center gap-2"
-        >
-          <div className="w-14 h-14 rounded-full border-2 border-primary bg-primary/20 backdrop-blur-md flex items-center justify-center">
-            <Compass className="text-primary h-7 w-7 animate-pulse" />
-          </div>
-          <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Explore</span>
-        </motion.div>
-
-        <div className="absolute inset-0 p-8 flex flex-col justify-end">
-          <span className="text-white text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block bg-primary px-4 py-1.5 rounded-sm shadow-xl border border-white/10">
-            {item.tag}
-          </span>
-          <h3 className="text-3xl font-serif text-white mb-3">
-            {item.title}
-          </h3>
-          <p className="text-white/70 font-light text-sm leading-relaxed mb-6">
-            {item.desc}
-          </p>
-          <div className="flex gap-4">
-            <Link href={item.link}>
-              <Button
-                variant="outline"
-                className="bg-transparent border-white/30 text-white hover:bg-primary hover:border-primary px-8 h-12 rounded-none text-xs tracking-widest uppercase pointer-events-auto"
-              >
-                View Details
-              </Button>
-            </Link>
+          {/* Content */}
+          <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+            <p className="text-[#6a1224] text-[10px] tracking-[0.3em] uppercase font-bold mb-2">{child.subtitle}</p>
+            <h3 className="text-white text-4xl md:text-5xl font-serif mb-3 drop-shadow-lg">
+              {child.name}
+            </h3>
+            <div className="h-[2px] w-0 bg-[#6a1224] group-hover:w-16 transition-all duration-700 mb-4" />
+            <motion.div
+              className="flex items-center gap-2 text-white/0 group-hover:text-white/80 transition-all duration-500 text-sm tracking-widest uppercase"
+            >
+              <span>Enter</span>
+              <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-500" />
+            </motion.div>
           </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
-};
+}
 
-export default function Home() {
-  const router = useRouter();
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
-  const opac = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+/** Business section card (Finance / Bakery) */
+function BusinessCard({
+  biz,
+  index,
+}: {
+  biz: (typeof businesses)[1];
+  index: number;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const Icon = biz.icon;
 
-  const [brandIndex, setBrandIndex] = useState(0);
-  const [activePortalIndex, setActivePortalIndex] = useState(0);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 80 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: index * 0.2 }}
+      className="group relative overflow-hidden rounded-2xl cursor-pointer"
+    >
+      <Link href={biz.link!} className="block h-full">
+        <div className="relative h-[420px] md:h-[540px] overflow-hidden">
+          <Image
+            src={biz.img!}
+            alt={biz.label}
+            fill
+            className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <div className={`absolute inset-0 bg-gradient-to-t ${biz.bgGradient} opacity-90 group-hover:opacity-95 transition-all duration-700`} />
 
-  const handleManualSwipe = useCallback((dir: 'left' | 'right') => {
-    if (dir === 'left') {
-      setActivePortalIndex((prev) => (prev + 1) % portalItems.length);
-    } else {
-      router.push(portalItems[activePortalIndex].link);
-    }
-  }, [activePortalIndex, router]);
+          {/* Decorative grid lines */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700"
+            style={{
+              backgroundImage: `linear-gradient(${biz.accentColor} 1px, transparent 1px), linear-gradient(90deg, ${biz.accentColor} 1px, transparent 1px)`,
+              backgroundSize: "40px 40px"
+            }}
+          />
+
+          <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-between">
+            {/* Top */}
+            <div className="flex items-center justify-between">
+              <span
+                className={`text-[10px] tracking-[0.3em] uppercase font-bold px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-sm ${biz.badgeStyle}`}
+              >
+                {biz.label}
+              </span>
+              <div
+                className="w-12 h-12 rounded-full border border-white/20 backdrop-blur-sm flex items-center justify-center group-hover:border-white/60 transition-colors duration-500"
+                style={{ backgroundColor: `${biz.accentColor}30` }}
+              >
+                <Icon size={20} className="text-white" />
+              </div>
+            </div>
+
+            {/* Bottom */}
+            <div className="translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
+              <p className="text-white/60 text-xs tracking-[0.25em] uppercase mb-3">{biz.tagline}</p>
+              <h3 className="text-white text-4xl md:text-5xl font-serif mb-4 drop-shadow-lg">
+                Kannamundayil<br />
+                <em className="not-italic" style={{ color: biz.accentColor === "#b8860b" ? "#f5d47a" : biz.accentColor === "#c05a2d" ? "#ffb085" : biz.accentColor }}>
+                  {biz.label}
+                </em>
+              </h3>
+              <div
+                className="h-[2px] w-0 group-hover:w-16 transition-all duration-700 mb-5"
+                style={{ backgroundColor: biz.accentColor }}
+              />
+              <p className="text-white/70 font-light text-sm leading-relaxed max-w-sm opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                {biz.description}
+              </p>
+              <div className="flex items-center gap-2 text-white/80 mt-6 text-sm tracking-widest uppercase">
+                <span>Explore</span>
+                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-500" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────
+//  Main Page
+// ──────────────────────────────────────────────────────────────────
+export default function GroupLandingPage() {
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const [activeHero, setActiveHero] = useState(0);
+
+  /** Auto-cycle hero background among demos */
+  const heroBgs = [
+    "/landing-page/Hotels/Erattupetta-hotel-new-landing-demo.webp",
+    "/landing-page/Hotels/Poonjar-hotel-new-landing-demo.webp",
+    "/landing-page/Finance/Finance-gold-demo.webp",
+    "/landing-page/Bakery/Bakery-demo.webp",
+  ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setBrandIndex((prev) => (prev + 1) % brands.length);
-    }, 3000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setActiveHero((p) => (p + 1) % heroBgs.length), 5000);
+    return () => clearInterval(t);
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-950 text-white">
-      {/* ───── HERO ───── */}
-      <section ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden">
-        <motion.div style={{ y }} className="absolute inset-0 z-0">
-          {/* Desktop Overlay Image */}
-          <div className="hidden md:block absolute inset-0">
-            <Image
-              src="/home/home-hero-section-landscape.webp"
-              alt="Kannamundayil Residency - Desktop View"
-              fill className="object-cover object-right-bottom"
-              priority
-            />
-          </div>
-          {/* Mobile Overlay Image */}
-          <div className="block md:hidden absolute inset-0">
-            <Image
-              src="/destination/kannamunda-main-building.webp"
-              alt="Kannamundayil Residency - Mobile View"
-              fill className="object-cover object-right-bottom"
-              priority
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-neutral-950/90" />
-        </motion.div>
-
-        <motion.div style={{ opacity: opac }} className="relative z-10 container px-6 text-center flex flex-col items-center pt-24 md:pt-32">
+    <div className="flex flex-col min-h-screen bg-neutral-950 text-white overflow-x-hidden">
+      {/* ══════════════════════════════
+          HERO
+      ══════════════════════════════ */}
+      <section
+        ref={heroRef}
+        className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+      >
+        {/* Animated background slideshow */}
+        <AnimatePresence mode="sync">
           <motion.div
-            variants={heroTagline} initial="hidden" whileInView="visible" viewport={{ once: false }}
-            className="text-white/80 uppercase mb-4 text-xs md:text-sm font-medium tracking-[0.3em] flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
+            key={activeHero}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 z-0"
           >
-            <span>Welcome to</span>
-            <span className="md:bg-primary/90 text-white md:px-3 md:py-1 md:rounded-sm md:shadow-xl font-bold font-serif md:border md:border-white/10 md:brightness-110">
-              Kannamundayil
+            <motion.div style={{ y: heroY }} className="absolute inset-0">
+              <Image
+                src={heroBgs[activeHero]}
+                alt="Kannamundayil Group"
+                fill
+                className="object-cover object-center"
+                priority
+              />
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Multi-layer overlay */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/60 via-black/40 to-neutral-950" />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/50 to-transparent" />
+
+        {/* Animated grain texture */}
+        <div
+          className="absolute inset-0 z-[2] opacity-[0.04] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundSize: "200px 200px",
+          }}
+        />
+
+        {/* Content */}
+        <motion.div
+          style={{ opacity: heroOpacity }}
+          className="relative z-10 flex flex-col items-center text-center px-6 max-w-6xl mx-auto pt-20"
+        >
+          {/* Pre-title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="flex items-center gap-3 mb-6"
+          >
+            <div className="h-px w-12 bg-white/30" />
+            <span className="text-white/60 text-[10px] tracking-[0.4em] uppercase font-medium">
+              Welcome to the
             </span>
-            <div className="relative h-7 md:h-8 min-w-[120px] md:min-w-[150px] overflow-hidden inline-flex items-center">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={brands[brandIndex].name}
-                  initial={{ y: 20, opacity: 0, rotateX: -45 }}
-                  animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                  exit={{ y: -20, opacity: 0, rotateX: 45 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className={`px-3 py-1 rounded-sm shadow-xl font-bold font-serif border brightness-110 whitespace-nowrap ${brands[brandIndex].styles} flex items-center h-full`}
-                >
-                  {brands[brandIndex].name}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+            <div className="h-px w-12 bg-white/30" />
           </motion.div>
 
+          {/* Main heading */}
           <motion.h1
-            variants={staggerChildren}
-            initial="hidden"
-            animate="visible"
-            className="text-4xl md:text-7xl font-serif leading-tight max-w-5xl text-white drop-shadow-2xl mb-4"
-            style={{ perspective: "1000px" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-[1.05] mb-4 drop-shadow-2xl"
           >
-            {["A", "Haven", "of"].map((word, i) => (
-              <motion.span key={i} variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-                {word}
-              </motion.span>
-            ))}
-            <motion.span variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-              <em className="text-primary brightness-150 not-italic drop-shadow-[0_2px_2px_rgba(255,255,255,0.2)]">
-                Comfort
-              </em>
-            </motion.span>
-            <motion.span variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-              &amp;
-            </motion.span>
-            <motion.span variants={wordLuxuryReveal} className="inline-block">
-              Luxury
-            </motion.span>
+            Kannamundayil
           </motion.h1>
 
-          <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[3px] w-32 bg-primary mt-6 md:mb-2 mb-6 drop-shadow-md" />
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: "5rem" }}
+            transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="h-[3px] bg-[#6a1224] mb-6"
+          />
 
           <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 1 }}
-            className="text-white drop-shadow-md text-base md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4 md:px-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="text-white/80 text-lg md:text-2xl font-light max-w-2xl leading-relaxed mb-12"
           >
-            Nestled in the heart of Erattupetta &amp; Poonjar where Kerala's warmth meets unparalleled comfort.
+            Group of Companies
           </motion.p>
 
-          <motion.div variants={heroCta} initial="hidden" whileInView="visible" viewport={{ once: false }} className="flex flex-col sm:flex-row gap-5">
-            <Link href="/bookings">
-              <Button size="lg" className="bg-primary hover:bg-white hover:text-primary rounded-none h-14 px-10 text-sm tracking-widest uppercase shadow-2xl transition-all duration-300">
-                Book Your Stay
-              </Button>
-            </Link>
-            <Link href="/amenities">
-              <Button size="lg" variant="outline" className="rounded-none h-14 px-10 text-sm tracking-widest uppercase border-white/40 hover:bg-white hover:text-black bg-white/10 backdrop-blur-md text-white transition-all duration-300">
-                Explore Amenities
-              </Button>
-            </Link>
+          {/* Pill badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="flex flex-wrap items-center justify-center gap-3 mb-14"
+          >
+            {[
+              { label: "Hotels", color: "bg-[#6a1224]" },
+              { label: "Finance", color: "bg-amber-700" },
+              { label: "Bakery", color: "bg-orange-700" },
+            ].map((b) => (
+              <span
+                key={b.label}
+                className={`${b.color} text-white text-[10px] tracking-[0.3em] uppercase font-bold px-5 py-2 rounded-full border border-white/10 shadow-lg`}
+              >
+                {b.label}
+              </span>
+            ))}
           </motion.div>
 
-          {/* Scroll indicator — below buttons */}
+          {/* Slideshow dots */}
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-col items-center gap-2 mt-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4 }}
+            className="flex gap-2"
           >
-            <span className="text-white/40 text-xs tracking-[0.25em] uppercase">Scroll</span>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent"
-            />
+            {heroBgs.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveHero(i)}
+                className={`h-1.5 rounded-full transition-all duration-500 ${activeHero === i ? "w-8 bg-white" : "w-1.5 bg-white/30"
+                  }`}
+              />
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        >
+          <span className="text-white/30 text-[10px] tracking-[0.3em] uppercase">Discover</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8 }}
+          >
+            <ChevronDown size={24} className="text-white/30" />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* ───── ABOUT STRIP ───── */}
-      <section className="bg-white text-gray-900 py-32 relative overflow-hidden">
-        {/* big watermark letter */}
-        <div className="absolute -right-10 top-1/2 -translate-y-1/2 text-[20vw] font-serif text-gray-100 select-none pointer-events-none leading-none">K</div>
-
-        <div className="container px-6 mx-auto max-w-7xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="relative h-[620px] w-full hidden lg:block">
-              <div className="absolute inset-6 border border-primary/20 z-0 -translate-x-5 translate-y-5" />
-              <motion.div
-                variants={clipReveal}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                className="relative z-10 w-full h-full"
-              >
-                <Image src="/home/home-image-2.webp" alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
-              </motion.div>
-            </div>
-
-            <RevealGroup>
-              <motion.p variants={fadeUp} className="text-gray-600 font-medium tracking-[0.25em] uppercase text-xs mb-3">Discover the Residency</motion.p>
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-serif mb-6 text-gray-900 leading-tight">
-                A Home Away From Home in Kerala
-              </motion.h2>
-              <motion.div variants={lineWipe} className="h-[2px] w-16 bg-primary mb-8" />
-              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light mb-5">
-                Nestled in the heart of Erattupetta and Poonjar, Kannamundayil Residency is a family-run tourist home that embodies the warmth and hospitality of Kerala.
-              </motion.p>
-              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light mb-12">
-                Whether visiting for business or leisure, we offer an environment blending modern convenience with traditional charm.
-              </motion.p>
-              <motion.div variants={fadeUp}>
-                <Link href="/about">
-                  <Button variant="link" className="group h-12 px-0 text-primary text-base hover:no-underline font-medium tracking-wide cursor-pointer">
-                    Our Complete Story
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                  </Button>
-                </Link>
-              </motion.div>
-            </RevealGroup>
-          </div>
-        </div>
-      </section>
-      {/* ───── AMENITIES (Signatures of Comfort) ───── */}
-      <section className="bg-[#3a0a14] py-32 border-t border-white/5">
-        <div className="container px-6 mx-auto max-w-7xl">
-          <Reveal className="text-center mb-20">
-            <p className="text-white/60 uppercase tracking-[0.25em] text-xs mb-3">Our Commitments</p>
-            <h2 className="text-4xl md:text-5xl font-serif text-white">Signatures of Comfort</h2>
-            <motion.div
-              variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }}
-              className="h-[2px] w-16 bg-white mx-auto mt-8"
-            />
-          </Reveal>
-
-          <RevealGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {amenities.map((item, i) => (
+      {/* ══════════════════════════════
+          STATS STRIP
+      ══════════════════════════════ */}
+      <section className="bg-[#3a0a14] py-16 border-y border-white/5">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: 25, suffix: "+", label: "Years of Legacy" },
+              { value: 2, suffix: "", label: "Hotel Properties" },
+              { value: 1000, suffix: "+", label: "Happy Guests" },
+              { value: 3, suffix: "", label: "Business Verticals" },
+            ].map((stat, i) => (
               <motion.div
                 key={i}
-                variants={fadeUp}
-                className="bg-white/5 backdrop-blur-sm p-10 group hover:bg-white/10 hover:-translate-y-1 transition-all duration-500 border border-white/10 border-t-4 border-t-primary/40 hover:border-t-primary flex flex-col items-center text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
               >
-                <div className="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-white/15 transition-colors duration-500">
-                  <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
-                </div>
-                <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
-                <p className="text-white/60 font-light leading-relaxed group-hover:text-white/80 transition-colors duration-500">{item.desc}</p>
-              </motion.div>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* ───── PORTAL SHOWCASE ───── */}
-      <section className="bg-white py-32 border-t border-gray-50 overflow-hidden">
-        <div className="container px-6 mx-auto max-w-[1400px]">
-          <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
-            <RevealGroup className="max-w-2xl">
-              <Reveal variants={fadeUp}>
-                <p className="text-gray-600 uppercase tracking-[0.25em] text-xs mb-3">
-                  Gateway to Excellence
+                <p className="text-4xl md:text-5xl font-serif text-white mb-2">
+                  <Counter target={stat.value} suffix={stat.suffix} />
                 </p>
-              </Reveal>
-
-              <div className="relative overflow-hidden">
-                <motion.h2
-                  variants={{
-                    hidden: { y: "100%", opacity: 0 },
-                    visible: {
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }
-                    }
-                  }}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  className="text-4xl md:text-5xl font-serif text-gray-900 leading-tight"
-                >
-                  Explore the Residency Experience
-                </motion.h2>
-              </div>
-
-              <Reveal variants={lineWipe} delay={0.4}>
-                <div className="h-[2px] w-16 bg-primary mt-8" />
-              </Reveal>
-            </RevealGroup>
-
-            <Reveal variants={fadeUp} delay={0.6} className="hidden lg:block text-right">
-              <p className="text-gray-600 font-light max-w-md">
-                From world-class amenities to local charms, discover everything that makes your stay at Kannamundayil truly unforgettable.
-              </p>
-            </Reveal>
-          </div>
-
-          {/* Mobile Swipe Deck (Bumble Style) */}
-          <div className="md:hidden relative px-4 h-[520px]">
-            <div className="relative w-full h-full">
-              <AnimatePresence mode="popLayout" initial={false}>
-                <SwipeCard
-                  key={activePortalIndex}
-                  item={portalItems[activePortalIndex]}
-                  onSwipe={handleManualSwipe}
-                />
-              </AnimatePresence>
-            </div>
-
-            {/* Pagination Dots */}
-            <div className="flex justify-center gap-2 mt-8">
-              {portalItems.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActivePortalIndex(idx)}
-                  className={`h-1.5 transition-all duration-300 rounded-full ${activePortalIndex === idx ? "w-8 bg-primary" : "w-1.5 bg-gray-200"}`}
-                />
-              ))}
-            </div>
-
-            <p className="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-4">
-              Swipe Left for next • Swipe Right to visit
-            </p>
-          </div>
-
-          {/* Desktop Static Grid */}
-          <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
-            {portalItems.map((item, i) => (
-              <motion.div
-                key={i}
-                variants={{
-                  hidden: { opacity: 0, y: 50 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 } }
-                }}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                className="group relative h-[450px] overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-700"
-              >
-                {/* Clip-Reveal Image (like About page) */}
-                <motion.div
-                  variants={{
-                    hidden: { clipPath: "inset(100% 0% 0% 0%)" },
-                    visible: {
-                      clipPath: "inset(0% 0% 0% 0%)",
-                      transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 + 0.1 }
-                    }
-                  }}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-80px" }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                </motion.div>
-
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-all duration-700" />
-
-                {/* Content */}
-                <div className="absolute inset-0 p-10 flex flex-col justify-end lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-700">
-                  {/* Tag — Highlighted by default on mobile, hover on desktop */}
-                  <span className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block transition-all duration-500 bg-primary text-white px-3 py-1 rounded-sm shadow-xl border border-white/10 lg:opacity-0 lg:group-hover:opacity-100 lg:bg-transparent lg:text-primary lg:border-none lg:shadow-none lg:px-0 lg:py-0 lg:group-hover:bg-primary lg:group-hover:text-white lg:group-hover:px-3 lg:group-hover:py-1 lg:group-hover:rounded-sm lg:group-hover:shadow-xl lg:group-hover:border lg:group-hover:border-white/10`}>
-                    {item.tag}
-                  </span>
-
-                  {/* Title — White on mobile, highlighted on hover desktop */}
-                  <h3 className="text-2xl font-serif mb-4 drop-shadow-lg transition-all duration-500 text-white lg:text-white/70 lg:group-hover:text-white lg:group-hover:[text-shadow:_0_2px_16px_rgba(0,0,0,0.9)]">
-                    {item.title}
-                  </h3>
-                  <div className="h-[2px] bg-primary mb-4 w-12 lg:w-0 lg:group-hover:w-12 transition-all duration-700" />
-
-                  {/* Description — Always visible on mobile, hover on desktop */}
-                  <p className="font-light text-sm leading-relaxed mb-8 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-500 delay-100 text-white/90 lg:group-hover:[text-shadow:_0_1px_8px_rgba(0,0,0,0.8)]">
-                    {item.desc}
-                  </p>
-                  <Link href={item.link}>
-                    <Button
-                      variant="outline"
-                      className="bg-transparent border-white/30 text-white hover:bg-primary hover:border-primary px-8 h-12 rounded-none text-xs tracking-widest uppercase transition-all duration-300 w-fit"
-                    >
-                      View Details
-                    </Button>
-                  </Link>
-                </div>
+                <p className="text-white/40 text-xs tracking-[0.2em] uppercase">{stat.label}</p>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════
+          HOTELS SECTION
+      ══════════════════════════════ */}
+      <section className="py-24 md:py-36 bg-neutral-950">
+        <div className="container mx-auto px-6 max-w-7xl">
+          {/* Section header */}
+          <div className="mb-14 md:mb-20">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="flex items-center gap-4 mb-5"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#6a1224]/20 border border-[#6a1224]/30 flex items-center justify-center">
+                <Building2 size={18} className="text-[#6a1224]" />
+              </div>
+              <span className="text-white/40 text-xs tracking-[0.35em] uppercase">Our Properties</span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="text-4xl md:text-6xl font-serif text-white leading-tight mb-4"
+            >
+              Kannamundayil Hotels
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "4rem" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="h-[2px] bg-[#6a1224] mb-6"
+            />
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-white/50 text-lg font-light max-w-xl"
+            >
+              Choose your destination — two exceptional properties across Kerala's most scenic regions.
+            </motion.p>
+          </div>
+
+          {/* Two hotel cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {businesses[0].children!.map((child, i) => (
+              <HotelCard key={child.name} child={child} i={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════
+          FINANCE + BAKERY SECTION
+      ══════════════════════════════ */}
+      <section className="py-24 md:py-36 bg-[#0d0d0d]">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-14 md:mb-20"
+          >
+            <p className="text-white/30 text-xs tracking-[0.35em] uppercase mb-4">More From Us</p>
+            <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-4">
+              Our Other Ventures
+            </h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "4rem" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="h-[2px] bg-amber-600 mb-6"
+            />
+            <p className="text-white/40 font-light max-w-xl text-lg">
+              Beyond hospitality — financial services and artisan baking that serve our community.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {businesses.slice(1).map((biz, i) => (
+              <BusinessCard key={biz.id} biz={biz as any} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* ══════════════════════════════
+          CTA FOOTER STRIP
+      ══════════════════════════════ */}
+      <section className="bg-[#3a0a14] py-24">
+        <div className="container mx-auto px-6 max-w-4xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-white/40 text-xs tracking-[0.35em] uppercase mb-4">Plan Your Visit</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
+              Ready to Experience Kannamundayil?
+            </h2>
+            <div className="h-[2px] w-16 bg-white/30 mx-auto mb-8" />
+            <p className="text-white/60 text-lg font-light mb-12 max-w-xl mx-auto">
+              Whether you're looking for a luxurious stay, financial services, or fresh bakes — we're here for you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/erattupetta-hotel"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#3a0a14] px-8 py-4 text-sm tracking-widest uppercase font-bold hover:bg-gray-100 transition-colors duration-300 shadow-2xl"
+              >
+                <Building2 size={16} />
+                View Hotels
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-8 py-4 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
+              >
+                Contact Us
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

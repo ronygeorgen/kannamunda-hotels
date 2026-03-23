@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { checkIn, checkOut, room, adults, children, phone, name, email, notes } = body;
+        const { checkIn, checkOut, room, adults, children, phone, name, email, notes, location } = body;
 
         // Note: You must run 'npm install nodemailer' and set these in your .env
         const transporter = nodemailer.createTransport({
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: 'ronygeorge.jacg@gmail.com',
-            subject: `New Booking Request: ${name} - ${room.toUpperCase()}`,
+            subject: `New Booking Request: ${name} - ${location || 'Unknown Location'}`,
             html: `
                 <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 12px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.05);">
                     <div style="background-color: #72091d; padding: 40px 20px; text-align: center;">
@@ -33,6 +33,12 @@ export async function POST(req: Request) {
                         </div>
 
                         <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td colspan="2" style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <div style="font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px;">Hotel Location</div>
+                                    <div style="font-size: 18px; color: #72091d; font-weight: bold; margin-top: 4px;">${location || 'Not Specified'}</div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
                                     <div style="font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px;">Full Name</div>
