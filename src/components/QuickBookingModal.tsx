@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Calendar, User, Users, Phone, Mail, FileText, CheckCircle2, XCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
@@ -25,6 +25,23 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
         notes: "",
         location: hotelName
     });
+    const [countdown, setCountdown] = useState(0);
+    const [waMsg, setWaMsg] = useState("");
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (formStatus === "success" && countdown > 0) {
+            timer = setTimeout(() => setCountdown(prev => prev - 1), 1000);
+        } else if (formStatus === "success" && countdown === 0 && waMsg) {
+            window.location.href = `https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`;
+            setTimeout(() => {
+                setFormStatus("idle");
+                setWaMsg("");
+                onClose();
+            }, 2000);
+        }
+        return () => clearTimeout(timer);
+    }, [formStatus, countdown, waMsg, onClose]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -38,9 +55,6 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
             });
 
             if (response.ok) {
-                setFormStatus("success");
-
-                // Open WhatsApp with booking details pre-filled
                 const msg = [
                     `🏨 *New Booking Request*`,
                     `*Hotel:* ${hotelName}`,
@@ -51,12 +65,10 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                     `*Check-out:* ${formData.checkOut}`,
                     `*Room:* ${formData.room || "Not specified"}`,
                 ].filter(Boolean).join("\n");
-                window.open(`https://wa.me/918590443083?text=${encodeURIComponent(msg)}`, "_blank");
 
-                setTimeout(() => {
-                    setFormStatus("idle");
-                    onClose();
-                }, 3000);
+                setWaMsg(msg);
+                setFormStatus("success");
+                setCountdown(3);
             } else {
                 setFormStatus("error");
                 setTimeout(() => setFormStatus("idle"), 5000);
@@ -184,7 +196,16 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white flex flex-col items-center justify-center p-12 text-center z-10">
                                     <CheckCircle2 size={64} className="text-green-500 mb-4" />
                                     <h3 className="text-2xl font-serif text-gray-900">Request Sent!</h3>
-                                    <p className="text-gray-500 mt-2 font-light">Your reservation request for {hotelName} has been received. Our team will contact you shortly.</p>
+                                    <p className="text-gray-500 mt-2 font-light">Your reservation request for {hotelName} has been received.</p>
+                                    <p className="text-primary font-bold mt-4 animate-pulse">
+                                        Redirecting to WhatsApp in {countdown}s...
+                                    </p>
+                                    <a
+                                        href={`https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`}
+                                        className="mt-6 bg-green-500 hover:bg-green-600 text-white text-xs font-bold uppercase tracking-widest py-3 px-6 rounded-xl transition-all shadow-lg hover:shadow-green-500/20"
+                                    >
+                                        Chat on WhatsApp now
+                                    </a>
                                 </motion.div>
                             )}
                             {formStatus === "error" && (

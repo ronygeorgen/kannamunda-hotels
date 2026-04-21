@@ -46,7 +46,7 @@ export const HOTELS: Record<HotelId, HotelConfig> = {
         address: "Kannamundayil Arcade, Opp. CMI Church, Poonjar, Kerala",
         phones: ["+91 94471 07950", "+91 94471 89362"],
         mapQuery: "Kannamundayil+Residency+Poonjar+Kerala",
-        heroImage: "/poonjar-home/home-hero-section-landscape.webp",
+        heroImage: "/poonjar-home/poonjar-kannamunda-edited.webp",
         heroImageMobile: "/poonjar-destination/kannamunda-main-building.webp",
         aboutImage: "/poonjar-home/home-image-2.webp",
         aboutImageRight: "/poonjar-about/about-us-right-image.webp",

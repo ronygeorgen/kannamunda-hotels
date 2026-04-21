@@ -49,6 +49,25 @@ function ContactContent() {
         message: ""
     });
 
+    const [countdown, setCountdown] = useState(0);
+    const [waMsg, setWaMsg] = useState("");
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (formStatus === "success" && countdown > 0) {
+            timer = setTimeout(() => setCountdown(prev => prev - 1), 1000);
+        } else if (formStatus === "success" && countdown === 0 && waMsg) {
+            window.location.href = `https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`;
+            // We don't reset immediately to allow the user to see the success state if the redirect takes a moment
+            setTimeout(() => {
+                setFormStatus("idle");
+                setWaMsg("");
+                setFormData({ firstName: "", lastName: "", email: "", message: "" });
+            }, 2000);
+        }
+        return () => clearTimeout(timer);
+    }, [formStatus, countdown, waMsg]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormStatus("submitting");
@@ -61,19 +80,16 @@ function ContactContent() {
             });
 
             if (response.ok) {
-                setFormStatus("success");
-
-                // Open WhatsApp with inquiry details pre-filled
                 const msg = [
                     `📩 *New Inquiry — Kannamundayil Hotels*`,
                     `*Name:* ${formData.firstName} ${formData.lastName}`,
                     `*Email:* ${formData.email}`,
                     `*Message:* ${formData.message}`,
                 ].join("\n");
-                window.open(`https://wa.me/918590443083?text=${encodeURIComponent(msg)}`, "_blank");
 
-                setFormData({ firstName: "", lastName: "", email: "", message: "" });
-                setTimeout(() => setFormStatus("idle"), 5000);
+                setWaMsg(msg);
+                setFormStatus("success");
+                setCountdown(3);
             } else {
                 setFormStatus("error");
                 setTimeout(() => setFormStatus("idle"), 5000);
@@ -396,8 +412,18 @@ function ContactContent() {
                                 {formStatus === "success" ? "Inquiry Sent Successfully!" : "Submission Failed"}
                             </p>
                             <p className="text-white/70 text-xs font-light">
-                                {formStatus === "success" ? "We have received your message." : "Please check your network or try again."}
+                                {formStatus === "success"
+                                    ? `Redirecting to WhatsApp in ${countdown}s...`
+                                    : "Please check your network or try again."}
                             </p>
+                            {formStatus === "success" && (
+                                <a
+                                    href={`https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`}
+                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
+                                >
+                                    Chat on WhatsApp Now
+                                </a>
+                            )}
                         </div>
                         <button
                             onClick={() => setFormStatus("idle")}

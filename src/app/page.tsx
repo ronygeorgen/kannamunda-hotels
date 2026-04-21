@@ -32,25 +32,25 @@ const businesses = [
         name: "Erattupetta",
         subtitle: "Kannamundayil Residency",
         link: "/erattupetta-hotel",
-        img: "/landing-page/Hotels/Erattupetta-hotel-new-landing-demo.webp",
+        img: "/erattupetta-home/home-hero-section-landscape.webp",
         location: "Erattupetta, Kottayam",
       },
       {
         name: "Poonjar",
         subtitle: "Kannamundayil Residency",
         link: "/poonjar-hotel",
-        img: "/landing-page/Hotels/Poonjar-hotel-new-landing-demo.webp",
+        img: "/poonjar-home/poonjar-kannamunda-edited.webp",
         location: "Poonjar, Kottayam",
       },
     ],
   },
   {
     id: "finance",
-    label: "Finance",
+    label: "Gold Loan",
     icon: Landmark,
     tagline: "Trusted Gold Loan & Financial Services",
     description:
-      "Kannamundayil Finance offers reliable gold loan services and financial solutions built on decades of trust across Kottayam district.",
+      "Kannamundayil Gold Loan offers reliable gold loan services and financial solutions built on decades of trust across Kottayam district.",
     accentColor: "#b8860b",
     bgGradient: "from-[#3d2f00] via-[#b8860b]/60 to-black/60",
     borderColor: "border-amber-600",
@@ -65,7 +65,7 @@ const businesses = [
     icon: UtensilsCrossed,
     tagline: "Fresh Bakes, Every Day",
     description:
-      "Kannamundayil Bakes brings you artisan breads, pastries, and confections crafted with love — a local favourite since day one.",
+      "Kannamundayil Bakes offers a delightful range of shakes, fresh juices, faloodas, ice creams, and savoury snacks crafted with love — a local favourite.",
     accentColor: "#c05a2d",
     bgGradient: "from-[#3d1500] via-[#c05a2d]/60 to-black/60",
     borderColor: "border-orange-600",
@@ -152,7 +152,9 @@ function HotelCard({ child, i }: { child: NonNullable<(typeof businesses)[0]["ch
 
           {/* Content */}
           <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-            <p className="text-[#6a1224] text-[10px] tracking-[0.3em] uppercase font-bold mb-2">{child.subtitle}</p>
+            <p className="inline-block bg-[#6a1224] text-white text-[9px] tracking-[0.25em] uppercase font-bold mb-4 px-3 py-1 rounded-sm shadow-xl border border-white/10">
+              {child.subtitle}
+            </p>
             <h3 className="text-white text-4xl md:text-5xl font-serif mb-3 drop-shadow-lg">
               {child.name}
             </h3>
@@ -269,8 +271,8 @@ export default function GroupLandingPage() {
 
   /** Auto-cycle hero background among demos */
   const heroBgs = [
-    "/landing-page/Hotels/Erattupetta-hotel-new-landing-demo.webp",
-    "/landing-page/Hotels/Poonjar-hotel-new-landing-demo.webp",
+    "/erattupetta-home/home-hero-section-landscape.webp",
+    "/poonjar-home/poonjar-kannamunda-edited.webp",
     "/landing-page/Finance/Finance-gold-demo.webp",
     "/landing-page/Bakery/Bakery-demo.webp",
   ];
@@ -334,13 +336,13 @@ export default function GroupLandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex items-center gap-3 mb-6"
+            className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6"
           >
-            <div className="h-px w-12 bg-white/30" />
-            <span className="text-white/60 text-[10px] tracking-[0.4em] uppercase font-medium">
+            <div className="h-px w-8 md:w-12 bg-white/30" />
+            <span className="text-white/70 text-[9px] md:text-[11px] tracking-[0.3em] md:tracking-[0.5em] uppercase font-bold text-nowrap">
               Welcome to the
             </span>
-            <div className="h-px w-12 bg-white/30" />
+            <div className="h-px w-8 md:w-12 bg-white/30" />
           </motion.div>
 
           {/* Main heading */}
@@ -348,23 +350,23 @@ export default function GroupLandingPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-[1.05] mb-4 drop-shadow-2xl"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-montserrat font-black uppercase text-white leading-tight md:leading-[0.85] mb-4 md:mb-6 drop-shadow-2xl tracking-tighter"
           >
             Kannamundayil
           </motion.h1>
 
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: "5rem" }}
+            animate={{ width: "3rem" }}
             transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[3px] bg-[#6a1224] mb-6"
+            className="h-[2px] md:h-[3px] bg-[#6a1224] mb-4 md:mb-6"
           />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="text-white/80 text-lg md:text-2xl font-light max-w-2xl leading-relaxed mb-12"
+            className="text-white/60 text-xs md:text-lg tracking-[0.3em] md:tracking-[0.8em] uppercase font-medium max-w-2xl leading-relaxed mb-10 md:mb-14"
           >
             Group of Companies
           </motion.p>
@@ -374,16 +376,16 @@ export default function GroupLandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-14"
+            className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10 md:mb-14"
           >
             {[
               { label: "Hotels", color: "bg-[#6a1224]" },
-              { label: "Finance", color: "bg-amber-700" },
+              { label: "Gold Loan", color: "bg-amber-700" },
               { label: "Bakery", color: "bg-orange-700" },
             ].map((b) => (
               <span
                 key={b.label}
-                className={`${b.color} text-white text-[10px] tracking-[0.3em] uppercase font-bold px-5 py-2 rounded-full border border-white/10 shadow-lg`}
+                className={`${b.color} text-white text-[8px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold px-3 md:px-5 py-1.5 md:py-2 rounded-full border border-white/10 shadow-lg`}
               >
                 {b.label}
               </span>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond, Jost, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -19,6 +19,13 @@ const jost = Jost({
   display: "swap",
 });
 
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Kannamundayil Residency | Luxurious Accommodation",
   description: "Nestled in the heart of Erattupetta and Poonjar, Kannamundayil Residency is a family-run tourist home that embodies the warmth and hospitality of Kerala.",
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${cormorant.variable} ${jost.variable} antialiased min-h-screen flex flex-col bg-background text-[17px]`}
+        className={`${cormorant.variable} ${jost.variable} ${montserrat.variable} antialiased min-h-screen flex flex-col bg-background text-[17px]`}
         style={{ fontFamily: "var(--font-jost), 'Jost', sans-serif" }}
       >
         <Navbar />

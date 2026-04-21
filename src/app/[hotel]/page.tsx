@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion";
-import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass, MapPin } from "lucide-react";
+import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass, MapPin, ArrowUpSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useHotel } from "@/lib/hotelContext";
 import {
@@ -16,16 +16,165 @@ import {
 } from "@/components/animations";
 
 
-const amenities = [
+const baseAmenities = [
     { icon: Wind, title: "A/C & Non-A/C Rooms", desc: "Choose the comfort that suits your needs." },
     { icon: Wifi, title: "Free High-Speed WiFi", desc: "Stay connected with complimentary access." },
     { icon: ShieldCheck, title: "24/7 Security", desc: "Ensuring utmost safety for all our guests." },
     { icon: Car, title: "Ample Parking", desc: "Spacious parking facility for your vehicles." },
 ];
 
+const AmenitiesCarousel = ({ amenities }: { amenities: typeof baseAmenities }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(true);
+    const currentIndexRef = useRef(0);
+
+    const getCards = () => {
+        const el = scrollRef.current;
+        if (!el) return [];
+        return Array.from(el.children).filter(
+            (child) => (child as HTMLElement).dataset.card === 'true'
+        ) as HTMLElement[];
+    };
+
+    const updateArrows = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setShowLeft(el.scrollLeft > 4);
+        setShowRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    }, []);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        // Short delay to allow layout to settle
+        setTimeout(updateArrows, 100);
+        el.addEventListener('scroll', updateArrows, { passive: true });
+        window.addEventListener('resize', updateArrows);
+        return () => {
+            el.removeEventListener('scroll', updateArrows);
+            window.removeEventListener('resize', updateArrows);
+        };
+    }, [updateArrows, amenities]);
+
+    const getCardStep = () => {
+        const cards = getCards();
+        if (!cards[0]) return 300;
+        const gap = window.innerWidth >= 768 ? 24 : 16;
+        return cards[0].offsetWidth + gap;
+    };
+
+    const goLeft = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        if (window.innerWidth < 768) {
+            // Mobile: center the previous card
+            const idx = Math.max(0, currentIndexRef.current - 1);
+            const cards = getCards();
+            if (!cards[idx]) return;
+            const card = cards[idx];
+            const offset = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
+            el.scrollTo({ left: offset, behavior: 'smooth' });
+            currentIndexRef.current = idx;
+        } else {
+            // Desktop: scroll left by one card step
+            el.scrollBy({ left: -getCardStep(), behavior: 'smooth' });
+        }
+    };
+
+    const goRight = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        if (window.innerWidth < 768) {
+            // Mobile: center the next card
+            const cards = getCards();
+            const idx = Math.min(amenities.length - 1, currentIndexRef.current + 1);
+            if (!cards[idx]) return;
+            const card = cards[idx];
+            const offset = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
+            el.scrollTo({ left: offset, behavior: 'smooth' });
+            currentIndexRef.current = idx;
+        } else {
+            // Desktop: scroll right by one card step
+            el.scrollBy({ left: getCardStep(), behavior: 'smooth' });
+        }
+    };
+
+    // Mobile swipe tracking
+    const updateMobileIndex = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el || window.innerWidth >= 768) return;
+        const cards = getCards();
+        if (!cards.length) return;
+        const center = el.scrollLeft + el.clientWidth / 2;
+        let closest = 0, minDist = Infinity;
+        cards.forEach((card, i) => {
+            const dist = Math.abs((card.offsetLeft + card.offsetWidth / 2) - center);
+            if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        currentIndexRef.current = closest;
+    }, []);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        el.addEventListener('scroll', updateMobileIndex, { passive: true });
+        return () => el.removeEventListener('scroll', updateMobileIndex);
+    }, [updateMobileIndex]);
+
+    // Mouse wheel → horizontal scroll on desktop
+    const handleWheel = (e: React.WheelEvent) => {
+        const el = scrollRef.current;
+        if (!el || window.innerWidth < 768) return;
+        e.preventDefault();
+        el.scrollBy({ left: e.deltaY * 2, behavior: 'smooth' });
+    };
+
+    return (
+        <div className="relative">
+            {showLeft && (
+                <button
+                    onClick={goLeft}
+                    className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-12 z-30 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/10 hover:bg-primary backdrop-blur-md text-white transition-all shadow-2xl flex items-center justify-center"
+                >
+                    <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
+            )}
+            {showRight && (
+                <button
+                    onClick={goRight}
+                    className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-12 z-30 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/10 hover:bg-primary backdrop-blur-md text-white transition-all shadow-2xl flex items-center justify-center"
+                >
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
+            )}
+            <div
+                ref={scrollRef}
+                onWheel={handleWheel}
+                className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+                {amenities.map((item, i) => (
+                    <div
+                        key={i}
+                        data-card="true"
+                        className="min-w-[80vw] md:min-w-[calc(33.33%-1rem)] lg:min-w-[calc(25%-1.125rem)] flex-shrink-0 bg-white/5 backdrop-blur-sm p-6 md:p-10 group hover:bg-white/10 hover:-translate-y-1 transition-all duration-500 border border-white/10 border-t-4 border-t-primary/40 hover:border-t-primary flex flex-col items-center text-center"
+                    >
+                        <div className="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-white/15 transition-colors duration-500">
+                            <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
+                        </div>
+                        <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
+                        <p className="text-white/60 font-light leading-relaxed group-hover:text-white/80 transition-colors duration-500">{item.desc}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 
 const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
+
     const x = useMotionValue(0);
     const rotate = useTransform(x, [-200, 200], [-30, 30]);
     const opacity = useTransform(x, [-180, -120, 0, 120, 180], [0.6, 1, 1, 1, 0.6]);
@@ -68,7 +217,7 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
                     style={{ opacity: nextOpacity, scale: nextScale }}
                     className="absolute top-10 right-10 z-20 pointer-events-none flex flex-col items-center gap-2"
                 >
-                    <div className="w-14 h-14 rounded-full border-2 border-primary/50 bg-black/40 backdrop-blur-md flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full border-2 border-primary/50 bg-primary/20 backdrop-blur-md flex items-center justify-center">
                         <RotateCcw className="text-primary h-6 w-6 -rotate-45" />
                     </div>
                     <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Next</span>
@@ -174,7 +323,10 @@ export default function HotelHomePage() {
         }
     }, [activePortalIndex, router, portalItems]);
 
-
+    // Compute amenities dynamically to show Lift Facility for Erattupetta
+    const amenities = hotel.id === "erattupetta"
+        ? [...baseAmenities, { icon: ArrowUpSquare, title: "Lift Facility", desc: "Modern elevator for easy access between floors." }]
+        : baseAmenities;
 
     return (
         <div className="flex flex-col min-h-screen bg-neutral-950 text-white">
@@ -338,32 +490,15 @@ export default function HotelHomePage() {
             </section>
 
             {/* ───── AMENITIES ───── */}
-            <section className="bg-[#3a0a14] py-32 border-t border-white/5">
-                <div className="container px-6 mx-auto max-w-7xl">
-                    <Reveal className="text-center mb-20">
+            <section className="bg-[#3a0a14] py-32 border-t border-white/5 overflow-hidden">
+                <div className="container px-6 mx-auto max-w-7xl relative">
+                    <div className="text-center mb-20">
                         <p className="text-white/60 uppercase tracking-[0.25em] text-xs mb-3">Our Commitments</p>
                         <h2 className="text-4xl md:text-5xl font-serif text-white">Signatures of Comfort</h2>
-                        <motion.div
-                            variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }}
-                            className="h-[2px] w-16 bg-white mx-auto mt-8"
-                        />
-                    </Reveal>
+                        <div className="h-[2px] w-16 bg-white mx-auto mt-8" />
+                    </div>
 
-                    <RevealGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {amenities.map((item, i) => (
-                            <motion.div
-                                key={i}
-                                variants={fadeUp}
-                                className="bg-white/5 backdrop-blur-sm p-10 group hover:bg-white/10 hover:-translate-y-1 transition-all duration-500 border border-white/10 border-t-4 border-t-primary/40 hover:border-t-primary flex flex-col items-center text-center"
-                            >
-                                <div className="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-white/15 transition-colors duration-500">
-                                    <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
-                                </div>
-                                <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
-                                <p className="text-white/60 font-light leading-relaxed group-hover:text-white/80 transition-colors duration-500">{item.desc}</p>
-                            </motion.div>
-                        ))}
-                    </RevealGroup>
+                    <AmenitiesCarousel amenities={amenities} />
                 </div>
             </section>
 

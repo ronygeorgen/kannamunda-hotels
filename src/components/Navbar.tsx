@@ -59,6 +59,7 @@ const rootNavItems: NavItem[] = [
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
+    const [isSwitcherOpen, setIsSwitcherOpen] = React.useState(false);
     const pathname = usePathname();
     const activeHotel = useActiveHotel();
 
@@ -281,76 +282,116 @@ export function Navbar() {
                             {/* ── Section Switcher (always visible on mobile) ── */}
                             <div className="w-full px-4 mb-6">
                                 <p className="text-[10px] tracking-[0.25em] uppercase text-gray-400 font-bold mb-3 text-center">You are in</p>
-                                <div className="grid grid-cols-1 gap-2">
+                                <div className="flex flex-col gap-2">
                                     {[
                                         { name: "Main Home", href: "/" },
                                         { name: "Erattupetta Hotel", href: "/erattupetta-hotel" },
                                         { name: "Poonjar Hotel", href: "/poonjar-hotel" },
                                         { name: "Finance", href: "/finance" },
                                         { name: "Bakery", href: "/bakery" },
-                                    ].map((branch) => (
-                                        <Link
-                                            key={branch.href}
-                                            href={branch.href}
-                                            onClick={() => setIsOpen(false)}
-                                            className={cn(
-                                                "w-full py-3 px-6 rounded-xl text-sm font-bold uppercase tracking-widest transition-all text-center",
-                                                activeSectionHref === branch.href
-                                                    ? "bg-primary text-white shadow-lg"
-                                                    : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-                                            )}
-                                        >
-                                            {branch.name}
-                                        </Link>
-                                    ))}
+                                        { name: "Contact Us", href: "/contact" },
+                                    ].map((branch, idx) => {
+                                        const isSelected = activeSectionHref === branch.href;
+
+                                        // If we are in a hotel context, we want to collapse the other options
+                                        if (!!activeHotel && !isSwitcherOpen && !isSelected) {
+                                            return null;
+                                        }
+
+                                        return (
+                                            <div key={branch.href} className="relative w-full max-w-sm mx-auto">
+                                                <Link
+                                                    href={branch.href}
+                                                    onClick={() => {
+                                                        setIsOpen(false);
+                                                        setIsSwitcherOpen(false);
+                                                    }}
+                                                    className={cn(
+                                                        "w-full py-3 px-6 rounded-xl text-sm font-bold uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2",
+                                                        isSelected
+                                                            ? "bg-primary text-white shadow-lg"
+                                                            : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                                                    )}
+                                                >
+                                                    {branch.name}
+                                                    {isSelected && !!activeHotel && (
+                                                        <ChevronDown
+                                                            className={cn("w-4 h-4 transition-transform", isSwitcherOpen ? "rotate-180" : "")}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setIsSwitcherOpen(!isSwitcherOpen);
+                                                            }}
+                                                        />
+                                                    )}
+                                                </Link>
+                                                {/* If it's the selected one and switcher is closed, show a transparent overlay to toggle */}
+                                                {isSelected && !!activeHotel && !isSwitcherOpen && (
+                                                    <div
+                                                        className="absolute inset-0 z-10 cursor-pointer"
+                                                        onClick={() => setIsSwitcherOpen(true)}
+                                                    />
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
                             <div className="w-full h-px bg-gray-100 mb-2" />
 
-                            {navigation.map((item, i) => {
-                                const isActive = pathname === item.href;
+                            {navigation
+                                .filter(item => {
+                                    // On group pages, all items are now in the Switcher buttons above
+                                    const groupPages = ["/", "/finance", "/bakery", "/contact"];
+                                    if (groupPages.includes(pathname)) {
+                                        return false; // Hide everything in the secondary list
+                                    }
+                                    return true;
+                                })
+                                .map((item, i) => {
+                                    const isActive = pathname === item.href;
 
-                                if (item.items) {
-                                    return (
-                                        <div key={item.name} className="w-full flex flex-col items-center">
-                                            <p className="text-xs tracking-[0.2em] uppercase text-gray-400 font-bold mb-4">{item.name}</p>
-                                            <div className="flex flex-col space-y-4">
-                                                {item.items.map((subItem) => (
-                                                    <Link
-                                                        key={subItem.href}
-                                                        href={subItem.href}
-                                                        onClick={() => setIsOpen(false)}
-                                                        className="text-xl font-light hover:text-primary transition-colors"
-                                                    >
-                                                        {subItem.name}
-                                                    </Link>
-                                                ))}
+                                    if (item.items) {
+                                        return (
+                                            <div key={item.name} className="w-full flex flex-col items-center">
+                                                <p className="text-xs tracking-[0.2em] uppercase text-gray-400 font-bold mb-4">{item.name}</p>
+                                                <div className="flex flex-col space-y-4">
+                                                    {item.items.map((subItem) => (
+                                                        <Link
+                                                            key={subItem.href}
+                                                            href={subItem.href}
+                                                            onClick={() => setIsOpen(false)}
+                                                            className="text-xl font-light hover:text-primary transition-colors"
+                                                        >
+                                                            {subItem.name}
+                                                        </Link>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                }
+                                        );
+                                    }
 
-                                return (
-                                    <motion.div
-                                        key={item.href}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.1 + i * 0.05 }}
-                                    >
-                                        <Link
-                                            href={item.href}
-                                            onClick={() => setIsOpen(false)}
-                                            className={cn(
-                                                "block text-2xl font-light tracking-wide transition-colors",
-                                                isActive ? "text-primary font-medium" : "text-gray-800 hover:text-primary"
-                                            )}
+                                    return (
+                                        <motion.div
+                                            key={item.href}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 + i * 0.05 }}
                                         >
-                                            {item.name}
-                                        </Link>
-                                    </motion.div>
-                                );
-                            })}
+                                            <Link
+                                                href={item.href}
+                                                onClick={() => setIsOpen(false)}
+                                                className={cn(
+                                                    "block text-2xl font-light tracking-wide transition-colors",
+                                                    isActive ? "text-primary font-bold" : "text-gray-800 hover:text-primary"
+                                                )}
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </motion.div>
+                                    );
+                                })}
                             {showBooking && bookingHref && (
                                 <Link href={bookingHref} className="pt-8 w-full max-w-xs mx-auto" onClick={() => setIsOpen(false)}>
                                     <Button className="w-full h-14 rounded-full text-lg shadow-lg cursor-pointer">

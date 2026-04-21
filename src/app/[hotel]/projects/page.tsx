@@ -18,7 +18,7 @@ const getProjects = (prefix: string) => [
         desc: "Our premium family-run tourist homes offering a blend of modern amenities with Kerala's traditional hospitality. Branches in Erattupetta and Poonjar.",
     },
     {
-        title: "Kannamundayil Finance",
+        title: "Kannamundayil Gold Loan",
         type: "Financial Services",
         icon: Coins,
         image: `/${prefix}-gallery/interior-room-image-2-edited.webp`,

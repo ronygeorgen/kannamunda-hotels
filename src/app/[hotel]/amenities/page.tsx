@@ -4,14 +4,14 @@ import { useHotel } from "@/lib/hotelContext";
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Utensils, ConciergeBell, Wifi, Wind, ShieldCheck, Car, Coffee, Tv } from "lucide-react";
+import { Utensils, ConciergeBell, Wifi, Wind, ShieldCheck, Car, Coffee, Tv, ArrowUpSquare } from "lucide-react";
 import {
     heroTagline, heroTitle, heroTitlePopup, lineWipe,
     staggerContainer, fadeUp, zoomIn,
     RevealGroup, Reveal, galleryContainer, galleryItem, clipReveal,
 } from "@/components/animations";
 
-const allAmenities = [
+const baseAmenities = [
     { icon: Utensils, title: "Lounge Bar", desc: "Relax and unwind with premium beverages and snacks." },
     { icon: ConciergeBell, title: "Room Service", desc: "Enjoy delicious meals delivered straight to your room." },
     { icon: Wind, title: "A/C & Non-A/C Rooms", desc: "Choose the comfort that perfectly suits your needs." },
@@ -24,6 +24,12 @@ const allAmenities = [
 
 export default function AmenitiesPage() {
     const hotel = useHotel();
+
+    // Dynamically add Lift Facility for Erattupetta
+    const allAmenities = hotel.id === "erattupetta"
+        ? [...baseAmenities, { icon: ArrowUpSquare, title: "Lift Facility", desc: "Modern elevator for effortless access to all floors." }]
+        : baseAmenities;
+
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -79,48 +85,6 @@ export default function AmenitiesPage() {
                     </RevealGroup>
                 </div>
             </section>
-
-            {/* ── Rooms Gallery ──
-            <section className="bg-gray-50 py-24 border-t border-gray-100">
-                <div className="container px-6 max-w-7xl mx-auto">
-                    <Reveal className="mb-16">
-                        <p className="text-primary uppercase tracking-[0.25em] text-sm mb-4">Visual Tour</p>
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-900">Inside the Residency</h2>
-                    </Reveal>
-
-                    <motion.div
-                        variants={galleryContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: false, margin: "-60px" }}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                    >
-                        {[
-                            { src: `/${hotel.imagePrefix}-gallery/interior-room-image-edited.webp`, alt: "Premium Rooms", cls: "aspect-[4/3]" },
-                            { src: `/${hotel.imagePrefix}-gallery/interior-room-image-2.webp`, alt: "Relaxation Spaces", cls: "aspect-[4/3]" },
-                        ].map((img, idx) => (
-                            <motion.div key={idx} variants={galleryItem} className={`relative ${img.cls} overflow-hidden group shadow-xl`}>
-                                <motion.div
-                                    className="absolute inset-0 bg-primary z-10 pointer-events-none origin-top"
-                                    initial={{ scaleY: 1 }}
-                                    whileInView={{ scaleY: 0 }}
-                                    viewport={{ once: false }}
-                                    transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                                />
-                                <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-1000 group-hover:scale-110" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                <div className="absolute bottom-6 left-6">
-                                    <div className="h-[2px] w-8 bg-primary mb-3" />
-                                    <h4 className="text-white font-serif text-2xl">{img.alt}</h4>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-            */}
-
-
         </div>
     );
 }

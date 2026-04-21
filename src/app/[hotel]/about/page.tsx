@@ -114,7 +114,7 @@ export default function AboutPage() {
                                 <p className="text-gray-600 uppercase tracking-[0.2em] text-[10px] mb-8">Managing Director</p>
                             </motion.div>
                             <motion.div variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light space-y-5 mb-10">
-                                <p>A visionary leader with a passion for excellence, Abilash K Mathew spearheads <strong className="text-gray-900 font-medium">Kannamundayil Residency</strong>, Kannamundayil Bakes and Kannamundayil Finance with strategic foresight and entrepreneurial flair.</p>
+                                <p>A visionary leader with a passion for excellence, Abilash K Mathew spearheads <strong className="text-gray-900 font-medium">Kannamundayil Residency</strong>, Kannamundayil Bakes and Kannamundayil Gold Loan with strategic foresight and entrepreneurial flair.</p>
                                 <p>With extensive experience in hospitality and management, Abilash ensures exceptional guest experiences, driving growth and innovation.</p>
                             </motion.div>
                             <motion.div variants={fadeUp} className="flex flex-wrap gap-6">
