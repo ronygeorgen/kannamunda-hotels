@@ -268,6 +268,7 @@ export default function GroupLandingPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   const [activeHero, setActiveHero] = useState(0);
+  const [showHotelOptions, setShowHotelOptions] = useState(false);
 
   /** Auto-cycle hero background among demos */
   const heroBgs = [
@@ -279,7 +280,15 @@ export default function GroupLandingPage() {
 
   useEffect(() => {
     const t = setInterval(() => setActiveHero((p) => (p + 1) % heroBgs.length), 5000);
-    return () => clearInterval(t);
+
+    // Close dropdown on click outside
+    const handleClickOutside = () => setShowHotelOptions(false);
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      clearInterval(t);
+      window.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -568,17 +577,51 @@ export default function GroupLandingPage() {
             <p className="text-white/60 text-lg font-light mb-12 max-w-xl mx-auto">
               Whether you're looking for a luxurious stay, financial services, or fresh bakes — we're here for you.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/erattupetta-hotel"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#3a0a14] px-8 py-4 text-sm tracking-widest uppercase font-bold hover:bg-gray-100 transition-colors duration-300 shadow-2xl"
-              >
-                <Building2 size={16} />
-                View Hotels
-              </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="relative w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
+                <button
+                  onClick={() => setShowHotelOptions(!showHotelOptions)}
+                  className="w-full inline-flex items-center justify-center gap-3 bg-white text-[#3a0a14] px-10 py-5 text-sm tracking-widest uppercase font-bold hover:bg-gray-100 transition-all duration-300 shadow-2xl relative z-10"
+                >
+                  <Building2 size={18} />
+                  View Hotels
+                  <ChevronDown size={18} className={`transition-transform duration-500 ease-out ${showHotelOptions ? 'rotate-180 text-primary' : 'text-[#3a0a14]/40'}`} />
+                </button>
+
+                <AnimatePresence>
+                  {showHotelOptions && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                      className="absolute bottom-[calc(100%+12px)] left-0 right-0 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-sm overflow-hidden z-20 flex flex-col min-w-[240px] border border-white/10"
+                    >
+                      <div className="p-3 bg-gray-50/50 border-b border-gray-100">
+                        <p className="text-[10px] tracking-[0.2em] font-bold text-gray-400 uppercase text-center">Select Destination</p>
+                      </div>
+                      <Link
+                        href="/erattupetta-hotel"
+                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-[#3a0a14] hover:bg-[#3a0a14] hover:text-white transition-all duration-300 flex items-center justify-between group"
+                      >
+                        Erattupetta
+                        <ArrowRight size={14} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                      </Link>
+                      <Link
+                        href="/poonjar-hotel"
+                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-[#3a0a14] hover:bg-[#3a0a14] hover:text-white transition-all duration-300 flex items-center justify-between group"
+                      >
+                        Poonjar
+                        <ArrowRight size={14} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-8 py-4 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/30 text-white px-10 py-5 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
               >
                 Contact Us
                 <ArrowRight size={16} />
