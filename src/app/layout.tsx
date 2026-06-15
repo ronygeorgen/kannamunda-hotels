@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Jost, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { GoogleReviewsSection } from "@/components/GoogleReviewsSection";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -49,6 +50,7 @@ export default function RootLayout({
         <main className="flex-grow min-h-screen bg-neutral-950">
           {children}
         </main>
+        <GoogleReviewsSection />
         <Footer />
       </body>
     </html>

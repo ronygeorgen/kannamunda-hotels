@@ -154,9 +154,11 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                                                 onChange={(e) => setFormData({ ...formData, room: e.target.value })}
                                             >
                                                 <option value="">Select Room</option>
-                                                <option value="deluxe">Deluxe Room</option>
-                                                <option value="executive">Executive Suite</option>
-                                                <option value="family">Family Suite</option>
+                                                <option value="Standard Ac room">Standard Ac room</option>
+                                                <option value="Deluxe Ac">Deluxe Ac</option>
+                                                <option value="Non ac single">Non ac single</option>
+                                                <option value="Non ac double">Non ac double</option>
+                                                <option value="Executive ac room">Executive ac room</option>
                                             </select>
                                         </div>
                                     </div>
