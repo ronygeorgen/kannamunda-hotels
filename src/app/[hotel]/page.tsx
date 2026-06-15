@@ -362,9 +362,14 @@ export default function HotelHomePage() {
                         className="text-white/80 uppercase mb-4 text-xs md:text-sm font-medium tracking-[0.3em] flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
                     >
                         <span>Welcome to</span>
-                        <span className="md:bg-primary/90 text-white md:px-3 md:py-1 md:rounded-sm md:shadow-xl font-bold font-serif md:border md:border-white/10 md:brightness-110">
-                            Kannamundayil Residency
-                        </span>
+                        <Image
+                            src="/common/residency-logo.webp"
+                            alt="Kannamundayil Residency"
+                            width={220}
+                            height={70}
+                            className="h-8 md:h-10 w-auto object-contain"
+                            priority
+                        />
                     </motion.div>
 
                     <motion.h1
@@ -401,7 +406,7 @@ export default function HotelHomePage() {
                     >
                         <div className="h-[2px] w-8 bg-primary/60" />
                         <span className="bg-white/95 text-primary text-[10px] md:text-xs tracking-[0.25em] uppercase font-bold px-3 py-1 rounded-sm shadow-md">
-                            {hotel.name} Branch
+                            {hotel.name}
                         </span>
                         <div className="h-[2px] w-8 bg-primary/60" />
                     </motion.div>

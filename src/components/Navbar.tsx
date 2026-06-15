@@ -116,17 +116,21 @@ export function Navbar() {
                         {/* Logo — always links to the group landing page */}
                         <div className="flex-shrink-0 z-50">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                                <Image
-                                    src="/common/Kannamunda-logo_2.webp"
-                                    alt="Kannamundayil Group"
-                                    width={150}
-                                    height={50}
+                                <div
                                     className={cn(
-                                        "h-12 w-auto object-contain transition-all duration-500",
+                                        "h-12 w-12 rounded-3xl overflow-hidden flex-shrink-0",
                                         isTransparent ? "drop-shadow-md" : ""
                                     )}
-                                    priority
-                                />
+                                >
+                                    <Image
+                                        src="/common/Kannamunda-logo_2.webp"
+                                        alt="Kannamundayil Group"
+                                        width={48}
+                                        height={48}
+                                        className="h-full w-full object-cover object-[57%_center] scale-[1.15] transition-all duration-500"
+                                        priority
+                                    />
+                                </div>
                             </Link>
                         </div>
 
@@ -185,7 +189,7 @@ export function Navbar() {
                                         <div key={item.name} className="relative group/dropdown">
                                             <button
                                                 className={cn(
-                                                    "flex items-center gap-1 text-sm font-medium transition-all duration-300 group cursor-pointer",
+                                                    "flex items-center gap-1 text-sm font-medium uppercase transition-all duration-300 group cursor-pointer",
                                                     isDarkStyle ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary"
                                                 )}
                                             >
@@ -200,7 +204,7 @@ export function Navbar() {
                                                         <Link
                                                             key={subItem.href}
                                                             href={subItem.href}
-                                                            className="px-6 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors whitespace-nowrap"
+                                                            className="px-6 py-3 text-sm uppercase text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors whitespace-nowrap"
                                                         >
                                                             {subItem.name}
                                                         </Link>
@@ -216,7 +220,7 @@ export function Navbar() {
                                         key={item.href}
                                         href={item.href}
                                         className={cn(
-                                            "text-sm font-medium transition-all duration-300 relative group",
+                                            "text-sm font-medium uppercase transition-all duration-300 relative group",
                                             isDarkStyle ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary",
                                             isActive && isDarkStyle && "text-white font-semibold",
                                             isActive && !isDarkStyle && "text-primary font-semibold"
@@ -362,7 +366,7 @@ export function Navbar() {
                                                             key={subItem.href}
                                                             href={subItem.href}
                                                             onClick={() => setIsOpen(false)}
-                                                            className="text-xl font-light hover:text-primary transition-colors"
+                                                            className="text-xl font-light uppercase hover:text-primary transition-colors"
                                                         >
                                                             {subItem.name}
                                                         </Link>
@@ -383,7 +387,7 @@ export function Navbar() {
                                                 href={item.href}
                                                 onClick={() => setIsOpen(false)}
                                                 className={cn(
-                                                    "block text-2xl font-light tracking-wide transition-colors",
+                                                    "block text-2xl font-light uppercase tracking-wide transition-colors",
                                                     isActive ? "text-primary font-bold" : "text-gray-800 hover:text-primary"
                                                 )}
                                             >

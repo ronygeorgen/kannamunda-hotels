@@ -173,12 +173,12 @@ function ContactContent() {
                             {
                                 icon: Phone,
                                 title: "Our Phone",
-                                content: "+91 94471 31750\n+91 94471 89362\nOffice: +91 4822 231750"
+                                content: "+91 94471 31750\n+91 94471 89362"
                             },
                             {
                                 icon: Mail,
                                 title: "Mail Address",
-                                content: "info@kannamundaresidency.com\nreservations@kannamundaresidency.com"
+                                content: "kannamundayilresidency@gmail.com"
                             }
                         ].map((card, idx) => (
                             <motion.div
@@ -314,7 +314,7 @@ function ContactContent() {
                                         <div className="space-y-10">
                                             {[
                                                 { icon: Phone, text: "+91 94471 89362" },
-                                                { icon: Mail, text: "info@kannamundaresidency.com" },
+                                                { icon: Mail, text: "kannamundayilresidency@gmail.com" },
                                                 { icon: Clock, text: "Always Open 24 / 7" },
                                             ].map((item, i) => (
                                                 <div key={i} className="flex items-start gap-4">
