@@ -30,6 +30,8 @@ const TARGET_DIRS = [
   "Poonjar/poonjar-non-ac-double-room",
   // Poonjar gallery
   "Poonjar/poonjar-gallery",
+  // Bakery
+  "BAKERY",
 ];
 
 const SOURCE_EXTS = new Set([".jpg", ".jpeg", ".png"]);

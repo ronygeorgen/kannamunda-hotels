@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
     UtensilsCrossed, Star, Heart, Leaf, Clock, Phone, MapPin,
-    CupSoda, Coffee, IceCream, Beef, Sandwich, Cookie, Flame, X, Mail
+    CupSoda, Coffee, IceCream, Beef, Sandwich, Cookie, Flame, X, Mail, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 const offerings = [
@@ -54,19 +54,34 @@ const offerings = [
 
 export default function BakeryPage() {
     const heroRef = useRef(null);
-    const [selectedImg, setSelectedImg] = useState<string | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-    const galleryItems = [
-        { title: "Indulgent Shakes", tag: "Beverages", src: "/landing-page/Bakery/Bakery-demo.webp" },
-        { title: "Fresh Fruit Juices", tag: "Healthy", src: "/landing-page/Bakery/Bakery-demo.webp" },
-        { title: "Royal Falooda", tag: "Desserts", src: "/landing-page/Bakery/Bakery-demo.webp" },
-        { title: "Gourmet Burgers", tag: "Food", src: "/landing-page/Bakery/Bakery-demo.webp" },
-        { title: "Freshly Made Sandwiches", tag: "Quick Bites", src: "/landing-page/Bakery/Bakery-demo.webp" },
-        { title: "Crispy Spicy Puffs", tag: "Snacks", src: "/landing-page/Bakery/Bakery-demo.webp" },
+    const galleryImages = [
+        "/BAKERY/ABSM-100.webp",
+        "/BAKERY/ABSM-101.webp",
+        "/BAKERY/ABSM-102.webp",
+        "/BAKERY/ABSM-103.webp",
     ];
+
+    const showPrev = () =>
+        setSelectedIndex((i) => (i === null ? i : (i - 1 + galleryImages.length) % galleryImages.length));
+    const showNext = () =>
+        setSelectedIndex((i) => (i === null ? i : (i + 1) % galleryImages.length));
+
+    useEffect(() => {
+        if (selectedIndex === null) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft") showPrev();
+            else if (e.key === "ArrowRight") showNext();
+            else if (e.key === "Escape") setSelectedIndex(null);
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedIndex]);
 
     return (
         <div className="min-h-screen bg-neutral-950 text-white overflow-x-hidden">
@@ -282,28 +297,24 @@ export default function BakeryPage() {
                         />
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {galleryItems.map((item, i) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {galleryImages.map((src, i) => (
                             <motion.div
-                                key={i}
+                                key={src}
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1, duration: 0.6 }}
-                                onClick={() => setSelectedImg(item.src)}
+                                onClick={() => setSelectedIndex(i)}
                                 className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-900 border border-white/5 cursor-zoom-in"
                             >
                                 <Image
-                                    src={item.src}
-                                    alt={item.title}
+                                    src={src}
+                                    alt={`Kannamundayil Bakes ${i + 1}`}
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                                <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                    <span className="text-orange-400 text-[10px] tracking-[0.2em] uppercase font-bold mb-2">{item.tag}</span>
-                                    <h3 className="text-xl font-serif text-white">{item.title}</h3>
-                                </div>
                             </motion.div>
                         ))}
                     </div>
@@ -348,21 +359,40 @@ export default function BakeryPage() {
 
             {/* ── LIGHTBOX ── */}
             <AnimatePresence>
-                {selectedImg && (
+                {selectedIndex !== null && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={() => setSelectedImg(null)}
+                        onClick={() => setSelectedIndex(null)}
                         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-10 cursor-zoom-out"
                     >
                         <motion.button
                             initial={{ scale: 0, rotate: -90 }}
                             animate={{ scale: 1, rotate: 0 }}
-                            className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                            aria-label="Close"
+                            className="absolute top-6 right-6 z-10 text-white/50 hover:text-white transition-colors"
                         >
                             <X size={40} />
                         </motion.button>
+
+                        <button
+                            type="button"
+                            aria-label="Previous image"
+                            onClick={(e) => { e.stopPropagation(); showPrev(); }}
+                            className="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-colors cursor-pointer"
+                        >
+                            <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
+                        </button>
+                        <button
+                            type="button"
+                            aria-label="Next image"
+                            onClick={(e) => { e.stopPropagation(); showNext(); }}
+                            className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-colors cursor-pointer"
+                        >
+                            <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
+                        </button>
+
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -371,13 +401,22 @@ export default function BakeryPage() {
                             className="relative w-full max-w-5xl aspect-[4/3] md:aspect-video"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <Image
-                                src={selectedImg}
-                                alt="Gallery Preview"
-                                fill
-                                className="object-contain"
-                            />
+                            {galleryImages.map((src, i) => (
+                                <Image
+                                    key={src}
+                                    src={src}
+                                    alt={`Kannamundayil Bakes ${i + 1}`}
+                                    fill
+                                    sizes="100vw"
+                                    priority
+                                    className={`object-contain transition-opacity duration-300 ${i === selectedIndex ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                                />
+                            ))}
                         </motion.div>
+
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-xs tracking-[0.3em] tabular-nums">
+                            {selectedIndex + 1} / {galleryImages.length}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
