@@ -30,13 +30,17 @@ function files(
     names: string[],
     altPrefix?: string
 ): GalleryImage[] {
-    return names.map((name) => ({
-        src: `${base}/${name}`,
-        alt: altPrefix ? `${altPrefix} — ${name.replace(/\.webp$/i, "")}` : `${section} — ${name.replace(/\.webp$/i, "")}`,
-        section,
-        category,
-        isBathroom: /-bathroom\.webp$/i.test(name),
-    }));
+    const label = altPrefix ?? section;
+    return names.map((name) => {
+        const isBathroom = /-bathroom\.webp$/i.test(name);
+        return {
+            src: `${base}/${name}`,
+            alt: isBathroom ? `${label} — Bathroom` : label,
+            section,
+            category,
+            isBathroom,
+        };
+    });
 }
 
 function bathroomsLast(images: GalleryImage[]): GalleryImage[] {

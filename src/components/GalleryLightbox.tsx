@@ -166,13 +166,13 @@ export function GalleryLightbox({
                     </div>
 
                     <div className="absolute bottom-4 inset-x-0 text-center z-[110] px-4">
-                        {activeImage.category && (
-                            <p className="text-primary text-[10px] uppercase tracking-widest font-bold mb-1">
-                                {activeImage.category}
-                            </p>
+                        {activeImage.isBathroom && (
+                            <span className="inline-block mb-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[10px] uppercase tracking-[0.25em] font-bold">
+                                Bathroom
+                            </span>
                         )}
                         <p className="text-white/70 font-serif text-lg md:text-xl tracking-wide drop-shadow-lg">
-                            {activeImage.alt}
+                            {activeImage.category ?? activeImage.section}
                         </p>
                     </div>
                 </motion.div>
