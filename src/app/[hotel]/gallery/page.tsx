@@ -391,6 +391,7 @@ export default function GalleryPage() {
                                     <motion.div
                                         key={`${img.src}::${img.category ?? img.section}::${idx}`}
                                         variants={galleryItem}
+                                        {...(idx >= INITIAL_VISIBLE && { initial: "hidden", animate: "visible" })}
                                         className="relative overflow-hidden group cursor-pointer"
                                         onClick={() => handleImageClick(img)}
                                     >
