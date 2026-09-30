@@ -31,6 +31,7 @@ export default function GalleryPage() {
     const router = useRouter();
     const containerRef = useRef(null);
     const filterRef = useRef<HTMLDivElement>(null);
+    const gridRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
 
@@ -58,6 +59,13 @@ export default function GalleryPage() {
     const selectSection = (id: string) => {
         setActiveSection(id);
         setFilterOpen(false);
+        requestAnimationFrame(() => {
+            const grid = gridRef.current;
+            if (!grid) return;
+            const navOffset = 88;
+            const top = grid.getBoundingClientRect().top + window.scrollY - navOffset;
+            window.scrollTo({ top, behavior: "smooth" });
+        });
     };
 
     useEffect(() => {
@@ -311,7 +319,7 @@ export default function GalleryPage() {
             </div>
 
             {/* ── Gallery Grid ── */}
-            <section className="bg-gray-50 pt-10 md:pt-14 pb-16 md:pb-20">
+            <section ref={gridRef} className="bg-gray-50 pt-10 md:pt-14 pb-16 md:pb-20">
                 <div className="container px-4 max-w-7xl mx-auto">
                     <div className="space-y-16">
                     {activeSection !== "all" && (
