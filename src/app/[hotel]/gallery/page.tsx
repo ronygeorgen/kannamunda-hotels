@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { Check, ListFilter, X } from "lucide-react";
+import { Check, ChevronDown, ListFilter, X } from "lucide-react";
 import {
     galleryContainer,
     galleryItem,
@@ -25,6 +25,8 @@ import {
     type GalleryImage,
     type RoomCategory,
 } from "@/lib/galleryData";
+
+const INITIAL_VISIBLE = 4;
 
 export default function GalleryPage() {
     const hotel = useHotel();
@@ -50,6 +52,21 @@ export default function GalleryPage() {
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
     const [filterOpen, setFilterOpen] = useState(false);
     const [bookingRoom, setBookingRoom] = useState<Exclude<RoomCategory, null> | null>(null);
+    const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+    const toggleSection = (id: string) => {
+        if (expandedSections.includes(id)) {
+            setExpandedSections((prev) => prev.filter((s) => s !== id));
+            requestAnimationFrame(() => {
+                const el = document.getElementById(`gallery-section-${id}`);
+                if (!el) return;
+                const top = el.getBoundingClientRect().top + window.scrollY - 88;
+                window.scrollTo({ top, behavior: "smooth" });
+            });
+        } else {
+            setExpandedSections((prev) => [...prev, id]);
+        }
+    };
 
     const activeLabel =
         activeSection === "all"
@@ -105,6 +122,7 @@ export default function GalleryPage() {
                     JSON.stringify({
                         section: activeSection,
                         scrollY: window.scrollY,
+                        expanded: expandedSections,
                     })
                 );
             } catch {
@@ -123,7 +141,7 @@ export default function GalleryPage() {
     useEffect(() => {
         setLightboxIndex(null);
 
-        let saved: { section?: string; scrollY?: number } | null = null;
+        let saved: { section?: string; scrollY?: number; expanded?: string[] } | null = null;
         try {
             const raw = sessionStorage.getItem(storageKey);
             if (raw) {
@@ -139,6 +157,7 @@ export default function GalleryPage() {
         } else {
             setActiveSection("all");
         }
+        setExpandedSections(Array.isArray(saved?.expanded) ? saved.expanded : []);
 
         if (typeof saved?.scrollY === "number") {
             const yPos = saved.scrollY;
@@ -340,8 +359,12 @@ export default function GalleryPage() {
                             </button>
                         </div>
                     )}
-                    {(activeSection === "all" ? sections : sections.filter((s) => s.id === activeSection)).map((section) => (
-                        <div key={section.id}>
+                    {(activeSection === "all" ? sections : sections.filter((s) => s.id === activeSection)).map((section) => {
+                        const isExpanded = expandedSections.includes(section.id);
+                        const shownImages = isExpanded ? section.images : section.images.slice(0, INITIAL_VISIBLE);
+                        const hiddenCount = section.images.length - INITIAL_VISIBLE;
+                        return (
+                        <div key={section.id} id={`gallery-section-${section.id}`}>
                             {activeSection === "all" && (
                                 <div className="mb-6 flex items-end justify-between gap-4 pr-14">
                                     <div>
@@ -362,9 +385,9 @@ export default function GalleryPage() {
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, margin: "-40px" }}
-                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[260px] gap-4"
+                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[260px] gap-4"
                             >
-                                {section.images.map((img, idx) => (
+                                {shownImages.map((img, idx) => (
                                     <motion.div
                                         key={`${img.src}::${img.category ?? img.section}::${idx}`}
                                         variants={galleryItem}
@@ -384,7 +407,7 @@ export default function GalleryPage() {
                                             alt={img.alt}
                                             fill
                                             className="object-cover transition-all duration-1000 group-hover:scale-110 group-hover:brightness-75"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                         />
 
                                         <div className="absolute inset-0 flex flex-col justify-end p-5 pointer-events-none">
@@ -411,8 +434,22 @@ export default function GalleryPage() {
                                     </motion.div>
                                 ))}
                             </motion.div>
+
+                            {hiddenCount > 0 && (
+                                <div className="mt-6 flex justify-center">
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleSection(section.id)}
+                                        className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-xs uppercase tracking-[0.2em] font-semibold text-gray-800 hover:border-primary hover:text-primary transition-colors cursor-pointer"
+                                    >
+                                        {isExpanded ? "View less" : `View more (${hiddenCount})`}
+                                        <ChevronDown className={cn("w-4 h-4 transition-transform", isExpanded && "rotate-180")} />
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    ))}
+                        );
+                    })}
                     </div>
                 </div>
             </section>
