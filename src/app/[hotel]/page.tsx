@@ -9,8 +9,7 @@ import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass
 import { Button } from "@/components/ui/button";
 import { useHotel } from "@/lib/hotelContext";
 import {
-    heroTagline, heroTitle, heroCta, lineWipe,
-    staggerChildren, wordLuxuryReveal,
+    lineWipe,
     staggerContainer, staggerContainerSlow, fadeUp, fadeLeft, fadeRight, zoomIn,
     RevealGroup, Reveal, scaleUp, clipReveal,
 } from "@/components/animations";
@@ -293,8 +292,8 @@ export default function HotelHomePage() {
             tag: "Nearby"
         },
         {
-            title: "Captured Moments",
-            desc: "A visual journey through our architecture, ambiance, and the smiles of our guests.",
+            title: "Step Inside",
+            desc: "Take a visual tour of our rooms, spaces and the details that make every stay memorable.",
             img: hotel.galleryHeroImage,
             link: `${hotel.basePath}/gallery`,
             tag: "Gallery"
@@ -309,7 +308,7 @@ export default function HotelHomePage() {
         {
             title: "Book Your Stay",
             desc: "Reserve your luxury experience directly with us for the best rates and services.",
-            img: `/${hotel.imagePrefix}-gallery/interior-room-image-3.webp`,
+            img: `/${hotel.imagePrefix}-bookings/booking-hero-image.webp`,
             link: `${hotel.basePath}/bookings`,
             tag: "Booking"
         }
@@ -333,9 +332,14 @@ export default function HotelHomePage() {
 
 
             {/* ───── HERO ───── */}
-            <section ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden">
-                <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    {/* Desktop Overlay Image */}
+            <section ref={containerRef} className="relative h-svh min-h-[600px] flex items-end overflow-hidden">
+                <motion.div
+                    style={{ y }}
+                    initial={{ scale: 1.08 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 z-0"
+                >
                     <div className="hidden md:block absolute inset-0">
                         <Image
                             src={hotel.heroImage}
@@ -346,7 +350,6 @@ export default function HotelHomePage() {
                             priority
                         />
                     </div>
-                    {/* Mobile Overlay Image */}
                     <div className="block md:hidden absolute inset-0">
                         <Image
                             src={hotel.heroImageMobile}
@@ -357,100 +360,82 @@ export default function HotelHomePage() {
                             priority
                         />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-neutral-950/90" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
+                    <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/60 via-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-3/4 md:hidden bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                 </motion.div>
 
-                <motion.div style={{ opacity: opac }} className="relative z-10 container px-6 text-center flex flex-col items-center pt-24 md:pt-32">
-                    <motion.div
-                        variants={heroTagline} initial="hidden" whileInView="visible" viewport={{ once: false }}
-                        className="text-white/80 uppercase mb-4 text-xs md:text-sm font-medium tracking-[0.3em] flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
-                    >
-                        <span>Welcome to</span>
-                        <Image
-                            src="/common/residency-logo.webp"
-                            alt="Kannamundayil Residency"
-                            width={220}
-                            height={70}
-                            className="h-8 md:h-10 w-auto object-contain"
-                            priority
-                        />
-                    </motion.div>
-
-                    <motion.h1
-                        variants={staggerChildren}
-                        initial="hidden"
-                        animate="visible"
-                        className="text-4xl md:text-7xl font-serif leading-tight max-w-5xl text-white drop-shadow-2xl mb-4"
-                        style={{ perspective: "1000px" }}
-                    >
-                        {["A", "Haven", "of"].map((word, i) => (
-                            <motion.span key={i} variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-                                {word}
-                            </motion.span>
-                        ))}
-                        <motion.span variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-                            <em className="text-primary brightness-150 not-italic drop-shadow-[0_2px_2px_rgba(255,255,255,0.2)]">
-                                Comfort
-                            </em>
-                        </motion.span>
-                        <motion.span variants={wordLuxuryReveal} className="inline-block mr-[0.25em]">
-                            &amp;
-                        </motion.span>
-                        <motion.span variants={wordLuxuryReveal} className="inline-block">
-                            Luxury
-                        </motion.span>
-                    </motion.h1>
-
-                    {/* Hotel Location Indicator */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.8 }}
-                        className="flex items-center gap-3 mb-4"
-                    >
-                        <div className="h-[2px] w-8 bg-primary/60" />
-                        <span className="bg-white/95 text-primary text-[10px] md:text-xs tracking-[0.25em] uppercase font-bold px-3 py-1 rounded-sm shadow-md">
-                            {hotel.name}
-                        </span>
-                        <div className="h-[2px] w-8 bg-primary/60" />
-                    </motion.div>
-
-                    <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[3px] w-32 bg-primary mt-6 md:mb-2 mb-6 drop-shadow-md" />
-
-                    <motion.p
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6, duration: 1 }}
-                        className="text-white drop-shadow-md text-base md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4 md:px-0"
-                    >
-                        Nestled in the heart of {hotel.location} where Kerala's warmth meets unparalleled comfort.
-                    </motion.p>
-
-                    <motion.div variants={heroCta} initial="hidden" whileInView="visible" viewport={{ once: false }} className="flex flex-col sm:flex-row gap-5">
-                        <Link href={`${hotel.basePath}/bookings`}>
-                            <Button size="lg" className="bg-primary hover:bg-white hover:text-primary rounded-none h-14 px-10 text-sm tracking-widest uppercase shadow-2xl transition-all duration-300">
-                                Book Your Stay
-                            </Button>
-                        </Link>
-                        <Link href={`${hotel.basePath}/amenities`}>
-                            <Button size="lg" variant="outline" className="rounded-none h-14 px-10 text-sm tracking-widest uppercase border-white/40 hover:bg-white hover:text-black bg-white/10 backdrop-blur-md text-white transition-all duration-300">
-                                Explore Amenities
-                            </Button>
-                        </Link>
-                    </motion.div>
-
-                    {/* Scroll indicator */}
-                    <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 1.5 }}
-                        className="flex flex-col items-center gap-2 mt-12"
-                    >
-                        <span className="text-white/40 text-xs tracking-[0.25em] uppercase">Scroll</span>
+                <motion.div style={{ opacity: opac }} className="relative z-10 w-full">
+                    <div className="container mx-auto px-6 md:px-12 pb-12 md:pb-20">
                         <motion.div
-                            animate={{ y: [0, 10, 0] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent"
-                        />
-                    </motion.div>
+                            initial="hidden"
+                            animate="visible"
+                            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } } }}
+                            className="max-w-3xl"
+                        >
+                            <motion.div
+                                variants={fadeUp}
+                                className="flex items-center gap-3 md:gap-4 text-white md:text-white/80 text-[11px] md:text-xs uppercase font-semibold md:font-normal tracking-[0.2em] md:tracking-[0.35em] mb-5 md:mb-8 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
+                            >
+                                <span className="h-px w-6 md:w-10 shrink-0 bg-white/70 md:bg-white/50" />
+                                Kannamundayil Residency · {hotel.name}
+                            </motion.div>
+
+                            <motion.h1
+                                variants={fadeUp}
+                                className="font-serif font-light text-white text-5xl sm:text-6xl md:text-8xl leading-[1.02] tracking-tight"
+                            >
+                                A quiet haven
+                                <br />
+                                <span className="italic text-white/85">in {hotel.name}.</span>
+                            </motion.h1>
+
+                            <motion.p
+                                variants={fadeUp}
+                                className="mt-6 md:mt-8 max-w-md text-white/80 text-base md:text-lg font-light leading-relaxed"
+                            >
+                                Kerala&apos;s warmth, thoughtful comfort and a calm place to rest, in the heart of {hotel.location}.
+                            </motion.p>
+
+                            <motion.div variants={fadeUp} className="mt-8 md:mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+                                <Link
+                                    href={`${hotel.basePath}/bookings`}
+                                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white text-neutral-900 text-sm font-medium tracking-wide hover:bg-primary hover:text-white transition-colors duration-300"
+                                >
+                                    Book your stay
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
+                                <Link
+                                    href={`${hotel.basePath}/amenities`}
+                                    className="group inline-flex items-center justify-center sm:justify-start gap-2 text-white/85 text-sm tracking-wide hover:text-white transition-colors"
+                                >
+                                    <span className="border-b border-white/30 group-hover:border-white pb-0.5 transition-colors">Explore amenities</span>
+                                </Link>
+                            </motion.div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.2, duration: 1 }}
+                            className="hidden md:flex absolute right-12 bottom-20 flex-col items-end gap-4 text-white/60 text-xs tracking-[0.25em] uppercase"
+                        >
+                            <span className="flex items-center gap-2">
+                                <MapPin className="w-3.5 h-3.5" />
+                                {hotel.location}
+                            </span>
+                            <span className="flex flex-col items-center gap-3">
+                                Scroll
+                                <span className="relative block h-12 w-px overflow-hidden bg-white/20">
+                                    <motion.span
+                                        animate={{ y: ["100%", "-100%"] }}
+                                        transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+                                        className="absolute inset-x-0 top-0 h-full bg-white/80"
+                                    />
+                                </span>
+                            </span>
+                        </motion.div>
+                    </div>
                 </motion.div>
             </section>
 

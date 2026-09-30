@@ -77,7 +77,7 @@ export function Navbar() {
     const isTransparent = isHeroPage && !scrolled && !isOpen;
     const isDarkStyle = isTransparent || (groupPages.includes(pathname) && !isOpen);
 
-    // Determine the active top-level section for the mobile switcher
+    // Determine the active top-level section for the branch switchers
     const activeSectionHref = pathname.startsWith("/erattupetta-hotel")
         ? "/erattupetta-hotel"
         : pathname.startsWith("/poonjar-hotel")
@@ -164,7 +164,7 @@ export function Navbar() {
                                                 href={branch.href}
                                                 className={cn(
                                                     "px-6 py-3 text-[10px] tracking-[0.15em] uppercase font-bold block transition-colors",
-                                                    pathname === branch.href
+                                                    activeSectionHref === branch.href
                                                         ? "bg-primary/10 text-primary"
                                                         : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                                                 )}
@@ -398,7 +398,7 @@ export function Navbar() {
                                 })}
                             {showBooking && bookingHref && (
                                 <Link href={bookingHref} className="pt-8 w-full max-w-xs mx-auto" onClick={() => setIsOpen(false)}>
-                                    <Button className="w-full h-14 rounded-full text-lg shadow-lg cursor-pointer">
+                                    <Button className="w-full h-14 rounded-full text-lg shadow-lg cursor-pointer bg-neutral-900 text-white hover:bg-black">
                                         Book Your Stay
                                     </Button>
                                 </Link>

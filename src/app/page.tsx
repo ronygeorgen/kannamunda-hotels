@@ -11,6 +11,7 @@ import {
   useInView,
 } from "framer-motion";
 import { ArrowRight, Building2, Landmark, UtensilsCrossed, ChevronDown, MapPin } from "lucide-react";
+import { HOTELS } from "@/lib/hotelData";
 
 // ──────────────────────────────────────────────────────────────────
 //  Data
@@ -32,14 +33,16 @@ const businesses = [
         name: "Erattupetta",
         subtitle: "Kannamundayil Residency",
         link: "/erattupetta-hotel",
-        img: "/Erattupetta/erattupetta-home/home-hero-section-landscape.webp",
+        img: HOTELS.erattupetta.heroImageMobile,
+        imgPosition: HOTELS.erattupetta.heroPositionMobile,
         location: "Erattupetta, Kottayam",
       },
       {
         name: "Poonjar",
         subtitle: "Kannamundayil Residency",
         link: "/poonjar-hotel",
-        img: "/Poonjar/poonjar-home/poonjar-kannamunda-edited.webp",
+        img: HOTELS.poonjar.heroImageMobile,
+        imgPosition: HOTELS.poonjar.heroPositionMobile,
         location: "Poonjar, Kottayam",
       },
     ],
@@ -127,6 +130,7 @@ function HotelCard({ child, i }: { child: NonNullable<(typeof businesses)[0]["ch
             alt={child.name}
             fill
             className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+            style={{ objectPosition: child.imgPosition }}
             sizes="(max-width: 768px) 100vw, 50vw"
           />
 
@@ -272,10 +276,10 @@ export default function GroupLandingPage() {
 
   /** Auto-cycle hero background among demos */
   const heroBgs = [
-    "/Erattupetta/erattupetta-home/home-hero-section-landscape.webp",
-    "/Poonjar/poonjar-home/poonjar-kannamunda-edited.webp",
-    "/landing-page/Finance/Finance-gold-demo.webp",
-    "/landing-page/Bakery/Bakery-demo.webp",
+    { src: HOTELS.erattupetta.heroImage, srcMobile: HOTELS.erattupetta.heroImageMobile, position: HOTELS.erattupetta.heroPosition, positionMobile: HOTELS.erattupetta.heroPositionMobile },
+    { src: HOTELS.poonjar.heroImage, srcMobile: HOTELS.poonjar.heroImageMobile, position: HOTELS.poonjar.heroPosition, positionMobile: HOTELS.poonjar.heroPositionMobile },
+    { src: "/landing-page/Finance/Finance-gold-demo.webp", srcMobile: "/landing-page/Finance/Finance-gold-demo.webp", position: "center", positionMobile: "center" },
+    { src: "/landing-page/Bakery/Bakery-demo.webp", srcMobile: "/landing-page/Bakery/Bakery-demo.webp", position: "center", positionMobile: "center" },
   ];
 
   useEffect(() => {
@@ -311,13 +315,28 @@ export default function GroupLandingPage() {
             className="absolute inset-0 z-0"
           >
             <motion.div style={{ y: heroY }} className="absolute inset-0">
-              <Image
-                src={heroBgs[activeHero]}
-                alt="Kannamundayil Group"
-                fill
-                className="object-cover object-center"
-                priority
-              />
+              <div className="hidden md:block absolute inset-0">
+                <Image
+                  src={heroBgs[activeHero].src}
+                  alt="Kannamundayil Group"
+                  fill
+                  className="object-cover"
+                  style={{ objectPosition: heroBgs[activeHero].position }}
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+              <div className="block md:hidden absolute inset-0">
+                <Image
+                  src={heroBgs[activeHero].srcMobile}
+                  alt="Kannamundayil Group"
+                  fill
+                  className="object-cover"
+                  style={{ objectPosition: heroBgs[activeHero].positionMobile }}
+                  sizes="100vw"
+                  priority
+                />
+              </div>
             </motion.div>
           </motion.div>
         </AnimatePresence>
