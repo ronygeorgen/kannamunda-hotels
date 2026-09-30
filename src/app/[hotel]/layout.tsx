@@ -17,5 +17,9 @@ export default async function HotelLayout({
         notFound();
     }
 
-    return <HotelProvider hotel={hotelId}>{children}</HotelProvider>;
+    return (
+        <HotelProvider hotel={hotelId}>
+            <div className="content-text">{children}</div>
+        </HotelProvider>
+    );
 }

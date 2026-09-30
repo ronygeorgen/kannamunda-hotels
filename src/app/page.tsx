@@ -32,14 +32,14 @@ const businesses = [
         name: "Erattupetta",
         subtitle: "Kannamundayil Residency",
         link: "/erattupetta-hotel",
-        img: "/erattupetta-home/home-hero-section-landscape.webp",
+        img: "/Erattupetta/erattupetta-home/home-hero-section-landscape.webp",
         location: "Erattupetta, Kottayam",
       },
       {
         name: "Poonjar",
         subtitle: "Kannamundayil Residency",
         link: "/poonjar-hotel",
-        img: "/poonjar-home/poonjar-kannamunda-edited.webp",
+        img: "/Poonjar/poonjar-home/poonjar-kannamunda-edited.webp",
         location: "Poonjar, Kottayam",
       },
     ],
@@ -272,8 +272,8 @@ export default function GroupLandingPage() {
 
   /** Auto-cycle hero background among demos */
   const heroBgs = [
-    "/erattupetta-home/home-hero-section-landscape.webp",
-    "/poonjar-home/poonjar-kannamunda-edited.webp",
+    "/Erattupetta/erattupetta-home/home-hero-section-landscape.webp",
+    "/Poonjar/poonjar-home/poonjar-kannamunda-edited.webp",
     "/landing-page/Finance/Finance-gold-demo.webp",
     "/landing-page/Bakery/Bakery-demo.webp",
   ];

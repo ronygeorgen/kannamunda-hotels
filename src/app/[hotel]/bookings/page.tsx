@@ -10,9 +10,11 @@ import {
     heroTagline, heroTitlePopup, lineWipe,
     fadeUp, Reveal, RevealGroup,
 } from "@/components/animations";
+import { getRoomOptions } from "@/lib/galleryData";
 
 export default function BookingPage() {
     const hotel = useHotel();
+    const roomOptions = getRoomOptions(hotel.id);
     const heroRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -117,7 +119,7 @@ export default function BookingPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* ── Hero ── */}
-            <section ref={heroRef} className="relative h-[60vh] flex items-end overflow-hidden">
+            <section ref={heroRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image
                         src={`/${hotel.imagePrefix}-bookings/booking-hero-image.webp`}
@@ -236,11 +238,9 @@ export default function BookingPage() {
                                             onChange={(e) => setFormData({ ...formData, room: e.target.value })}
                                         >
                                             <option value="">Select Room</option>
-                                            <option value="Standard Ac room">Standard Ac room</option>
-                                            <option value="Deluxe Ac">Deluxe Ac</option>
-                                            <option value="Non ac single">Non ac single</option>
-                                            <option value="Non ac double">Non ac double</option>
-                                            <option value="Executive ac room">Executive ac room</option>
+                                            {roomOptions.map((room) => (
+                                                <option key={room} value={room}>{room}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>

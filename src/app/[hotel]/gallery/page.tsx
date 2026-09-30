@@ -2,110 +2,158 @@
 import { useHotel } from "@/lib/hotelContext";
 
 import Image from "next/image";
-import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, Maximize, ZoomIn, ZoomOut, Minimize } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useRef, useState, useEffect, useMemo } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { Check, ListFilter, X } from "lucide-react";
 import {
     galleryContainer,
     galleryItem,
     heroTagline,
-    heroTitle,
     heroTitlePopup,
-    clipReveal,
     lineWipe,
 } from "@/components/animations";
 import { PageCTA } from "@/components/PageCTA";
+import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { QuickBookingModal } from "@/components/QuickBookingModal";
-import { ShoppingBag } from "lucide-react";
-
-const getGalleryImages = (prefix: string) => [
-    { src: `/${prefix}-gallery/interior-room-image-edited.webp`, alt: "Luxurious Room Interior", span: "lg:col-span-2", category: "deluxe" },
-    { src: `/${prefix}-gallery/interior-room-image-7.webp`, alt: "Grand Reception & Lobby", span: "row-span-2", category: null },
-    { src: `/${prefix}-gallery/interior-room-image-6.webp`, alt: "Premium Executive Suite", span: "", category: "executive" },
-    { src: `/${prefix}-gallery/interior-room-image-2-edited.webp`, alt: "Relaxation & Lounge Area", span: "", category: "executive" },
-    { src: `/${prefix}-gallery/poonjar-kannamunda-edited.webp`, alt: "Building - Poonjar", span: "row-span-2", category: null },
-    { src: `/${prefix}-destination/kannamunda-main-building.webp`, alt: "Main Building – Erattupetta", span: "", category: null },
-    { src: `/${prefix}-gallery/interior-room-image-4.webp`, alt: "Modern Suite Comfort", span: "", category: "deluxe" },
-    { src: `/${prefix}-gallery/interior-room-image-8.webp`, alt: "Exclusive Guest Lounge", span: "", category: "family" },
-    { src: `/${prefix}-gallery/interior-room-image-5.webp`, alt: "Elegant Bedding & Decor", span: "", category: "executive" },
-    { src: `/${prefix}-gallery/interior-room-image-3.webp`, alt: "Sophisticated Guest Suites", span: "lg:col-start-2", category: "family" },
-];
+import { cn } from "@/lib/utils";
+import {
+    getGallerySections,
+    flattenGalleryImages,
+    categoryToSlug,
+    galleryReturnKey,
+    type GalleryImage,
+    type RoomCategory,
+} from "@/lib/galleryData";
 
 export default function GalleryPage() {
     const hotel = useHotel();
+    const router = useRouter();
     const containerRef = useRef(null);
+    const filterRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
 
+    const sections = useMemo(() => getGallerySections(hotel.id), [hotel.id]);
+    const allImages = useMemo(() => flattenGalleryImages(sections), [sections]);
+    const spaceSections = useMemo(
+        () => sections.filter((s) => !s.images.some((i) => i.category)),
+        [sections]
+    );
+    const roomSections = useMemo(
+        () => sections.filter((s) => s.images.some((i) => i.category)),
+        [sections]
+    );
+
+    const [activeSection, setActiveSection] = useState<string>("all");
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-    const [zoom, setZoom] = useState(1);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const galleryImages = getGalleryImages(hotel.imagePrefix);
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [bookingRoom, setBookingRoom] = useState<Exclude<RoomCategory, null> | null>(null);
 
-    const nextImage = useCallback((e?: React.MouseEvent) => {
-        e?.stopPropagation();
-        if (lightboxIndex !== null) {
-            setLightboxIndex((lightboxIndex + 1) % galleryImages.length);
-            setZoom(1);
-        }
-    }, [lightboxIndex]);
+    const activeLabel =
+        activeSection === "all"
+            ? "All"
+            : sections.find((s) => s.id === activeSection)?.label ?? "Gallery";
 
-    const prevImage = useCallback((e?: React.MouseEvent) => {
-        e?.stopPropagation();
-        if (lightboxIndex !== null) {
-            setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length);
-            setZoom(1);
-        }
-    }, [lightboxIndex]);
+    const selectSection = (id: string) => {
+        setActiveSection(id);
+        setFilterOpen(false);
+    };
 
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (lightboxIndex === null) return;
-            if (e.key === "ArrowRight") nextImage();
-            if (e.key === "ArrowLeft") prevImage();
-            if (e.key === "Escape") closeLightbox();
+        if (!filterOpen) return;
+        const onPointerDown = (e: MouseEvent) => {
+            if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+                setFilterOpen(false);
+            }
         };
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [lightboxIndex, nextImage, prevImage]);
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setFilterOpen(false);
+        };
+        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("keydown", onKey);
+        return () => {
+            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("keydown", onKey);
+        };
+    }, [filterOpen]);
 
-    const closeLightbox = () => {
+    useEffect(() => {
+        setFilterOpen(false);
+    }, [hotel.id]);
+
+    const visibleImages: GalleryImage[] = useMemo(() => {
+        if (activeSection === "all") return allImages;
+        return sections.find((s) => s.id === activeSection)?.images ?? [];
+    }, [activeSection, allImages, sections]);
+
+    const storageKey = galleryReturnKey(hotel.id);
+
+    const handleImageClick = (img: GalleryImage) => {
+        if (img.category) {
+            try {
+                sessionStorage.setItem(
+                    storageKey,
+                    JSON.stringify({
+                        section: activeSection,
+                        scrollY: window.scrollY,
+                    })
+                );
+            } catch {
+                /* ignore */
+            }
+            router.push(
+                `${hotel.basePath}/gallery/${categoryToSlug(img.category)}?photo=${encodeURIComponent(img.src)}`
+            );
+            return;
+        }
+        const idx = visibleImages.findIndex((i) => i.src === img.src);
+        setLightboxIndex(idx >= 0 ? idx : 0);
+    };
+
+    // Restore filter + scroll when returning from a room category page
+    useEffect(() => {
         setLightboxIndex(null);
-        setZoom(1);
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        }
-        setIsFullscreen(false);
-    };
 
-    const toggleFullscreen = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-            setIsFullscreen(true);
+        let saved: { section?: string; scrollY?: number } | null = null;
+        try {
+            const raw = sessionStorage.getItem(storageKey);
+            if (raw) {
+                saved = JSON.parse(raw);
+                sessionStorage.removeItem(storageKey);
+            }
+        } catch {
+            /* ignore */
+        }
+
+        if (saved?.section) {
+            setActiveSection(saved.section);
         } else {
-            document.exitFullscreen();
-            setIsFullscreen(false);
+            setActiveSection("all");
         }
-    };
 
-    const handleZoomIn = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setZoom(prev => Math.min(prev + 0.5, 3));
-    };
-
-    const handleZoomOut = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setZoom(prev => Math.max(prev - 0.5, 1));
-    };
+        if (typeof saved?.scrollY === "number") {
+            const yPos = saved.scrollY;
+            const restore = () => window.scrollTo({ top: yPos, behavior: "auto" });
+            requestAnimationFrame(() => requestAnimationFrame(restore));
+            setTimeout(restore, 50);
+        }
+    }, [hotel.id, storageKey]);
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900">
             {/* ── Parallax Hero ── */}
-            <section ref={containerRef} className="relative h-[70vh] flex items-end overflow-hidden">
+            <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 w-full h-full z-0">
-                    <Image src={`/${hotel.imagePrefix}-gallery/interior-room-image-edited.webp`} alt="Gallery hero" fill className="object-cover" style={{ objectPosition: "center 80%" }} priority />
+                    <Image
+                        src={hotel.galleryHeroImage}
+                        alt={`${hotel.fullName} gallery`}
+                        fill
+                        className="object-cover"
+                        style={{ objectPosition: hotel.galleryHeroPosition }}
+                        sizes="100vw"
+                        priority
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 
@@ -132,166 +180,250 @@ export default function GalleryPage() {
                 </div>
             </section>
 
-            {/* ── Gallery Grid ── */}
-            <section className="py-20 bg-gray-50">
-                <div className="container px-4 max-w-7xl mx-auto">
-                    <motion.div
-                        variants={galleryContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-60px" }}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[280px] gap-4"
+            {/* ── Floating filter (far right, sticky) ── */}
+            <div className="sticky top-24 z-40 h-0 w-full pointer-events-none">
+                <div ref={filterRef} className="absolute right-3 md:right-5 top-3 md:top-4 pointer-events-auto">
+                    <button
+                        type="button"
+                        onClick={() => setFilterOpen((o) => !o)}
+                        aria-expanded={filterOpen}
+                        aria-haspopup="listbox"
+                        aria-label="Filter gallery"
+                        className={cn(
+                            "relative flex items-center justify-center w-11 h-11 rounded-full border shadow-lg transition-all duration-300 cursor-pointer",
+                            filterOpen || activeSection !== "all"
+                                ? "bg-primary text-white border-primary"
+                                : "bg-white text-neutral-800 border-neutral-200 hover:border-primary hover:text-primary"
+                        )}
                     >
-                        {galleryImages.map((img, idx) => (
+                        {filterOpen ? <X size={18} strokeWidth={1.75} /> : <ListFilter size={18} strokeWidth={1.75} />}
+                        {activeSection !== "all" && !filterOpen && (
+                            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-white ring-2 ring-primary" />
+                        )}
+                    </button>
+
+                    <AnimatePresence>
+                        {filterOpen && (
                             <motion.div
-                                key={idx}
-                                variants={galleryItem}
-                                className={`relative overflow-hidden group cursor-pointer ${img.span}`}
-                                onClick={() => setLightboxIndex(idx)}
+                                initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                                className="absolute right-0 top-full mt-3 w-[min(18.5rem,calc(100vw-1.5rem))] max-h-[min(70vh,28rem)] overflow-y-auto rounded-sm border border-neutral-200 bg-white shadow-2xl shadow-black/15"
+                                role="listbox"
+                                aria-label="Gallery categories"
                             >
-                                {/* Clip-reveal overlay */}
-                                <motion.div
-                                    className="absolute inset-0 bg-primary z-10 pointer-events-none origin-top"
-                                    initial={{ scaleY: 1 }}
-                                    whileInView={{ scaleY: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.8, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                                />
-
-                                <Image
-                                    src={img.src}
-                                    alt={img.alt}
-                                    fill
-                                    className="object-cover transition-all duration-1000 group-hover:scale-110 group-hover:brightness-75"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-
-                                {/* Caption slide-up on hover */}
-                                <div className="absolute inset-0 flex flex-col justify-end p-6 pointer-events-none">
-                                    <div className="overflow-hidden">
-                                        <motion.div
-                                            className="translate-y-full group-hover:translate-y-0 transition-transform duration-500"
-                                        >
-                                            <div className="h-[2px] w-10 bg-primary mb-3" />
-                                            <h3 className="text-white font-serif text-xl tracking-wide">{img.alt}</h3>
-                                        </motion.div>
-                                    </div>
+                                <div className="sticky top-0 z-10 bg-white border-b border-neutral-100 px-4 py-3">
+                                    <p className="text-[10px] uppercase tracking-[0.28em] font-bold text-neutral-400">
+                                        Filter
+                                    </p>
+                                    <p className="font-serif text-base text-neutral-900 mt-0.5">
+                                        {activeLabel}
+                                    </p>
                                 </div>
 
-                                {/* Corner accent */}
-                                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="p-2">
+                                    <button
+                                        type="button"
+                                        role="option"
+                                        aria-selected={activeSection === "all"}
+                                        onClick={() => selectSection("all")}
+                                        className={cn(
+                                            "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
+                                            activeSection === "all"
+                                                ? "bg-primary/5 text-primary"
+                                                : "text-neutral-700 hover:bg-neutral-50"
+                                        )}
+                                    >
+                                        <span className="font-medium">All</span>
+                                        <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                            {allImages.length}
+                                            {activeSection === "all" && <Check size={14} className="text-primary" />}
+                                        </span>
+                                    </button>
+
+                                    {spaceSections.length > 0 && (
+                                        <div className="mt-2 pt-2 border-t border-neutral-100">
+                                            <p className="px-3 py-1.5 text-[9px] uppercase tracking-[0.28em] font-bold text-neutral-300">
+                                                Spaces
+                                            </p>
+                                            {spaceSections.map((section) => (
+                                                <button
+                                                    key={section.id}
+                                                    type="button"
+                                                    role="option"
+                                                    aria-selected={activeSection === section.id}
+                                                    onClick={() => selectSection(section.id)}
+                                                    className={cn(
+                                                        "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
+                                                        activeSection === section.id
+                                                            ? "bg-primary/5 text-primary"
+                                                            : "text-neutral-700 hover:bg-neutral-50"
+                                                    )}
+                                                >
+                                                    <span className="font-medium">{section.label}</span>
+                                                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                                        {section.images.length}
+                                                        {activeSection === section.id && (
+                                                            <Check size={14} className="text-primary" />
+                                                        )}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {roomSections.length > 0 && (
+                                        <div className="mt-2 pt-2 border-t border-neutral-100">
+                                            <p className="px-3 py-1.5 text-[9px] uppercase tracking-[0.28em] font-bold text-neutral-300">
+                                                Rooms
+                                            </p>
+                                            {roomSections.map((section) => (
+                                                <button
+                                                    key={section.id}
+                                                    type="button"
+                                                    role="option"
+                                                    aria-selected={activeSection === section.id}
+                                                    onClick={() => selectSection(section.id)}
+                                                    className={cn(
+                                                        "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
+                                                        activeSection === section.id
+                                                            ? "bg-primary/5 text-primary"
+                                                            : "text-neutral-700 hover:bg-neutral-50"
+                                                    )}
+                                                >
+                                                    <span className="font-medium">{section.label}</span>
+                                                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                                        {section.images.length}
+                                                        {activeSection === section.id && (
+                                                            <Check size={14} className="text-primary" />
+                                                        )}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </motion.div>
-                        ))}
-                    </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            {/* ── Gallery Grid ── */}
+            <section className="bg-gray-50 pt-10 md:pt-14 pb-16 md:pb-20">
+                <div className="container px-4 max-w-7xl mx-auto">
+                    <div className="space-y-16">
+                    {activeSection !== "all" && (
+                        <div className="flex items-end justify-between gap-4 pr-14">
+                            <div>
+                                <p className="text-primary uppercase tracking-[0.25em] text-[10px] font-bold mb-1">
+                                    Filtered
+                                </p>
+                                <h2 className="text-2xl md:text-3xl font-serif text-gray-900">{activeLabel}</h2>
+                                <div className="h-[2px] w-12 bg-primary mt-3" />
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => selectSection("all")}
+                                className="text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-400 hover:text-primary transition-colors cursor-pointer pb-1"
+                            >
+                                Clear
+                            </button>
+                        </div>
+                    )}
+                    {(activeSection === "all" ? sections : sections.filter((s) => s.id === activeSection)).map((section) => (
+                        <div key={section.id}>
+                            {activeSection === "all" && (
+                                <div className="mb-6 flex items-end justify-between gap-4 pr-14">
+                                    <div>
+                                        <p className="text-primary uppercase tracking-[0.25em] text-[10px] font-bold mb-1">
+                                            {section.images.some((i) => i.category) ? "Room Category" : "Space"}
+                                        </p>
+                                        <h2 className="text-2xl md:text-3xl font-serif text-gray-900">{section.label}</h2>
+                                        <div className="h-[2px] w-12 bg-primary mt-3" />
+                                    </div>
+                                    <span className="text-xs text-gray-400 tracking-widest uppercase">
+                                        {section.images.length} photos
+                                    </span>
+                                </div>
+                            )}
+
+                            <motion.div
+                                variants={galleryContainer}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-40px" }}
+                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[260px] gap-4"
+                            >
+                                {section.images.map((img, idx) => (
+                                    <motion.div
+                                        key={`${img.src}::${img.category ?? img.section}::${idx}`}
+                                        variants={galleryItem}
+                                        className="relative overflow-hidden group cursor-pointer"
+                                        onClick={() => handleImageClick(img)}
+                                    >
+                                        <motion.div
+                                            className="absolute inset-0 bg-primary z-10 pointer-events-none origin-top"
+                                            initial={{ scaleY: 1 }}
+                                            whileInView={{ scaleY: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.7, delay: idx * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                                        />
+
+                                        <Image
+                                            src={img.src}
+                                            alt={img.alt}
+                                            fill
+                                            className="object-cover transition-all duration-1000 group-hover:scale-110 group-hover:brightness-75"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+
+                                        <div className="absolute inset-0 flex flex-col justify-end p-5 pointer-events-none">
+                                            <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                                <div className="h-[2px] w-8 bg-primary mb-2" />
+                                                {img.category && (
+                                                    <p className="text-primary-foreground/90 text-[9px] uppercase tracking-widest font-bold mb-1 bg-primary inline-block px-2 py-0.5 rounded-sm">
+                                                        {img.category}
+                                                    </p>
+                                                )}
+                                                <h3 className="text-white font-serif text-lg tracking-wide drop-shadow">
+                                                    {img.section}
+                                                </h3>
+                                                {img.category && (
+                                                    <p className="text-white/70 text-[10px] tracking-widest uppercase mt-1">
+                                                        View features →
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="absolute top-3 right-3 w-7 h-7 border-t-2 border-r-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <div className="absolute bottom-3 left-3 w-7 h-7 border-b-2 border-l-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </div>
+                    ))}
+                    </div>
                 </div>
             </section>
 
-            {/* ── Lightbox ── */}
-            <AnimatePresence>
-                {lightboxIndex !== null && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl"
-                        onClick={closeLightbox}
-                    >
-                        {/* Toolbar */}
-                        <div className="absolute top-0 inset-x-0 h-16 flex items-center justify-between px-6 z-[120] bg-black/40 backdrop-blur-sm">
-                            <div className="text-white/70 font-medium text-[10px] tracking-widest uppercase">
-                                {lightboxIndex + 1} <span className="mx-1">/</span> {galleryImages.length}
-                            </div>
+            <GalleryLightbox
+                images={visibleImages}
+                index={lightboxIndex}
+                onClose={() => setLightboxIndex(null)}
+                onIndexChange={setLightboxIndex}
+                onBook={setBookingRoom}
+            />
 
-                            <div className="flex items-center gap-2 md:gap-4">
-                                {galleryImages[lightboxIndex].category && (
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setIsBookingOpen(true);
-                                        }}
-                                        className="flex items-center gap-2 bg-primary hover:bg-white hover:text-primary text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap"
-                                    >
-                                        <ShoppingBag size={14} />
-                                        <span>Book<span className="hidden md:inline"> This Room</span></span>
-                                    </button>
-                                )}
-                                <button onClick={handleZoomOut} className="p-2 text-white/70 hover:text-white transition-colors" title="Zoom Out">
-                                    <ZoomOut size={20} />
-                                </button>
-                                <button onClick={handleZoomIn} className="p-2 text-white/70 hover:text-white transition-colors" title="Zoom In">
-                                    <ZoomIn size={20} />
-                                </button>
-                                <button onClick={toggleFullscreen} className="p-2 text-white/70 hover:text-white transition-colors" title="Toggle Fullscreen">
-                                    {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
-                                </button>
-                                <button onClick={closeLightbox} className="p-2 text-white/70 hover:text-white transition-colors ml-2" title="Close">
-                                    <X size={24} />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Navigation Arrows */}
-                        <button
-                            className="absolute left-6 top-1/2 -translate-y-1/2 z-[110] p-4 text-white/40 hover:text-white hover:bg-white/10 rounded-full transition-all"
-                            onClick={prevImage}
-                        >
-                            <ChevronLeft size={48} strokeWidth={1} />
-                        </button>
-                        <button
-                            className="absolute right-6 top-1/2 -translate-y-1/2 z-[110] p-4 text-white/40 hover:text-white hover:bg-white/10 rounded-full transition-all"
-                            onClick={nextImage}
-                        >
-                            <ChevronRight size={48} strokeWidth={1} />
-                        </button>
-
-                        {/* Click Zones for Navigation */}
-                        <div className="absolute inset-x-0 inset-y-16 flex z-[105]">
-                            <div className="w-1/2 h-full cursor-w-resize" onClick={prevImage} />
-                            <div className="w-1/2 h-full cursor-e-resize" onClick={nextImage} />
-                        </div>
-
-                        {/* Main Image Container */}
-                        <div className="relative w-full h-[calc(100vh-128px)] flex items-center justify-center p-4">
-                            <motion.div
-                                key={lightboxIndex}
-                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                                animate={{ opacity: 1, scale: zoom, y: 0 }}
-                                exit={{ opacity: 0, scale: 1.05, y: -10 }}
-                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                className="relative w-full h-full flex items-center justify-center"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <div className="relative w-full h-full max-w-6xl max-h-5xl">
-                                    <Image
-                                        src={galleryImages[lightboxIndex].src}
-                                        alt={galleryImages[lightboxIndex].alt}
-                                        fill
-                                        className="object-contain"
-                                        quality={100}
-                                    />
-                                </div>
-                            </motion.div>
-                        </div>
-
-                        {/* Caption */}
-                        <div className="absolute bottom-4 inset-x-0 text-center z-[110]">
-                            <p className="text-white/70 font-serif text-lg md:text-xl tracking-wide drop-shadow-lg">
-                                {galleryImages[lightboxIndex].alt}
-                            </p>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Quick Booking Modal */}
             <QuickBookingModal
-                key={`${isBookingOpen}-${lightboxIndex}`}
-                isOpen={isBookingOpen}
-                onClose={() => setIsBookingOpen(false)}
+                key={bookingRoom ?? "closed"}
+                isOpen={bookingRoom !== null}
+                onClose={() => setBookingRoom(null)}
                 hotelName={hotel.name}
-                initialRoom={lightboxIndex !== null ? galleryImages[lightboxIndex].category || "" : ""}
+                hotelId={hotel.id}
+                initialRoom={bookingRoom ?? ""}
             />
 
             <PageCTA />

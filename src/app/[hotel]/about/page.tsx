@@ -26,9 +26,14 @@ export default function AboutPage() {
     return (
         <div className="min-h-screen bg-neutral-950 text-white">
             {/* ── Hero ── */}
-            <section ref={containerRef} className="relative h-[65vh] flex items-end overflow-hidden">
+            <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src={`/${hotel.imagePrefix}-about/about-us-hero-section.webp`} alt="About Us" fill className="object-cover object-bottom" priority />
+                    <div className="hidden md:block absolute inset-0">
+                        <Image src={hotel.aboutHeroImage} alt={`${hotel.fullName} facade`} fill className="object-cover" style={{ objectPosition: hotel.aboutHeroPosition }} sizes="100vw" priority />
+                    </div>
+                    <div className="block md:hidden absolute inset-0">
+                        <Image src={hotel.aboutHeroImageMobile} alt={`${hotel.fullName} facade`} fill className="object-cover" style={{ objectPosition: hotel.aboutHeroPositionMobile }} sizes="100vw" priority />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 
@@ -87,7 +92,7 @@ export default function AboutPage() {
                                 viewport={{ once: true, margin: "-100px" }}
                                 className="relative z-10 w-full h-full"
                             >
-                                <Image src={`/${hotel.imagePrefix}-about/about-us-right-image.webp`} alt="History" fill className="object-cover object-right shadow-2xl" />
+                                <Image src={hotel.aboutImageRight} alt={`${hotel.fullName} facade`} fill className="object-cover shadow-2xl" style={{ objectPosition: hotel.aboutImageRightPosition }} sizes="(min-width: 1024px) 50vw, 100vw" />
                             </motion.div>
                         </Reveal>
                     </div>

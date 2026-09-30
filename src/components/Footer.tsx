@@ -19,7 +19,7 @@ export function Footer() {
     const isBakery = pathname.startsWith("/bakery");
     const isMainOrContact = !isHotel && !isFinance && !isBakery; // covers "/" and "/contact"
     return (
-        <footer className="bg-[#3a0a14] text-white relative z-10">
+        <footer className="content-text bg-[#3a0a14] text-white relative z-10">
             {/* Top decorative border */}
             <div className="h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 

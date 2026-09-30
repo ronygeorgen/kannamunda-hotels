@@ -109,7 +109,7 @@ function ContactContent() {
     return (
         <div className="min-h-screen bg-neutral-950 text-white">
             {/* ── Hero ── */}
-            <section ref={heroRef} className="relative h-[65vh] flex items-end overflow-hidden">
+            <section ref={heroRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image src={`/${hotel.imagePrefix}-contact/contact-us.webp`} alt="Contact Us" fill className="object-cover" style={{ objectPosition: "center 25%" }} priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />

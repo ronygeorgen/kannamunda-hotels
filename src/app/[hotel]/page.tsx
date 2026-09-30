@@ -274,7 +274,7 @@ export default function HotelHomePage() {
         {
             title: "About Our Heritage",
             desc: "Discover the legacy of hospitality and the values that define our residency.",
-            img: `/${hotel.imagePrefix}-home/home-image-2.webp`,
+            img: hotel.aboutImageRight,
             link: `${hotel.basePath}/about`,
             tag: "History"
         },
@@ -295,7 +295,7 @@ export default function HotelHomePage() {
         {
             title: "Captured Moments",
             desc: "A visual journey through our architecture, ambiance, and the smiles of our guests.",
-            img: `/${hotel.imagePrefix}-gallery/interior-room-image-edited.webp`,
+            img: hotel.galleryHeroImage,
             link: `${hotel.basePath}/gallery`,
             tag: "Gallery"
         },
@@ -340,7 +340,9 @@ export default function HotelHomePage() {
                         <Image
                             src={hotel.heroImage}
                             alt={`${hotel.fullName} - Desktop View`}
-                            fill className="object-cover object-right-bottom"
+                            fill className="object-cover"
+                            style={{ objectPosition: hotel.heroPosition }}
+                            sizes="100vw"
                             priority
                         />
                     </div>
@@ -349,7 +351,9 @@ export default function HotelHomePage() {
                         <Image
                             src={hotel.heroImageMobile}
                             alt={`${hotel.fullName} - Mobile View`}
-                            fill className="object-cover object-right-bottom"
+                            fill className="object-cover"
+                            style={{ objectPosition: hotel.heroPositionMobile }}
+                            sizes="100vw"
                             priority
                         />
                     </div>
@@ -465,7 +469,7 @@ export default function HotelHomePage() {
                                 viewport={{ once: true, margin: "-50px" }}
                                 className="relative z-10 w-full h-full"
                             >
-                                <Image src={hotel.aboutImage} alt="Luxurious Room Interior" fill className="object-cover shadow-2xl" sizes="50vw" />
+                                <Image src={hotel.aboutImage} alt={`${hotel.fullName} facade`} fill className="object-cover shadow-2xl" sizes="50vw" />
                             </motion.div>
                         </div>
 

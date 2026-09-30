@@ -3,15 +3,18 @@ import { useState, useEffect } from "react";
 import { X, Calendar, User, Users, Phone, Mail, FileText, CheckCircle2, XCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
+import { getRoomOptions } from "@/lib/galleryData";
 
 interface QuickBookingModalProps {
     isOpen: boolean;
     onClose: () => void;
     initialRoom?: string;
     hotelName: string;
+    hotelId?: "erattupetta" | "poonjar";
 }
 
-export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName }: QuickBookingModalProps) {
+export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName, hotelId = "erattupetta" }: QuickBookingModalProps) {
+    const roomOptions = getRoomOptions(hotelId);
     const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
     const [formData, setFormData] = useState({
         checkIn: "",
@@ -154,11 +157,9 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                                                 onChange={(e) => setFormData({ ...formData, room: e.target.value })}
                                             >
                                                 <option value="">Select Room</option>
-                                                <option value="Standard Ac room">Standard Ac room</option>
-                                                <option value="Deluxe Ac">Deluxe Ac</option>
-                                                <option value="Non ac single">Non ac single</option>
-                                                <option value="Non ac double">Non ac double</option>
-                                                <option value="Executive ac room">Executive ac room</option>
+                                                {roomOptions.map((room) => (
+                                                    <option key={room} value={room}>{room}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>

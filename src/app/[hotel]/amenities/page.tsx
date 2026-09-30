@@ -37,9 +37,9 @@ export default function AmenitiesPage() {
     return (
         <div className="min-h-screen bg-neutral-950 text-white">
             {/* ── Parallax Hero ── */}
-            <section ref={containerRef} className="relative h-[65vh] flex items-end overflow-hidden">
+            <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
-                    <Image src={`/${hotel.imagePrefix}-amenities/amenities-3.webp`} alt="Amenities" fill className="object-cover" style={{ objectPosition: "center 75%" }} priority />
+                    <Image src={hotel.amenitiesHeroImage} alt={`${hotel.fullName} amenities`} fill className="object-cover" style={{ objectPosition: hotel.amenitiesHeroPosition }} sizes="100vw" priority />
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
                 </motion.div>
 

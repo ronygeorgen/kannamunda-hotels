@@ -195,6 +195,32 @@
   }
 }
 
+/* ── Larger, darker body copy (headings keep default sizes) ── */
+.content-text {
+  font-size: 1.1875rem;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.375rem;
+  --color-gray-400: oklch(55.1% 0.027 264.364);
+  --color-gray-500: oklch(37.3% 0.034 259.733);
+  --color-gray-600: oklch(27.8% 0.033 256.848);
+  --color-gray-700: oklch(21% 0.034 264.665);
+  --color-neutral-400: oklch(55.6% 0 0);
+  --color-neutral-500: oklch(37.1% 0 0);
+  --color-neutral-600: oklch(26.9% 0 0);
+  --color-neutral-700: oklch(20.5% 0 0);
+}
+
+.content-text :is(h1, h2, h3, h4, h5, h6) {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+}
+
 /* ── Custom Utilities ── */
 .ease-shutter {
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);

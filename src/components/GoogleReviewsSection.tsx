@@ -35,7 +35,7 @@ export function GoogleReviewsSection() {
     }
 
     return (
-        <section className="bg-gray-50 py-20 md:py-28 border-t border-gray-100">
+        <section className="content-text bg-gray-50 py-20 md:py-28 border-t border-gray-100">
             <div className="container px-6 max-w-7xl mx-auto">
                 <RevealGroup className="text-center mb-14 md:mb-16">
                     <motion.p
