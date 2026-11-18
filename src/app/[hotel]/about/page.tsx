@@ -24,7 +24,7 @@ export default function AboutPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-cream text-ink">
             {/* ── Hero ── */}
             <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
@@ -34,7 +34,7 @@ export default function AboutPage() {
                     <div className="block md:hidden absolute inset-0">
                         <Image src={hotel.aboutHeroImageMobile} alt={`${hotel.fullName} facade`} fill className="object-cover" style={{ objectPosition: hotel.aboutHeroPositionMobile }} sizes="100vw" priority />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
 
                 <div className="container relative z-10 px-6 pb-16">
@@ -54,7 +54,7 @@ export default function AboutPage() {
             </section>
 
             {/* ── Vision + History ── */}
-            <section ref={historySectionRef} className="bg-white text-gray-900 py-20 md:py-32 overflow-hidden">
+            <section ref={historySectionRef} className="bg-white text-ink py-20 md:py-32 overflow-hidden">
                 <div className="container px-6 max-w-7xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         <RevealGroup>
@@ -62,7 +62,7 @@ export default function AboutPage() {
                             <motion.div variants={fadeUp} className="mb-16">
                                 <div className="flex items-center gap-4 mb-5">
                                     <div className="w-1 h-12 bg-primary shrink-0" />
-                                    <h2 className="text-3xl md:text-4xl font-serif text-gray-900">Our Vision</h2>
+                                    <h2 className="text-3xl md:text-4xl font-serif text-ink">Our Vision</h2>
                                 </div>
                                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light pl-4 md:pl-6 border-l border-primary/20 italic">
                                     "To create a haven where guests feel at home, experience the rich culture of Kerala, and cherish unforgettable memories."
@@ -73,7 +73,7 @@ export default function AboutPage() {
                             <motion.div variants={fadeUp}>
                                 <div className="flex items-center gap-4 mb-5">
                                     <div className="w-1 h-12 bg-primary shrink-0" />
-                                    <h2 className="text-3xl md:text-4xl font-serif text-gray-900">Our History</h2>
+                                    <h2 className="text-3xl md:text-4xl font-serif text-ink">Our History</h2>
                                 </div>
                                 <div className="text-gray-600 text-base md:text-lg leading-relaxed font-light space-y-5 pl-4 md:pl-6 border-l border-primary/20">
                                     <p>Kannamundayil Group of Companies, starting as a financier, has grown into a thriving conglomerate with multiple tourist homes and gold loan firms across Kottayam.</p>
@@ -100,11 +100,11 @@ export default function AboutPage() {
             </section>
 
             {/* ── Managing Director ── */}
-            <section className="bg-gray-50 py-20 md:py-32 border-t border-gray-100 overflow-hidden">
+            <section className="bg-cream-dark py-20 md:py-32 border-t border-cream-deep overflow-hidden">
                 <div className="container px-6 max-w-5xl mx-auto">
                     <Reveal variants={fadeUp} className="mb-12 md:mb-16 text-center">
                         <p className="text-gray-600 uppercase tracking-[0.25em] text-xs mb-3">Leadership</p>
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-900">The Visionary Behind It All</h2>
+                        <h2 className="text-3xl md:text-4xl font-serif text-ink">The Visionary Behind It All</h2>
                         <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-16 bg-primary mx-auto mt-6" />
                     </Reveal>
 
@@ -115,11 +115,11 @@ export default function AboutPage() {
 
                         <div>
                             <motion.div variants={fadeUp}>
-                                <h3 className="text-4xl font-serif text-gray-900 mb-2">Abilash K Mathew</h3>
-                                <p className="text-gray-600 uppercase tracking-[0.2em] text-[10px] mb-8">Managing Director</p>
+                                <h3 className="text-4xl font-serif text-ink mb-2">Abilash K Mathew</h3>
+                                <p className="text-gray-600 uppercase tracking-[0.2em] text-[12px] mb-8">Managing Director</p>
                             </motion.div>
                             <motion.div variants={fadeUp} className="text-gray-600 text-lg leading-relaxed font-light space-y-5 mb-10">
-                                <p>A visionary leader with a passion for excellence, Abilash K Mathew spearheads <strong className="text-gray-900 font-medium">Kannamundayil Residency</strong>, Kannamundayil Bakes and Kannamundayil Gold Loan with strategic foresight and entrepreneurial flair.</p>
+                                <p>A visionary leader with a passion for excellence, Abilash K Mathew spearheads <strong className="text-ink font-medium">Kannamundayil Residency</strong>, Kannamundayil Bakes and Kannamundayil Gold Loan with strategic foresight and entrepreneurial flair.</p>
                                 <p>With extensive experience in hospitality and management, Abilash ensures exceptional guest experiences, driving growth and innovation.</p>
                             </motion.div>
                             <motion.div variants={fadeUp} className="flex flex-wrap gap-6">

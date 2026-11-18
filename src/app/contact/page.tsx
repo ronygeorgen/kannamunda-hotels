@@ -69,7 +69,7 @@ function ContactPageContent() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white relative">
+        <div className="min-h-screen bg-cream text-ink relative">
             {/* Background Image Layer */}
             <div className="fixed top-0 left-0 w-screen h-screen z-0 overflow-hidden pointer-events-none">
                 <Image
@@ -81,7 +81,7 @@ function ContactPageContent() {
                     sizes="100vw"
                     quality={90}
                 />
-                <div className="absolute inset-0 bg-neutral-950/90 backdrop-blur-[2px]" />
+                <div className="absolute inset-0 bg-cream/[0.93] backdrop-blur-[2px]" />
             </div>
 
             {/* Inquiry Form Section */}
@@ -91,37 +91,37 @@ function ContactPageContent() {
                         {/* Info Column */}
                         <div className="lg:col-span-4 lg:pr-8">
                             <Reveal className="mb-12">
-                                <p className="text-white/40 uppercase tracking-[0.25em] text-[10px] mb-3">Send an Inquiry</p>
-                                <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">Leave Us a Message</h2>
+                                <p className="text-maroon font-bold uppercase tracking-[0.25em] text-[12px] mb-3">Send an Inquiry</p>
+                                <h2 className="text-4xl md:text-5xl font-serif text-ink mb-6">Leave Us a Message</h2>
                                 <div className="h-[2px] w-16 bg-primary" />
                             </Reveal>
 
                             <RevealGroup className="space-y-10">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
+                                    <div className="w-12 h-12 bg-maroon-light rounded-xl flex items-center justify-center shrink-0 border border-maroon/15">
                                         <MapPin className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-white/30">Main Office</h4>
-                                        <p className="text-white/60 font-light leading-relaxed">Kannnamundayil Arcade, Pala Road, Erattupetta, Kerala</p>
+                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-maroon">Main Office</h4>
+                                        <p className="text-ink/80 font-light leading-relaxed">Kannnamundayil Arcade, Pala Road, Erattupetta, Kerala</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
+                                    <div className="w-12 h-12 bg-maroon-light rounded-xl flex items-center justify-center shrink-0 border border-maroon/15">
                                         <Phone className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-white/30">Call Us</h4>
-                                        <p className="text-white/60 font-light leading-relaxed">+91 94471 89362</p>
+                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-maroon">Call Us</h4>
+                                        <p className="text-ink/80 font-light leading-relaxed">+91 94471 89362</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
+                                    <div className="w-12 h-12 bg-maroon-light rounded-xl flex items-center justify-center shrink-0 border border-maroon/15">
                                         <Mail className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-white/30">Email Us</h4>
-                                        <p className="text-white/60 font-light leading-relaxed">info@kannamundaresidency.com</p>
+                                        <h4 className="font-bold text-sm tracking-wide mb-1 uppercase text-maroon">Email Us</h4>
+                                        <p className="text-ink/80 font-light leading-relaxed">info@kannamundaresidency.com</p>
                                     </div>
                                 </div>
                             </RevealGroup>
@@ -134,59 +134,59 @@ function ContactPageContent() {
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
-                                className="bg-[#0d0d0d] p-8 md:p-12 shadow-2xl border border-white/5 rounded-2xl"
+                                className="bg-white p-8 md:p-12 shadow-xl border border-cream-deep rounded-2xl"
                             >
                                 <form className="space-y-8" onSubmit={handleSubmit}>
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div className="space-y-2">
-                                            <label className="text-xs uppercase tracking-widest font-bold text-white">First Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-bold text-ink">First Name</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={formData.firstName}
                                                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                                className="w-full h-12 border-0 border-b border-white/10 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-white"
+                                                className="w-full h-12 border-0 border-b border-ink/20 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                                 placeholder="Enter your first name"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-xs uppercase tracking-widest font-bold text-white">Last Name</label>
+                                            <label className="text-xs uppercase tracking-widest font-bold text-ink">Last Name</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={formData.lastName}
                                                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                                className="w-full h-12 border-0 border-b border-white/10 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-white"
+                                                className="w-full h-12 border-0 border-b border-ink/20 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                                 placeholder="Enter your last name"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs uppercase tracking-widest font-bold text-white">Email Address</label>
+                                        <label className="text-xs uppercase tracking-widest font-bold text-ink">Email Address</label>
                                         <input
                                             type="email"
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full h-12 border-0 border-b border-white/10 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-white"
+                                            className="w-full h-12 border-0 border-b border-ink/20 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                             placeholder="your@email.com"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs uppercase tracking-widest font-bold text-white">Your Message</label>
+                                        <label className="text-xs uppercase tracking-widest font-bold text-ink">Your Message</label>
                                         <textarea
                                             rows={4}
                                             required
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full py-4 border-0 border-b border-white/10 focus:outline-none focus:border-primary bg-transparent resize-none transition-colors px-0 font-light text-lg text-white"
+                                            className="w-full py-4 border-0 border-b border-ink/20 focus:outline-none focus:border-primary bg-transparent resize-none transition-colors px-0 font-light text-lg text-ink"
                                             placeholder="How can we help you?"
                                         />
                                     </div>
                                     <Button
                                         type="submit"
                                         disabled={formStatus === "submitting"}
-                                        className="w-full h-16 text-xs tracking-[0.25em] uppercase rounded-xl bg-primary hover:bg-gray-900 transition-all duration-300 shadow-xl group/btn"
+                                        className="w-full h-16 text-xs tracking-[0.25em] uppercase rounded-xl bg-primary hover:bg-maroon-dark transition-all duration-300 shadow-xl group/btn"
                                     >
                                         {formStatus === "submitting" ? (
                                             <div className="flex items-center gap-3">
@@ -206,10 +206,10 @@ function ContactPageContent() {
                     </div>
 
                     {/* Back to Group button */}
-                    <div className="mt-24 pt-12 border-t border-white/5 text-center">
+                    <div className="mt-24 pt-12 border-t border-cream-deep text-center">
                         <Link
                             href="/"
-                            className="inline-flex items-center justify-center gap-2 border border-white/10 text-white/40 hover:text-white hover:border-white/30 px-10 py-4 text-xs tracking-[0.25em] uppercase font-bold transition-all duration-300 rounded-full group"
+                            className="inline-flex items-center justify-center gap-2 border border-maroon/30 text-maroon hover:bg-primary hover:text-white hover:border-primary px-10 py-4 text-xs tracking-[0.25em] uppercase font-bold transition-all duration-300 rounded-full group"
                         >
                             <span className="group-hover:-translate-x-1 transition-transform">←</span>
                             Back to Group Home
@@ -225,7 +225,7 @@ function ContactPageContent() {
                         initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-gray-900" : "bg-red-900"}`}
+                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-maroon-dark" : "bg-red-800"}`}
                     >
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${formStatus === "success" ? "bg-green-500" : "bg-red-500"}`}>
                             {formStatus === "success" ? <CheckCircle2 className="w-6 h-6 text-white" /> : <XCircle className="w-6 h-6 text-white" />}
@@ -242,7 +242,7 @@ function ContactPageContent() {
                             {formStatus === "success" && (
                                 <a
                                     href={`https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`}
-                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
+                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[12px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
                                 >
                                     Chat on WhatsApp Now
                                 </a>
@@ -257,7 +257,7 @@ function ContactPageContent() {
 
 export default function GroupContactPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-neutral-950" />}>
+        <Suspense fallback={<div className="min-h-screen bg-cream" />}>
             <ContactPageContent />
         </Suspense>
     );

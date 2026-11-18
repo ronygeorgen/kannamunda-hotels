@@ -21,7 +21,7 @@ export default function Loading() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="text-gray-900 font-serif text-2xl"
+                        className="text-ink font-serif text-2xl"
                     >
                         Wait a moment
                     </motion.p>

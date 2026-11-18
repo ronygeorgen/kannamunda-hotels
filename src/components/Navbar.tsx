@@ -72,10 +72,10 @@ export function Navbar() {
     }, []);
 
     const groupPages = ["/", "/finance", "/bakery", "/contact"];
-    const heroPages = [...groupPages, "/erattupetta-hotel", "/poonjar-hotel"];
+    const heroPages = ["/", "/finance", "/bakery", "/erattupetta-hotel", "/poonjar-hotel"];
     const isHeroPage = heroPages.includes(pathname);
     const isTransparent = isHeroPage && !scrolled && !isOpen;
-    const isDarkStyle = isTransparent || (groupPages.includes(pathname) && !isOpen);
+    const isDarkStyle = isTransparent;
 
     // Determine the active top-level section for the branch switchers
     const activeSectionHref = pathname.startsWith("/erattupetta-hotel")
@@ -106,9 +106,7 @@ export function Navbar() {
                     "fixed w-full z-50 transition-all duration-500",
                     isTransparent
                         ? "bg-transparent py-4"
-                        : groupPages.includes(pathname)
-                            ? "bg-black/80 backdrop-blur-lg border-b border-white/10 shadow-sm py-2"
-                            : "bg-white/95 backdrop-blur-md border-b border-black/5 shadow-sm py-2"
+                        : "bg-cream/95 backdrop-blur-md border-b border-cream-deep shadow-sm py-2"
                 )}
             >
                 <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -138,7 +136,7 @@ export function Navbar() {
                         {!!activeHotel && (
                             <div className="hidden md:block relative group/switcher ml-4">
                                 <button className={cn(
-                                    "flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase font-bold px-4 py-2 rounded-full border transition-all duration-300 cursor-pointer",
+                                    "flex items-center gap-2 text-[12px] tracking-[0.25em] uppercase font-bold px-4 py-2 rounded-full border transition-all duration-300 cursor-pointer",
                                     isTransparent
                                         ? "bg-primary/80 text-white border-white/10 backdrop-blur-sm hover:bg-primary"
                                         : "bg-primary text-white border-primary shadow-md hover:shadow-lg"
@@ -151,7 +149,7 @@ export function Navbar() {
                                 </button>
 
                                 <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/switcher:opacity-100 group-hover/switcher:visible transition-all duration-300 z-[60]">
-                                    <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[220px] py-2">
+                                    <div className="bg-white rounded-xl shadow-2xl border border-cream-deep overflow-hidden min-w-[220px] py-2">
                                         {[
                                             { name: "Main Page", href: "/" },
                                             { name: "Erattupetta Hotel", href: "/erattupetta-hotel" },
@@ -163,10 +161,10 @@ export function Navbar() {
                                                 key={branch.href}
                                                 href={branch.href}
                                                 className={cn(
-                                                    "px-6 py-3 text-[10px] tracking-[0.15em] uppercase font-bold block transition-colors",
+                                                    "px-6 py-3 text-[12px] tracking-[0.15em] uppercase font-bold block transition-colors",
                                                     activeSectionHref === branch.href
                                                         ? "bg-primary/10 text-primary"
-                                                        : "text-gray-600 hover:bg-gray-50 hover:text-primary"
+                                                        : "text-gray-600 hover:bg-cream-dark hover:text-primary"
                                                 )}
                                             >
                                                 {branch.name}
@@ -190,7 +188,7 @@ export function Navbar() {
                                             <button
                                                 className={cn(
                                                     "flex items-center gap-1 text-sm font-medium uppercase transition-all duration-300 group cursor-pointer",
-                                                    isDarkStyle ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary"
+                                                    isDarkStyle ? "text-white/90 hover:text-white" : "text-ink/80 hover:text-primary"
                                                 )}
                                             >
                                                 {item.name}
@@ -199,12 +197,12 @@ export function Navbar() {
 
                                             {/* Dropdown Menu */}
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 z-50">
-                                                <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[200px] flex flex-col py-2">
+                                                <div className="bg-white rounded-xl shadow-2xl border border-cream-deep overflow-hidden min-w-[200px] flex flex-col py-2">
                                                     {item.items.map((subItem) => (
                                                         <Link
                                                             key={subItem.href}
                                                             href={subItem.href}
-                                                            className="px-6 py-3 text-sm uppercase text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors whitespace-nowrap"
+                                                            className="px-6 py-3 text-sm uppercase text-gray-700 hover:bg-cream-dark hover:text-primary transition-colors whitespace-nowrap"
                                                         >
                                                             {subItem.name}
                                                         </Link>
@@ -221,7 +219,7 @@ export function Navbar() {
                                         href={item.href}
                                         className={cn(
                                             "text-sm font-medium uppercase transition-all duration-300 relative group",
-                                            isDarkStyle ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary",
+                                            isDarkStyle ? "text-white/90 hover:text-white" : "text-ink/80 hover:text-primary",
                                             isActive && isDarkStyle && "text-white font-semibold",
                                             isActive && !isDarkStyle && "text-primary font-semibold"
                                         )}
@@ -241,7 +239,7 @@ export function Navbar() {
                                         className={cn(
                                             "ml-2 rounded-full px-6 transition-all duration-300 cursor-pointer",
                                             isDarkStyle
-                                                ? "bg-white text-black hover:bg-gray-100"
+                                                ? "bg-white text-maroon-dark hover:bg-cream"
                                                 : "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg"
                                         )}
                                     >
@@ -280,12 +278,12 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-white pt-24 pb-6 px-4 overflow-y-auto"
+                        className="fixed inset-0 z-40 bg-cream pt-24 pb-6 px-4 overflow-y-auto"
                     >
                         <div className="flex flex-col items-center space-y-6 text-center">
                             {/* ── Section Switcher (always visible on mobile) ── */}
                             <div className="w-full px-4 mb-6">
-                                <p className="text-[10px] tracking-[0.25em] uppercase text-gray-400 font-bold mb-3 text-center">You are in</p>
+                                <p className="text-[12px] tracking-[0.25em] uppercase text-gray-400 font-bold mb-3 text-center">You are in</p>
                                 <div className="flex flex-col gap-2">
                                     {[
                                         { name: "Main Home", href: "/" },
@@ -314,7 +312,7 @@ export function Navbar() {
                                                         "w-full py-3 px-6 rounded-xl text-sm font-bold uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2",
                                                         isSelected
                                                             ? "bg-primary text-white shadow-lg"
-                                                            : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                                                            : "bg-cream-dark text-ink/80 hover:bg-maroon-light"
                                                     )}
                                                 >
                                                     {branch.name}
@@ -388,7 +386,7 @@ export function Navbar() {
                                                 onClick={() => setIsOpen(false)}
                                                 className={cn(
                                                     "block text-2xl font-light uppercase tracking-wide transition-colors",
-                                                    isActive ? "text-primary font-bold" : "text-gray-800 hover:text-primary"
+                                                    isActive ? "text-primary font-bold" : "text-ink hover:text-primary"
                                                 )}
                                             >
                                                 {item.name}
@@ -398,7 +396,7 @@ export function Navbar() {
                                 })}
                             {showBooking && bookingHref && (
                                 <Link href={bookingHref} className="pt-8 w-full max-w-xs mx-auto" onClick={() => setIsOpen(false)}>
-                                    <Button className="w-full h-14 rounded-full text-lg shadow-lg cursor-pointer bg-neutral-900 text-white hover:bg-black">
+                                    <Button className="w-full h-14 rounded-full text-lg shadow-lg cursor-pointer bg-primary text-white hover:bg-maroon-dark">
                                         Book Your Stay
                                     </Button>
                                 </Link>

@@ -84,7 +84,7 @@ export default function BakeryPage() {
     }, [selectedIndex]);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white overflow-x-hidden">
+        <div className="min-h-screen bg-cream text-ink overflow-x-hidden">
             {/* ── HERO ── */}
             <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
@@ -98,7 +98,7 @@ export default function BakeryPage() {
                 </motion.div>
 
                 {/* Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-b from-orange-950/70 via-black/60 to-neutral-950 z-[1]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-orange-950/70 via-black/60 to-black/60 z-[1]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-[1]" />
 
                 <motion.div style={{ opacity }} className="relative z-10 w-full px-4 sm:px-6 max-w-5xl mx-auto text-center">
@@ -109,7 +109,7 @@ export default function BakeryPage() {
                         className="flex items-center justify-center gap-2 mb-6"
                     >
                         <div className="h-px w-8 bg-orange-400/40" />
-                        <span className="text-orange-400/70 text-[9px] tracking-[0.25em] uppercase">Kannamundayil Group</span>
+                        <span className="text-orange-400/70 text-[13px] tracking-[0.25em] uppercase">Kannamundayil Group</span>
                         <div className="h-px w-8 bg-orange-400/40" />
                     </motion.div>
 
@@ -173,7 +173,7 @@ export default function BakeryPage() {
             </section>
 
             {/* ── OFFERINGS ── */}
-            <section className="py-24 md:py-36 bg-neutral-950">
+            <section className="py-24 md:py-36 bg-cream">
                 <div className="container mx-auto px-6 max-w-7xl">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -182,8 +182,8 @@ export default function BakeryPage() {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16 md:mb-24"
                     >
-                        <p className="text-orange-400/60 text-xs tracking-[0.35em] uppercase mb-4">Our Menu</p>
-                        <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">What We Bake</h2>
+                        <p className="text-orange-700 font-bold text-xs tracking-[0.35em] uppercase mb-4">Our Menu</p>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-4">What We Bake</h2>
                         <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: "4rem" }}
@@ -201,13 +201,13 @@ export default function BakeryPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                                className="bg-white/5 border border-white/10 border-t-4 border-t-orange-600/50 hover:border-t-orange-600 p-10 group hover:bg-white/10 hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center"
+                                className="bg-white border border-cream-deep rounded-xl shadow-sm border-t-4 border-t-orange-600/50 hover:border-t-orange-600 p-10 group hover:shadow-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center"
                             >
-                                <div className="w-16 h-16 rounded-2xl bg-orange-600/10 border border-orange-600/20 flex items-center justify-center mb-6 group-hover:bg-orange-600/20 transition-colors duration-500">
-                                    <item.icon size={28} className="text-orange-400" />
+                                <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center mb-6 group-hover:bg-orange-600/20 transition-colors duration-500">
+                                    <item.icon size={28} className="text-orange-600" />
                                 </div>
-                                <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
-                                <p className="text-white/50 text-sm leading-relaxed font-light group-hover:text-white/70 transition-colors duration-500">
+                                <h3 className="text-xl font-serif text-ink mb-3">{item.title}</h3>
+                                <p className="text-ink/75 text-sm leading-relaxed font-light transition-colors duration-500">
                                     {item.desc}
                                 </p>
                             </motion.div>
@@ -217,7 +217,7 @@ export default function BakeryPage() {
             </section>
 
             {/* ── VISUAL FEATURE ── */}
-            <section className="py-24 md:py-36 bg-[#0d0d0d]">
+            <section className="py-24 md:py-36 bg-cream-dark">
                 <div className="container mx-auto px-6 max-w-7xl">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
@@ -226,16 +226,16 @@ export default function BakeryPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                         >
-                            <p className="text-orange-400/60 text-xs tracking-[0.3em] uppercase mb-4">Our Story</p>
-                            <h2 className="text-4xl md:text-5xl font-serif text-white leading-tight mb-6">
+                            <p className="text-orange-700 font-bold text-xs tracking-[0.3em] uppercase mb-4">Our Story</p>
+                            <h2 className="text-4xl md:text-5xl font-serif text-ink leading-tight mb-6">
                                 Baked with Love,<br />
-                                <em className="not-italic text-orange-400">Served with Pride</em>
+                                <em className="not-italic text-orange-600">Served with Pride</em>
                             </h2>
                             <div className="h-[2px] w-16 bg-orange-600 mb-8" />
-                            <p className="text-white/60 text-lg leading-relaxed font-light mb-6">
+                            <p className="text-ink/80 text-lg leading-relaxed font-light mb-6">
                                 Kannamundayil Bakes was born from a simple belief — to provide a perfect place for refreshing juices, shakes, and savoury snacks. Starting as a small neighbourhood bakery, we've grown into a beloved community institution in Erattupetta.
                             </p>
-                            <p className="text-white/50 text-lg leading-relaxed font-light mb-10">
+                            <p className="text-ink/75 text-lg leading-relaxed font-light mb-10">
                                 From our signature faloodas and shakes to ice creams, crispy puffs and fresh burgers, every product is made with love using the finest ingredients Kerala has to offer.
                             </p>
 
@@ -246,9 +246,9 @@ export default function BakeryPage() {
                                     { icon: Mail, text: "kannamundayilbakes@gmail.com" },
                                     { icon: Clock, text: "Open: 9:00 AM – 9:00 PM" },
                                 ].map((item, i) => (
-                                    <div key={i} className="flex items-center gap-4 text-white/60">
-                                        <div className="w-10 h-10 rounded-full bg-orange-600/10 border border-orange-600/20 flex items-center justify-center shrink-0">
-                                            <item.icon size={16} className="text-orange-400" />
+                                    <div key={i} className="flex items-center gap-4 text-ink/80">
+                                        <div className="w-10 h-10 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center shrink-0">
+                                            <item.icon size={16} className="text-orange-600" />
                                         </div>
                                         <span className="font-light">{item.text}</span>
                                     </div>
@@ -277,7 +277,7 @@ export default function BakeryPage() {
             </section>
 
             {/* ── GALLERY ── */}
-            <section className="py-24 md:py-36 bg-neutral-950">
+            <section className="py-24 md:py-36 bg-cream">
                 <div className="container mx-auto px-6 max-w-7xl">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -286,8 +286,8 @@ export default function BakeryPage() {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16 md:mb-24"
                     >
-                        <p className="text-orange-400/60 text-xs tracking-[0.35em] uppercase mb-4">A Visual Treat</p>
-                        <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">Bakery Gallery</h2>
+                        <p className="text-orange-700 font-bold text-xs tracking-[0.35em] uppercase mb-4">A Visual Treat</p>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-4">Bakery Gallery</h2>
                         <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: "4rem" }}
@@ -306,7 +306,7 @@ export default function BakeryPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1, duration: 0.6 }}
                                 onClick={() => setSelectedIndex(i)}
-                                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-900 border border-white/5 cursor-zoom-in"
+                                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-cream-deep border border-cream-deep cursor-zoom-in"
                             >
                                 <Image
                                     src={src}
@@ -322,7 +322,7 @@ export default function BakeryPage() {
             </section>
 
             {/* ── CTA ── */}
-            <section className="bg-orange-900/20 border-t border-orange-800/20 py-24">
+            <section className="bg-orange-50 border-t border-orange-100 py-24">
                 <div className="container mx-auto px-6 max-w-3xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -330,12 +330,12 @@ export default function BakeryPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <p className="text-orange-400/60 text-xs tracking-[0.35em] uppercase mb-4">Fresh Every Day</p>
-                        <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
+                        <p className="text-orange-700 font-bold text-xs tracking-[0.35em] uppercase mb-4">Fresh Every Day</p>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-6">
                             Visit Us Today
                         </h2>
                         <div className="h-[2px] w-16 bg-orange-600 mx-auto mb-8" />
-                        <p className="text-white/50 font-light text-lg mb-10">
+                        <p className="text-ink/75 font-light text-lg mb-10">
                             Stop by our bakery for the freshest bakes in Erattupetta. Open daily from 9 AM to 9 PM.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -348,7 +348,7 @@ export default function BakeryPage() {
                             </a>
                             <Link
                                 href="/"
-                                className="inline-flex items-center justify-center gap-2 border border-white/20 text-white/70 px-8 py-4 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
+                                className="inline-flex items-center justify-center gap-2 border border-orange-700/40 text-orange-800 px-8 py-4 text-sm tracking-widest uppercase font-medium hover:bg-orange-50 transition-colors duration-300"
                             >
                                 ← Back to Group
                             </Link>

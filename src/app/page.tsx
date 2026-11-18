@@ -24,10 +24,10 @@ const businesses = [
     tagline: "Luxury Stays in Kerala's Heart",
     description:
       "Experience unparalleled hospitality at Kannamundayil Residency. Two iconic properties — Erattupetta & Poonjar — each offering warmth, comfort, and the spirit of Kerala.",
-    accentColor: "#6a1224",
-    bgGradient: "from-[#3a0a14] via-[#6a1224]/80 to-black/60",
-    borderColor: "border-[#6a1224]",
-    badgeStyle: "bg-[#6a1224] text-white",
+    accentColor: "#8B3A4A",
+    bgGradient: "from-maroon-dark via-[#8B3A4A]/70 to-black/50",
+    borderColor: "border-[#8B3A4A]",
+    badgeStyle: "bg-[#8B3A4A] text-white",
     children: [
       {
         name: "Erattupetta",
@@ -149,20 +149,20 @@ function HotelCard({ child, i }: { child: NonNullable<(typeof businesses)[0]["ch
               transition={{ delay: 0.4 + i * 0.15, duration: 0.6 }}
               className="flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10"
             >
-              <MapPin size={12} className="text-[#6a1224]" />
-              <span className="text-white/80 text-[10px] tracking-[0.2em] uppercase">{child.location}</span>
+              <MapPin size={12} className="text-[#8B3A4A]" />
+              <span className="text-white/80 text-[12px] tracking-[0.2em] uppercase">{child.location}</span>
             </motion.div>
           </div>
 
           {/* Content */}
           <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-            <p className="inline-block bg-[#6a1224] text-white text-[9px] tracking-[0.25em] uppercase font-bold mb-4 px-3 py-1 rounded-sm shadow-xl border border-white/10">
+            <p className="inline-block bg-[#8B3A4A] text-white text-[13px] tracking-[0.25em] uppercase font-bold mb-4 px-3 py-1 rounded-sm shadow-xl border border-white/10">
               {child.subtitle}
             </p>
             <h3 className="text-white text-4xl md:text-5xl font-serif mb-3 drop-shadow-lg">
               {child.name}
             </h3>
-            <div className="h-[2px] w-0 bg-[#6a1224] group-hover:w-16 transition-all duration-700 mb-4" />
+            <div className="h-[2px] w-0 bg-[#8B3A4A] group-hover:w-16 transition-all duration-700 mb-4" />
             <motion.div
               className="flex items-center gap-2 text-white/0 group-hover:text-white/80 transition-all duration-500 text-sm tracking-widest uppercase"
             >
@@ -219,7 +219,7 @@ function BusinessCard({
             {/* Top */}
             <div className="flex items-center justify-between">
               <span
-                className={`text-[10px] tracking-[0.3em] uppercase font-bold px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-sm ${biz.badgeStyle}`}
+                className={`text-[12px] tracking-[0.3em] uppercase font-bold px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-sm ${biz.badgeStyle}`}
               >
                 {biz.label}
               </span>
@@ -296,7 +296,7 @@ export default function GroupLandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-950 text-white overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-cream text-ink overflow-x-hidden">
       {/* ══════════════════════════════
           HERO
       ══════════════════════════════ */}
@@ -342,7 +342,7 @@ export default function GroupLandingPage() {
         </AnimatePresence>
 
         {/* Multi-layer overlay */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/60 via-black/40 to-neutral-950" />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/60 via-black/35 to-black/55" />
         <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/50 to-transparent" />
 
         {/* Animated grain texture */}
@@ -367,7 +367,7 @@ export default function GroupLandingPage() {
             className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6"
           >
             <div className="h-px w-8 md:w-12 bg-white/30" />
-            <span className="text-white/70 text-[9px] md:text-[11px] tracking-[0.3em] md:tracking-[0.5em] uppercase font-bold text-nowrap">
+            <span className="text-white/70 text-[13px] md:text-[13px] tracking-[0.3em] md:tracking-[0.5em] uppercase font-bold text-nowrap">
               Welcome to the
             </span>
             <div className="h-px w-8 md:w-12 bg-white/30" />
@@ -387,7 +387,7 @@ export default function GroupLandingPage() {
             initial={{ width: 0 }}
             animate={{ width: "3rem" }}
             transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[2px] md:h-[3px] bg-[#6a1224] mb-4 md:mb-6"
+            className="h-[2px] md:h-[3px] bg-[#8B3A4A] mb-4 md:mb-6"
           />
 
           <motion.p
@@ -407,13 +407,13 @@ export default function GroupLandingPage() {
             className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10 md:mb-14"
           >
             {[
-              { label: "Hotels", color: "bg-[#6a1224]" },
+              { label: "Hotels", color: "bg-[#8B3A4A]" },
               { label: "Gold Loan", color: "bg-amber-700" },
               { label: "Bakery", color: "bg-orange-700" },
             ].map((b) => (
               <span
                 key={b.label}
-                className={`${b.color} text-white text-[8px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold px-3 md:px-5 py-1.5 md:py-2 rounded-full border border-white/10 shadow-lg`}
+                className={`${b.color} text-white text-[12px] md:text-[12px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold px-3 md:px-5 py-1.5 md:py-2 rounded-full border border-white/10 shadow-lg`}
               >
                 {b.label}
               </span>
@@ -445,7 +445,7 @@ export default function GroupLandingPage() {
           transition={{ delay: 2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
-          <span className="text-white/30 text-[10px] tracking-[0.3em] uppercase">Discover</span>
+          <span className="text-white/30 text-[12px] tracking-[0.3em] uppercase">Discover</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 1.8 }}
@@ -458,7 +458,7 @@ export default function GroupLandingPage() {
       {/* ══════════════════════════════
           STATS STRIP
       ══════════════════════════════ */}
-      <section className="bg-[#3a0a14] py-16 border-y border-white/5">
+      <section className="bg-maroon-light py-16 border-y border-cream-deep">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -474,10 +474,10 @@ export default function GroupLandingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.6 }}
               >
-                <p className="text-4xl md:text-5xl font-serif text-white mb-2">
+                <p className="text-4xl md:text-5xl font-serif font-semibold text-maroon-dark mb-2">
                   <Counter target={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-white/40 text-xs tracking-[0.2em] uppercase">{stat.label}</p>
+                <p className="text-ink/70 text-xs font-bold tracking-[0.2em] uppercase">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -487,7 +487,7 @@ export default function GroupLandingPage() {
       {/* ══════════════════════════════
           HOTELS SECTION
       ══════════════════════════════ */}
-      <section className="py-24 md:py-36 bg-neutral-950">
+      <section className="py-24 md:py-36 bg-cream">
         <div className="container mx-auto px-6 max-w-7xl">
           {/* Section header */}
           <div className="mb-14 md:mb-20">
@@ -498,17 +498,17 @@ export default function GroupLandingPage() {
               transition={{ duration: 0.7 }}
               className="flex items-center gap-4 mb-5"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#6a1224]/20 border border-[#6a1224]/30 flex items-center justify-center">
-                <Building2 size={18} className="text-[#6a1224]" />
+              <div className="w-10 h-10 rounded-xl bg-[#8B3A4A]/20 border border-[#8B3A4A]/30 flex items-center justify-center">
+                <Building2 size={18} className="text-[#8B3A4A]" />
               </div>
-              <span className="text-white/40 text-xs tracking-[0.35em] uppercase">Our Properties</span>
+              <span className="text-maroon text-xs font-bold tracking-[0.35em] uppercase">Our Properties</span>
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl md:text-6xl font-serif text-white leading-tight mb-4"
+              className="text-4xl md:text-6xl font-serif text-ink leading-tight mb-4"
             >
               Kannamundayil Hotels
             </motion.h2>
@@ -517,14 +517,14 @@ export default function GroupLandingPage() {
               whileInView={{ width: "4rem" }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="h-[2px] bg-[#6a1224] mb-6"
+              className="h-[2px] bg-[#8B3A4A] mb-6"
             />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.7 }}
-              className="text-white/50 text-lg font-light max-w-xl"
+              className="text-ink/75 text-lg font-light max-w-xl"
             >
               Choose your destination — two exceptional properties across Kerala's most scenic regions.
             </motion.p>
@@ -542,7 +542,7 @@ export default function GroupLandingPage() {
       {/* ══════════════════════════════
           FINANCE + BAKERY SECTION
       ══════════════════════════════ */}
-      <section className="py-24 md:py-36 bg-[#0d0d0d]">
+      <section className="py-24 md:py-36 bg-cream-dark">
         <div className="container mx-auto px-6 max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -551,8 +551,8 @@ export default function GroupLandingPage() {
             transition={{ duration: 0.8 }}
             className="mb-14 md:mb-20"
           >
-            <p className="text-white/30 text-xs tracking-[0.35em] uppercase mb-4">More From Us</p>
-            <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-4">
+            <p className="text-maroon text-xs font-bold tracking-[0.35em] uppercase mb-4">More From Us</p>
+            <h2 className="text-4xl md:text-6xl font-serif text-ink leading-tight mb-4">
               Our Other Ventures
             </h2>
             <motion.div
@@ -562,7 +562,7 @@ export default function GroupLandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="h-[2px] bg-amber-600 mb-6"
             />
-            <p className="text-white/40 font-light max-w-xl text-lg">
+            <p className="text-ink/75 font-light max-w-xl text-lg">
               Beyond hospitality — financial services and artisan baking that serve our community.
             </p>
           </motion.div>
@@ -580,7 +580,7 @@ export default function GroupLandingPage() {
       {/* ══════════════════════════════
           CTA FOOTER STRIP
       ══════════════════════════════ */}
-      <section className="bg-[#3a0a14] py-24">
+      <section className="bg-maroon py-24">
         <div className="container mx-auto px-6 max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -588,23 +588,23 @@ export default function GroupLandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-white/40 text-xs tracking-[0.35em] uppercase mb-4">Plan Your Visit</p>
+            <p className="text-white/80 text-xs font-bold tracking-[0.35em] uppercase mb-4">Plan Your Visit</p>
             <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
               Ready to Experience Kannamundayil?
             </h2>
-            <div className="h-[2px] w-16 bg-white/30 mx-auto mb-8" />
-            <p className="text-white/60 text-lg font-light mb-12 max-w-xl mx-auto">
+            <div className="h-[2px] w-16 bg-white/50 mx-auto mb-8" />
+            <p className="text-white/90 text-lg font-light mb-12 max-w-xl mx-auto">
               Whether you're looking for a luxurious stay, financial services, or fresh bakes — we're here for you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <div className="relative w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
                 <button
                   onClick={() => setShowHotelOptions(!showHotelOptions)}
-                  className="w-full inline-flex items-center justify-center gap-3 bg-white text-[#3a0a14] px-10 py-5 text-sm tracking-widest uppercase font-bold hover:bg-gray-100 transition-all duration-300 shadow-2xl relative z-10"
+                  className="w-full inline-flex items-center justify-center gap-3 bg-white text-maroon-dark px-10 py-5 text-sm tracking-widest uppercase font-bold hover:bg-cream transition-all duration-300 shadow-2xl relative z-10"
                 >
                   <Building2 size={18} />
                   View Hotels
-                  <ChevronDown size={18} className={`transition-transform duration-500 ease-out ${showHotelOptions ? 'rotate-180 text-primary' : 'text-[#3a0a14]/40'}`} />
+                  <ChevronDown size={18} className={`transition-transform duration-500 ease-out ${showHotelOptions ? 'rotate-180 text-primary' : 'text-maroon-dark/40'}`} />
                 </button>
 
                 <AnimatePresence>
@@ -616,19 +616,19 @@ export default function GroupLandingPage() {
                       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                       className="absolute bottom-[calc(100%+12px)] left-0 right-0 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-sm overflow-hidden z-20 flex flex-col min-w-[240px] border border-white/10"
                     >
-                      <div className="p-3 bg-gray-50/50 border-b border-gray-100">
-                        <p className="text-[10px] tracking-[0.2em] font-bold text-gray-400 uppercase text-center">Select Destination</p>
+                      <div className="p-3 bg-cream-dark/50 border-b border-cream-deep">
+                        <p className="text-[12px] tracking-[0.2em] font-bold text-gray-400 uppercase text-center">Select Destination</p>
                       </div>
                       <Link
                         href="/erattupetta-hotel"
-                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-[#3a0a14] hover:bg-[#3a0a14] hover:text-white transition-all duration-300 flex items-center justify-between group"
+                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-maroon-dark hover:bg-maroon hover:text-white transition-all duration-300 flex items-center justify-between group"
                       >
                         Erattupetta
                         <ArrowRight size={14} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                       </Link>
                       <Link
                         href="/poonjar-hotel"
-                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-[#3a0a14] hover:bg-[#3a0a14] hover:text-white transition-all duration-300 flex items-center justify-between group"
+                        className="px-8 py-5 text-xs tracking-[0.25em] uppercase font-bold text-maroon-dark hover:bg-maroon hover:text-white transition-all duration-300 flex items-center justify-between group"
                       >
                         Poonjar
                         <ArrowRight size={14} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -640,7 +640,7 @@ export default function GroupLandingPage() {
 
               <Link
                 href="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/30 text-white px-10 py-5 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/60 text-white px-10 py-5 text-sm tracking-widest uppercase font-medium hover:bg-white/10 transition-colors duration-300"
               >
                 Contact Us
                 <ArrowRight size={16} />

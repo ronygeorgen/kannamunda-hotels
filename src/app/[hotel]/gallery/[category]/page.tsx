@@ -141,7 +141,7 @@ export default function RoomCategoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900">
+        <div className="min-h-screen bg-cream-dark text-ink">
             <section className="container max-w-7xl mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-28 sm:pb-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
                     {/* Left — image stack */}
@@ -166,14 +166,14 @@ export default function RoomCategoryPage() {
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-80" />
                                             <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3 pointer-events-none">
                                                 <div>
-                                                    <p className="text-white/70 text-[10px] uppercase tracking-[0.3em] font-bold mb-1">
+                                                    <p className="text-white/70 text-[12px] uppercase tracking-[0.3em] font-bold mb-1">
                                                         {hero.section}
                                                     </p>
                                                     <p className="text-white font-serif text-lg md:text-xl">
                                                         Click to enlarge
                                                     </p>
                                                 </div>
-                                                <span className="text-white/60 text-[10px] tracking-widest uppercase">
+                                                <span className="text-white/60 text-[12px] tracking-widest uppercase">
                                                     {activeThumb + 1} / {images.length}
                                                 </span>
                                             </div>
@@ -242,10 +242,10 @@ export default function RoomCategoryPage() {
                     {/* Right — features + book */}
                     <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-8">
                         <Reveal>
-                            <p className="text-primary uppercase tracking-[0.35em] text-[10px] font-bold mb-3">
+                            <p className="text-primary uppercase tracking-[0.35em] text-[12px] font-bold mb-3">
                                 Room Category · {hotel.name}
                             </p>
-                            <h1 className="text-4xl md:text-5xl font-serif text-neutral-900 leading-none mb-3">
+                            <h1 className="text-4xl md:text-5xl font-serif text-ink leading-none mb-3">
                                 {info.title}
                             </h1>
                             <div className="h-[2px] w-14 bg-primary mb-5" />
@@ -256,13 +256,13 @@ export default function RoomCategoryPage() {
                             <button
                                 type="button"
                                 onClick={goBack}
-                                className="mt-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer"
+                                className="mt-5 flex items-center gap-2 text-[12px] uppercase tracking-[0.28em] font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer"
                             >
                                 <ArrowLeft size={14} />
                                 Back to Gallery
                             </button>
 
-                            <div className="mt-10 flex w-fit items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-700">
+                            <div className="mt-10 flex w-fit items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 text-[12px] uppercase tracking-[0.22em] font-bold text-neutral-700">
                                 {info.isAc ? (
                                     <>
                                         <Snowflake size={12} className="text-primary" />
@@ -288,16 +288,16 @@ export default function RoomCategoryPage() {
                                     return (
                                         <div
                                             key={fid}
-                                            className="flex items-start gap-3 bg-white border border-gray-100 p-3.5 hover:border-primary/40 transition-colors"
+                                            className="flex items-start gap-3 bg-white border border-cream-deep p-3.5 hover:border-primary/40 transition-colors"
                                         >
-                                            <div className="w-9 h-9 shrink-0 flex items-center justify-center bg-gray-50 text-neutral-700">
+                                            <div className="w-9 h-9 shrink-0 flex items-center justify-center bg-cream-dark text-neutral-700">
                                                 <Icon size={16} strokeWidth={1.5} />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-neutral-900 leading-tight">
+                                                <p className="text-sm font-medium text-ink leading-tight">
                                                     {meta.label}
                                                 </p>
-                                                <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+                                                <p className="text-[13px] text-gray-500 mt-0.5 leading-snug">
                                                     {meta.hint}
                                                 </p>
                                             </div>
@@ -308,21 +308,21 @@ export default function RoomCategoryPage() {
                         </Reveal>
 
                         <Reveal>
-                            <div className="bg-neutral-950 text-white p-6 md:p-7 relative overflow-hidden">
-                                <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/30 blur-2xl pointer-events-none" />
-                                <p className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-bold mb-2 relative">
+                            <div className="bg-maroon-light text-ink border border-maroon/15 rounded-xl p-6 md:p-7 relative overflow-hidden">
+                                <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/20 blur-2xl pointer-events-none" />
+                                <p className="text-[12px] uppercase tracking-[0.3em] text-maroon font-bold mb-2 relative">
                                     Ready to reserve
                                 </p>
                                 <h3 className="font-serif text-2xl md:text-3xl mb-3 relative">
                                     Book the {info.title}
                                 </h3>
-                                <p className="text-white/60 text-sm font-light mb-6 relative max-w-sm">
+                                <p className="text-ink/75 text-sm font-light mb-6 relative max-w-sm">
                                     Enquire on WhatsApp with your dates — we&apos;ll confirm availability quickly.
                                 </p>
                                 <button
                                     type="button"
                                     onClick={() => openBook()}
-                                    className="relative inline-flex items-center gap-2 bg-primary hover:bg-white hover:text-neutral-900 text-white px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer"
+                                    className="relative inline-flex items-center gap-2 bg-primary hover:bg-maroon-dark text-white rounded-md px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-colors cursor-pointer"
                                 >
                                     <ShoppingBag size={14} />
                                     Book This Room
@@ -338,7 +338,7 @@ export default function RoomCategoryPage() {
                 <button
                     type="button"
                     onClick={() => openBook()}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3.5 text-[11px] font-bold uppercase tracking-widest shadow-lg cursor-pointer"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3.5 text-[13px] font-bold uppercase tracking-widest shadow-lg cursor-pointer"
                 >
                     <ShoppingBag size={15} />
                     Book This Room

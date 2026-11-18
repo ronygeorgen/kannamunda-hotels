@@ -107,16 +107,16 @@ function ContactContent() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-cream text-ink">
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image src={`/${hotel.imagePrefix}-contact/contact-us.webp`} alt="Contact Us" fill className="object-cover" style={{ objectPosition: "center 25%" }} priority />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">
                     <motion.p variants={heroTagline} initial="hidden" animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         We're Here for You
                     </motion.p>
@@ -125,7 +125,7 @@ function ContactContent() {
                             variants={heroTitlePopup}
                             initial="hidden"
                             animate="visible"
-                            className="text-5xl md:text-8xl font-serif leading-none"
+                            className="text-5xl md:text-8xl font-serif leading-none text-white drop-shadow-2xl"
                         >
                             Get in Touch
                         </motion.h1>
@@ -141,7 +141,7 @@ function ContactContent() {
                     <div className="lg:w-1/4">
                         <motion.h2
                             variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                            className="text-4xl md:text-5xl font-serif text-gray-900 leading-[1.1] mb-8"
+                            className="text-4xl md:text-5xl font-serif text-ink leading-[1.1] mb-8"
                         >
                             We would love to hear from you
                         </motion.h2>
@@ -154,7 +154,7 @@ function ContactContent() {
                                     key={idx}
                                     variants={fadeUp}
                                     href="#"
-                                    className="p-2 text-gray-900 border border-gray-100 hover:text-primary hover:border-primary transition-all duration-300"
+                                    className="p-2 text-ink border border-cream-deep hover:text-primary hover:border-primary transition-all duration-300"
                                 >
                                     <Icon className="w-5 h-5" />
                                 </motion.a>
@@ -188,12 +188,12 @@ function ContactContent() {
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="relative bg-gray-50 border border-gray-100 py-16 px-10 rounded-xl text-center flex flex-col items-center overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group"
+                                className="relative bg-cream-dark border border-cream-deep py-16 px-10 rounded-xl text-center flex flex-col items-center overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group"
                             >
-                                <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mb-8 border-4 border-white shadow-lg group-hover:bg-primary transition-colors duration-500">
+                                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-8 border-4 border-white shadow-lg group-hover:bg-maroon-dark transition-colors duration-500">
                                     <card.icon className="text-white w-7 h-7" />
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-4">{card.title}</h3>
+                                <h3 className="text-xl font-bold text-ink mb-4">{card.title}</h3>
                                 <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line font-light">
                                     {card.content}
                                 </p>
@@ -226,22 +226,22 @@ function ContactContent() {
                             }
                         ].map((branch, i) => (
                             <motion.div key={i} variants={fadeUp}
-                                className="bg-gray-50 p-12 border border-gray-100 border-t-4 border-t-primary hover:shadow-xl transition-all duration-500 group flex flex-col">
+                                className="bg-cream-dark p-12 border border-cream-deep border-t-4 border-t-primary hover:shadow-xl transition-all duration-500 group flex flex-col">
                                 <div className="flex flex-col items-center text-center mb-10">
                                     <div className="w-16 h-16 bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-500 rounded-xl">
                                         <MapPin className="text-primary w-8 h-8 stroke-[1.25]" />
                                     </div>
-                                    <h2 className="text-3xl font-serif text-gray-900 mb-2">{branch.city}</h2>
+                                    <h2 className="text-3xl font-serif text-ink mb-2">{branch.city}</h2>
                                     <div className="w-8 h-[2px] bg-primary/30 group-hover:w-20 transition-all duration-500 mt-1" />
                                 </div>
 
                                 <div className="space-y-8 flex-grow text-center">
                                     <div>
-                                        <p className="text-gray-600 tracking-widest uppercase text-[10px] mb-2">Address</p>
+                                        <p className="text-gray-600 tracking-widest uppercase text-[12px] mb-2">Address</p>
                                         <p className="text-gray-700 font-light leading-relaxed text-lg">{branch.address}</p>
                                     </div>
                                     <div>
-                                        <p className="text-gray-600 tracking-widest uppercase text-[10px] mb-2">Reservations</p>
+                                        <p className="text-gray-600 tracking-widest uppercase text-[12px] mb-2">Reservations</p>
                                         {branch.phones.map((p, pi) => (
                                             <a key={pi} href={`tel:${p.replace(/\s/g, '')}`} className="block text-gray-700 hover:text-primary font-medium text-lg transition-colors">{p}</a>
                                         ))}
@@ -262,11 +262,11 @@ function ContactContent() {
 
 
             {/* ── Inquiry Form ── */}
-            <section ref={formSectionRef} className="py-20 md:py-32 bg-white text-gray-900 border-t border-gray-50">
+            <section ref={formSectionRef} className="py-20 md:py-32 bg-white text-ink border-t border-cream-deep">
                 <div className="container px-6 max-w-6xl mx-auto">
                     <Reveal className="mb-16">
-                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[10px] mb-3">Send an Inquiry</p>
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-2">Leave Us a Message</h2>
+                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[12px] mb-3">Send an Inquiry</p>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-2">Leave Us a Message</h2>
                         <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-16 bg-primary mt-6" />
                     </Reveal>
 
@@ -280,7 +280,7 @@ function ContactContent() {
                                 <Button
                                     onClick={() => setActiveBranch(null)}
                                     size="sm"
-                                    className="w-full md:w-auto bg-gray-900 hover:bg-primary text-white border-0 shadow-lg transition-all duration-300 rounded-lg text-xs tracking-widest uppercase font-bold px-6 h-12 cursor-pointer"
+                                    className="w-full md:w-auto bg-maroon-dark hover:bg-primary text-white border-0 shadow-lg transition-all duration-300 rounded-lg text-xs tracking-widest uppercase font-bold px-6 h-12 cursor-pointer"
                                 >
                                     <Phone className="w-4 h-4 mr-2" />
                                     Show Contact Details
@@ -288,7 +288,7 @@ function ContactContent() {
                             </motion.div>
                         )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-5 shadow-2xl overflow-hidden border border-gray-100 transition-all duration-500">
+                        <div className="grid grid-cols-1 md:grid-cols-5 shadow-2xl overflow-hidden border border-cream-deep transition-all duration-500">
                             {/* Map / Sidebar */}
                             {activeBranch ? (
                                 <motion.div
@@ -307,10 +307,10 @@ function ContactContent() {
                                     </div>
                                 </motion.div>
                             ) : (
-                                <motion.div variants={fadeUp} className="bg-gray-900 text-white md:col-span-2 p-12 flex flex-col justify-between">
+                                <motion.div variants={fadeUp} className="bg-primary text-white md:col-span-2 p-12 flex flex-col justify-between">
                                     <div>
                                         <h3 className="text-3xl font-serif mb-4 text-white">Contact Details</h3>
-                                        <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-10 bg-primary mb-10" />
+                                        <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-10 bg-white/70 mb-10" />
                                         <div className="space-y-10">
                                             {[
                                                 { icon: Phone, text: "+91 94471 89362" },
@@ -318,8 +318,8 @@ function ContactContent() {
                                                 { icon: Clock, text: "Always Open 24 / 7" },
                                             ].map((item, i) => (
                                                 <div key={i} className="flex items-start gap-4">
-                                                    <item.icon className="w-5 h-5 text-primary stroke-[1.5] mt-0.5 shrink-0" />
-                                                    <span className="font-light text-white/70 text-base leading-relaxed">{item.text}</span>
+                                                    <item.icon className="w-5 h-5 text-white stroke-[1.5] mt-0.5 shrink-0" />
+                                                    <span className="font-light text-white/95 text-base leading-relaxed">{item.text}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -338,7 +338,7 @@ function ContactContent() {
                                                 required
                                                 value={formData.firstName}
                                                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                                className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-gray-900"
+                                                className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                                 placeholder="First Name"
                                             />
                                         </div>
@@ -349,7 +349,7 @@ function ContactContent() {
                                                 required
                                                 value={formData.lastName}
                                                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                                className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-gray-900"
+                                                className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                                 placeholder="Last Name"
                                             />
                                         </div>
@@ -361,7 +361,7 @@ function ContactContent() {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-gray-900"
+                                            className="w-full h-11 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent transition-colors px-0 font-light text-lg text-ink"
                                             placeholder="your@email.com"
                                         />
                                     </div>
@@ -372,14 +372,14 @@ function ContactContent() {
                                             required
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full py-3 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent resize-none transition-colors px-0 font-light text-lg text-gray-900"
+                                            className="w-full py-3 border-0 border-b-2 border-gray-200 focus:outline-none focus:border-primary bg-transparent resize-none transition-colors px-0 font-light text-lg text-ink"
                                             placeholder="How can we assist you?"
                                         />
                                     </div>
                                     <Button
                                         type="submit"
                                         disabled={formStatus === "submitting"}
-                                        className="w-full h-14 text-xs tracking-widest uppercase rounded-none bg-primary hover:bg-gray-900 transition-colors shadow-lg mt-4 cursor-pointer"
+                                        className="w-full h-14 text-xs tracking-widest uppercase rounded-none bg-primary hover:bg-maroon-dark transition-colors shadow-lg mt-4 cursor-pointer"
                                     >
                                         {formStatus === "submitting" ? (
                                             <div className="flex items-center gap-3">
@@ -402,7 +402,7 @@ function ContactContent() {
                         initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-gray-900" : "bg-red-900"}`}
+                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-maroon-dark" : "bg-red-800"}`}
                     >
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${formStatus === "success" ? "bg-green-500" : "bg-red-500"}`}>
                             {formStatus === "success" ? <CheckCircle2 className="w-6 h-6 text-white" /> : <XCircle className="w-6 h-6 text-white" />}
@@ -419,7 +419,7 @@ function ContactContent() {
                             {formStatus === "success" && (
                                 <a
                                     href={`https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`}
-                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
+                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[12px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
                                 >
                                     Chat on WhatsApp Now
                                 </a>
@@ -441,7 +441,7 @@ function ContactContent() {
 export default function ContactPage() {
     const hotel = useHotel();
     return (
-        <Suspense fallback={<div className="min-h-screen bg-neutral-950" />}>
+        <Suspense fallback={<div className="min-h-screen bg-cream" />}>
             <ContactContent />
         </Suspense>
     );

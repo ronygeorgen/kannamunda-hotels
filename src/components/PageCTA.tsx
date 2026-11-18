@@ -27,7 +27,7 @@ export function PageCTA() {
     const activeBranch = branches.find(b => b.city.toLowerCase() === hotel.id) || branches[0];
 
     return (
-        <section className="bg-gray-50 py-24 border-t border-gray-100">
+        <section className="bg-cream-dark py-24 border-t border-cream-deep">
             <div className="container px-6 max-w-7xl mx-auto">
                 {/* Header */}
                 <RevealGroup className="text-center mb-16">
@@ -39,7 +39,7 @@ export function PageCTA() {
                     </motion.p>
                     <motion.h2
                         variants={fadeUp}
-                        className="text-4xl md:text-5xl font-serif text-gray-900 mb-4"
+                        className="text-4xl md:text-5xl font-serif text-ink mb-4"
                     >
                         Reserve Your Stay
                     </motion.h2>
@@ -59,14 +59,14 @@ export function PageCTA() {
                 <RevealGroup className="flex justify-center mb-12">
                     <motion.div
                         variants={fadeUp}
-                        className="bg-white max-w-xl w-full rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-500 group flex flex-col"
+                        className="bg-white max-w-xl w-full rounded-2xl p-8 shadow-sm border border-cream-deep hover:shadow-xl hover:border-primary/20 transition-all duration-500 group flex flex-col"
                     >
                         <div className="flex items-start gap-5 mb-6">
                             <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
                                 <MapPin className="w-6 h-6 text-primary stroke-[1.5]" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-serif text-gray-900 mb-1">{activeBranch.city}</h3>
+                                <h3 className="text-2xl font-serif text-ink mb-1">{activeBranch.city}</h3>
                                 <div className="w-8 h-[2px] bg-primary/30 group-hover:w-16 transition-all duration-500" />
                             </div>
                         </div>

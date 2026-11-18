@@ -19,9 +19,9 @@ export function Footer() {
     const isBakery = pathname.startsWith("/bakery");
     const isMainOrContact = !isHotel && !isFinance && !isBakery; // covers "/" and "/contact"
     return (
-        <footer className="content-text bg-[#3a0a14] text-white relative z-10">
+        <footer className="content-text bg-cream-dark text-ink border-t border-cream-deep relative z-10">
             {/* Top decorative border */}
-            <div className="h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <div className="h-[3px] bg-gradient-to-r from-transparent via-maroon/40 to-transparent" />
 
             <div className="container mx-auto px-6 md:px-10 pt-16 pb-10">
 
@@ -33,37 +33,37 @@ export function Footer() {
                         {/* Logo — context-aware per page */}
                         {isMainOrContact && (
                             <div className="flex items-center gap-4 flex-wrap">
-                                <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={100} height={50} className="h-10 w-auto object-contain" />
-                                <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={100} height={50} className="h-10 w-auto object-contain" />
-                                <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={100} height={50} className="h-10 w-auto object-contain" />
+                                <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={100} height={50} className="h-10 w-auto object-contain rounded-md" />
+                                <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={100} height={50} className="h-10 w-auto object-contain rounded-md" />
+                                <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={100} height={50} className="h-10 w-auto object-contain rounded-md" />
                             </div>
                         )}
                         {isHotel && (
-                            <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={200} height={70} className="w-44 h-auto object-contain" />
+                            <Image src="/common/residency-logo.webp" alt="Kannamundayil Residency" width={200} height={70} className="w-44 h-auto object-contain rounded-lg" />
                         )}
                         {isFinance && (
-                            <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={200} height={70} className="w-44 h-auto object-contain" />
+                            <Image src="/common/finance-logo.webp" alt="Kannamundayil Finance" width={200} height={70} className="w-44 h-auto object-contain rounded-lg" />
                         )}
                         {isBakery && (
-                            <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={200} height={70} className="w-44 h-auto object-contain" />
+                            <Image src="/common/bakery-logo.webp" alt="Kannamundayil Bakes" width={200} height={70} className="w-44 h-auto object-contain rounded-lg" />
                         )}
 
-                        <p className="text-white/60 text-sm leading-relaxed max-w-xs font-light">
+                        <p className="text-ink/80 text-sm leading-relaxed max-w-xs font-light">
                             Luxurious Accommodation, Unparalleled Comfort. A family-run tourist home embodying the warmth and hospitality of Kerala.
                         </p>
 
                         {/* Divider */}
-                        <div className="h-px w-12 bg-white/20" />
+                        <div className="h-px w-12 bg-maroon/30" />
 
                         {/* Social */}
                         <div className="flex items-center gap-4">
-                            <Link href="#" aria-label="Facebook" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-white/10 hover:text-white hover:border-white/40 transition-all duration-300">
+                            <Link href="#" aria-label="Facebook" className="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center text-ink/80 hover:bg-maroon-light hover:text-maroon hover:border-maroon transition-all duration-300">
                                 <Facebook size={15} />
                             </Link>
-                            <Link href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-white/10 hover:text-white hover:border-white/40 transition-all duration-300">
+                            <Link href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center text-ink/80 hover:bg-maroon-light hover:text-maroon hover:border-maroon transition-all duration-300">
                                 <Instagram size={15} />
                             </Link>
-                            <Link href="#" aria-label="Twitter" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-white/10 hover:text-white hover:border-white/40 transition-all duration-300">
+                            <Link href="#" aria-label="Twitter" className="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center text-ink/80 hover:bg-maroon-light hover:text-maroon hover:border-maroon transition-all duration-300">
                                 <Twitter size={15} />
                             </Link>
                         </div>
@@ -71,7 +71,7 @@ export function Footer() {
 
                     {/* Quick Links */}
                     <div className="lg:col-span-2">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Navigation</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-maroon-dark mb-5">Navigation</h3>
                         <ul className="space-y-3">
                             {/* All nav items with inline sub-links */}
                             {[
@@ -119,10 +119,10 @@ export function Footer() {
                                 <li key={item.name} className="group/item">
                                     <button
                                         onClick={() => setActiveMenu(activeMenu === item.name ? null : item.name)}
-                                        className="text-white/60 group-hover/item:text-white transition-colors text-sm flex items-center gap-2 cursor-pointer select-none w-full text-left outline-none"
+                                        className="text-ink/80 group-hover/item:text-maroon transition-colors text-sm flex items-center gap-2 cursor-pointer select-none w-full text-left outline-none"
                                     >
                                         <span className={cn(
-                                            "h-px bg-white transition-all duration-300 inline-block",
+                                            "h-px bg-maroon transition-all duration-300 inline-block",
                                             activeMenu === item.name ? "w-3" : "w-0 group-hover/item:w-3"
                                         )} />
                                         {item.name}
@@ -135,9 +135,9 @@ export function Footer() {
                                             <li key={s.href}>
                                                 <Link
                                                     href={s.href}
-                                                    className="text-white/40 hover:text-white transition-colors text-xs flex items-center gap-2 group"
+                                                    className="text-ink/65 hover:text-maroon transition-colors text-xs flex items-center gap-2 group"
                                                 >
-                                                    <span className="w-0 group-hover:w-2 h-px bg-white/50 transition-all duration-300 inline-block" />
+                                                    <span className="w-0 group-hover:w-2 h-px bg-maroon/60 transition-all duration-300 inline-block" />
                                                     {s.label}
                                                 </Link>
                                             </li>
@@ -150,29 +150,29 @@ export function Footer() {
 
                     {/* Erattupetta */}
                     <div className="lg:col-span-3">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Erattupetta</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-maroon-dark mb-5">Erattupetta</h3>
                         <ul className="space-y-4">
                             <li>
                                 <Link
                                     href="https://maps.app.goo.gl/ESpLdSY6SBB82YH1A"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-start gap-3 text-white/60 hover:text-white transition-colors text-sm group"
+                                    className="flex items-start gap-3 text-ink/80 hover:text-maroon transition-colors text-sm group"
                                 >
-                                    <MapPin size={16} className="mt-0.5 shrink-0 text-white/30 group-hover:text-white transition-colors" />
+                                    <MapPin size={16} className="mt-0.5 shrink-0 text-maroon group-hover:text-maroon transition-colors" />
                                     <span>Kannamundayil Arcade, Pala Road, Erattupetta</span>
                                 </Link>
                             </li>
-                            <li className="flex items-start gap-3 text-white/60 text-sm">
-                                <Phone size={16} className="mt-0.5 shrink-0 text-white/30" />
+                            <li className="flex items-start gap-3 text-ink/80 text-sm">
+                                <Phone size={16} className="mt-0.5 shrink-0 text-maroon" />
                                 <div className="flex flex-col gap-1">
-                                    <a href="tel:+919447131750" className="hover:text-white transition-colors">+91 94471 31750</a>
-                                    <a href="tel:+919447189362" className="hover:text-white transition-colors">+91 94471 89362</a>
+                                    <a href="tel:+919447131750" className="hover:text-maroon transition-colors">+91 94471 31750</a>
+                                    <a href="tel:+919447189362" className="hover:text-maroon transition-colors">+91 94471 89362</a>
                                 </div>
                             </li>
-                            <li className="flex items-center gap-3 text-white/60 text-sm">
-                                <Mail size={16} className="shrink-0 text-white/30" />
-                                <a href="mailto:kannamundayilresidency@gmail.com" className="hover:text-white transition-colors break-all">
+                            <li className="flex items-center gap-3 text-ink/80 text-sm">
+                                <Mail size={16} className="shrink-0 text-maroon" />
+                                <a href="mailto:kannamundayilresidency@gmail.com" className="hover:text-maroon transition-colors break-all">
                                     kannamundayilresidency@gmail.com
                                 </a>
                             </li>
@@ -181,24 +181,24 @@ export function Footer() {
 
                     {/* Poonjar */}
                     <div className="lg:col-span-3">
-                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/70 mb-5">Poonjar</h3>
+                        <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-maroon-dark mb-5">Poonjar</h3>
                         <ul className="space-y-4">
                             <li>
                                 <Link
                                     href="https://maps.app.goo.gl/urwncMWU44pSTUF69"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-start gap-3 text-white/60 hover:text-white transition-colors text-sm group"
+                                    className="flex items-start gap-3 text-ink/80 hover:text-maroon transition-colors text-sm group"
                                 >
-                                    <MapPin size={16} className="mt-0.5 shrink-0 text-white/30 group-hover:text-white transition-colors" />
+                                    <MapPin size={16} className="mt-0.5 shrink-0 text-maroon group-hover:text-maroon transition-colors" />
                                     <span>Kannamundayil Arcade, Opp. CMI Church, Poonjar</span>
                                 </Link>
                             </li>
-                            <li className="flex items-start gap-3 text-white/60 text-sm">
-                                <Phone size={16} className="mt-0.5 shrink-0 text-white/30" />
+                            <li className="flex items-start gap-3 text-ink/80 text-sm">
+                                <Phone size={16} className="mt-0.5 shrink-0 text-maroon" />
                                 <div className="flex flex-col gap-1">
-                                    <a href="tel:+919447107950" className="hover:text-white transition-colors">+91 94471 07950</a>
-                                    <a href="tel:+919447189362" className="hover:text-white transition-colors">+91 94471 89362</a>
+                                    <a href="tel:+919447107950" className="hover:text-maroon transition-colors">+91 94471 07950</a>
+                                    <a href="tel:+919447189362" className="hover:text-maroon transition-colors">+91 94471 89362</a>
                                 </div>
                             </li>
                         </ul>
@@ -207,14 +207,14 @@ export function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-white/10 mt-14 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-white/30 text-xs tracking-wide">
+                <div className="border-t border-cream-deep mt-14 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-ink/55 text-xs tracking-wide">
                         © {new Date().getFullYear()} Kannamundayil Residency. All rights reserved.
                     </p>
-                    <div className="flex items-center gap-6 text-xs text-white/30">
-                        <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                    <div className="flex items-center gap-6 text-xs text-ink/55">
+                        <Link href="/privacy" className="hover:text-maroon transition-colors">Privacy Policy</Link>
                         <span className="opacity-30">|</span>
-                        <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                        <Link href="/terms" className="hover:text-maroon transition-colors">Terms of Service</Link>
                     </div>
                 </div>
 

@@ -35,23 +35,23 @@ export default function AmenitiesPage() {
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-cream text-ink">
             {/* ── Parallax Hero ── */}
             <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image src={hotel.amenitiesHeroImage} alt={`${hotel.fullName} amenities`} fill className="object-cover" style={{ objectPosition: hotel.amenitiesHeroPosition }} sizes="100vw" priority />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
 
                 <div className="container relative z-10 px-6 pb-16">
                     <motion.p variants={heroTagline} initial="hidden" animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.35em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.35em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         Experience Luxury
                     </motion.p>
                     <div className="overflow-hidden pb-1">
                         <motion.h1 variants={heroTitlePopup} initial="hidden" animate="visible"
-                            className="text-5xl md:text-8xl font-serif leading-none">
+                            className="text-5xl md:text-8xl font-serif leading-none text-white drop-shadow-2xl">
                             Amenities
                         </motion.h1>
                     </div>
@@ -60,11 +60,11 @@ export default function AmenitiesPage() {
             </section>
 
             {/* ── Amenities Grid ── */}
-            <section className="bg-white text-gray-900 py-20 md:py-32">
+            <section className="bg-white text-ink py-20 md:py-32">
                 <div className="container px-6 mx-auto max-w-7xl">
                     <Reveal className="text-center mb-12 md:mb-20">
-                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[10px] md:text-xs mb-4">Designed for Your Comfort</p>
-                        <h2 className="text-3xl md:text-5xl font-serif text-gray-900">What We Offer</h2>
+                        <p className="text-gray-600 uppercase tracking-[0.25em] text-[12px] md:text-xs mb-4">Designed for Your Comfort</p>
+                        <h2 className="text-3xl md:text-5xl font-serif text-ink">What We Offer</h2>
                         <motion.div variants={lineWipe} initial="hidden" whileInView="visible" viewport={{ once: false }} className="h-[2px] w-16 bg-primary mx-auto mt-6 md:mt-8" />
                     </Reveal>
 
@@ -74,11 +74,11 @@ export default function AmenitiesPage() {
                                 <motion.div
                                     whileHover={{ scale: 1.1, rotate: -3 }}
                                     transition={{ type: "spring", stiffness: 300 }}
-                                    className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-50 shadow border border-gray-100 flex items-center justify-center mb-6 md:mb-8"
+                                    className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-cream-dark shadow border border-cream-deep flex items-center justify-center mb-6 md:mb-8"
                                 >
                                     <item.icon className="w-8 h-8 md:w-10 md:h-10 text-gray-700 group-hover:text-primary transition-colors duration-500 stroke-[1.25]" />
                                 </motion.div>
-                                <h3 className="text-lg md:text-xl font-serif text-gray-900 mb-2 md:mb-3 tracking-wide">{item.title}</h3>
+                                <h3 className="text-lg md:text-xl font-serif text-ink mb-2 md:mb-3 tracking-wide">{item.title}</h3>
                                 <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-xs font-light">{item.desc}</p>
                             </motion.div>
                         ))}

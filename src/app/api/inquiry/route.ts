@@ -20,13 +20,13 @@ export async function POST(req: Request) {
             subject: `New Inquiry: ${firstName} ${lastName}`,
             html: `
                 <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 12px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.05);">
-                    <div style="background-color: #72091d; padding: 40px 20px; text-align: center;">
+                    <div style="background-color: #6F2C3A; padding: 40px 20px; text-align: center;">
                         <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 2px;">NEW INQUIRY</h1>
                         <p style="color: rgba(255,255,255,0.7); margin: 10px 0 0 0; text-transform: uppercase; font-size: 12px; letter-spacing: 3px;">Kannamundayil Residency</p>
                     </div>
 
                     <div style="padding: 40px;">
-                        <div style="border-left: 4px solid #72091d; padding-left: 20px; margin-bottom: 40px;">
+                        <div style="border-left: 4px solid #6F2C3A; padding-left: 20px; margin-bottom: 40px;">
                             <h2 style="color: #1a1a1a; margin: 0 0 5px 0; font-size: 20px;">Inquiry Details</h2>
                             <p style="color: #666; margin: 0; font-size: 14px;">Incoming message from the contact page</p>
                         </div>

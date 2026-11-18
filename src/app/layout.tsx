@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Jost, Montserrat, Nunito } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -17,6 +17,14 @@ const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -43,11 +51,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${cormorant.variable} ${jost.variable} ${montserrat.variable} antialiased min-h-screen flex flex-col bg-background text-[17px]`}
-        style={{ fontFamily: "var(--font-jost), 'Jost', sans-serif" }}
+        className={`${cormorant.variable} ${jost.variable} ${montserrat.variable} ${nunito.variable} antialiased min-h-screen flex flex-col bg-background text-[17px]`}
+        style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
       >
         <Navbar />
-        <main className="flex-grow min-h-screen bg-neutral-950">
+        <main className="flex-grow min-h-screen bg-cream">
           {children}
         </main>
         <GoogleReviewsSection />

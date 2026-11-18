@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { Check, ChevronDown, ListFilter, X } from "lucide-react";
+import { Bath, Check, ChevronDown, ListFilter, X } from "lucide-react";
 import {
     galleryContainer,
     galleryItem,
@@ -168,7 +168,7 @@ export default function GalleryPage() {
     }, [hotel.id, storageKey]);
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900">
+        <div className="min-h-screen bg-cream-dark text-ink">
             {/* ── Parallax Hero ── */}
             <section ref={containerRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 w-full h-full z-0">
@@ -181,7 +181,7 @@ export default function GalleryPage() {
                         sizes="100vw"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
 
                 <div className="container relative z-10 px-6 pb-16 text-left">
@@ -189,7 +189,7 @@ export default function GalleryPage() {
                         variants={heroTagline}
                         initial="hidden"
                         animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.35em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.35em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         A Visual Journey
                     </motion.p>
@@ -241,10 +241,10 @@ export default function GalleryPage() {
                                 aria-label="Gallery categories"
                             >
                                 <div className="sticky top-0 z-10 bg-white border-b border-neutral-100 px-4 py-3">
-                                    <p className="text-[10px] uppercase tracking-[0.28em] font-bold text-neutral-400">
+                                    <p className="text-[12px] uppercase tracking-[0.28em] font-bold text-neutral-400">
                                         Filter
                                     </p>
-                                    <p className="font-serif text-base text-neutral-900 mt-0.5">
+                                    <p className="font-serif text-base text-ink mt-0.5">
                                         {activeLabel}
                                     </p>
                                 </div>
@@ -259,11 +259,11 @@ export default function GalleryPage() {
                                             "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
                                             activeSection === "all"
                                                 ? "bg-primary/5 text-primary"
-                                                : "text-neutral-700 hover:bg-neutral-50"
+                                                : "text-neutral-700 hover:bg-cream-dark"
                                         )}
                                     >
                                         <span className="font-medium">All</span>
-                                        <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                        <span className="flex items-center gap-2 text-[13px] tabular-nums text-neutral-400">
                                             {allImages.length}
                                             {activeSection === "all" && <Check size={14} className="text-primary" />}
                                         </span>
@@ -271,7 +271,7 @@ export default function GalleryPage() {
 
                                     {spaceSections.length > 0 && (
                                         <div className="mt-2 pt-2 border-t border-neutral-100">
-                                            <p className="px-3 py-1.5 text-[9px] uppercase tracking-[0.28em] font-bold text-neutral-300">
+                                            <p className="px-3 py-1.5 text-[13px] uppercase tracking-[0.28em] font-bold text-neutral-300">
                                                 Spaces
                                             </p>
                                             {spaceSections.map((section) => (
@@ -285,11 +285,11 @@ export default function GalleryPage() {
                                                         "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
                                                         activeSection === section.id
                                                             ? "bg-primary/5 text-primary"
-                                                            : "text-neutral-700 hover:bg-neutral-50"
+                                                            : "text-neutral-700 hover:bg-cream-dark"
                                                     )}
                                                 >
                                                     <span className="font-medium">{section.label}</span>
-                                                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                                    <span className="flex items-center gap-2 text-[13px] tabular-nums text-neutral-400">
                                                         {section.images.length}
                                                         {activeSection === section.id && (
                                                             <Check size={14} className="text-primary" />
@@ -302,7 +302,7 @@ export default function GalleryPage() {
 
                                     {roomSections.length > 0 && (
                                         <div className="mt-2 pt-2 border-t border-neutral-100">
-                                            <p className="px-3 py-1.5 text-[9px] uppercase tracking-[0.28em] font-bold text-neutral-300">
+                                            <p className="px-3 py-1.5 text-[13px] uppercase tracking-[0.28em] font-bold text-neutral-300">
                                                 Rooms
                                             </p>
                                             {roomSections.map((section) => (
@@ -316,11 +316,11 @@ export default function GalleryPage() {
                                                         "w-full flex items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors cursor-pointer",
                                                         activeSection === section.id
                                                             ? "bg-primary/5 text-primary"
-                                                            : "text-neutral-700 hover:bg-neutral-50"
+                                                            : "text-neutral-700 hover:bg-cream-dark"
                                                     )}
                                                 >
                                                     <span className="font-medium">{section.label}</span>
-                                                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-neutral-400">
+                                                    <span className="flex items-center gap-2 text-[13px] tabular-nums text-neutral-400">
                                                         {section.images.length}
                                                         {activeSection === section.id && (
                                                             <Check size={14} className="text-primary" />
@@ -338,22 +338,22 @@ export default function GalleryPage() {
             </div>
 
             {/* ── Gallery Grid ── */}
-            <section ref={gridRef} className="bg-gray-50 pt-10 md:pt-14 pb-16 md:pb-20">
+            <section ref={gridRef} className="bg-cream-dark pt-10 md:pt-14 pb-16 md:pb-20">
                 <div className="container px-4 max-w-7xl mx-auto">
                     <div className="space-y-16">
                     {activeSection !== "all" && (
                         <div className="flex items-end justify-between gap-4 pr-14">
                             <div>
-                                <p className="text-primary uppercase tracking-[0.25em] text-[10px] font-bold mb-1">
+                                <p className="text-primary uppercase tracking-[0.25em] text-[12px] font-bold mb-1">
                                     Filtered
                                 </p>
-                                <h2 className="text-2xl md:text-3xl font-serif text-gray-900">{activeLabel}</h2>
+                                <h2 className="text-2xl md:text-3xl font-serif text-ink">{activeLabel}</h2>
                                 <div className="h-[2px] w-12 bg-primary mt-3" />
                             </div>
                             <button
                                 type="button"
                                 onClick={() => selectSection("all")}
-                                className="text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-400 hover:text-primary transition-colors cursor-pointer pb-1"
+                                className="text-[12px] uppercase tracking-[0.22em] font-bold text-neutral-400 hover:text-primary transition-colors cursor-pointer pb-1"
                             >
                                 Clear
                             </button>
@@ -368,10 +368,10 @@ export default function GalleryPage() {
                             {activeSection === "all" && (
                                 <div className="mb-6 flex items-end justify-between gap-4 pr-14">
                                     <div>
-                                        <p className="text-primary uppercase tracking-[0.25em] text-[10px] font-bold mb-1">
+                                        <p className="text-primary uppercase tracking-[0.25em] text-[12px] font-bold mb-1">
                                             {section.images.some((i) => i.category) ? "Room Category" : "Space"}
                                         </p>
-                                        <h2 className="text-2xl md:text-3xl font-serif text-gray-900">{section.label}</h2>
+                                        <h2 className="text-2xl md:text-3xl font-serif text-ink">{section.label}</h2>
                                         <div className="h-[2px] w-12 bg-primary mt-3" />
                                     </div>
                                     <span className="text-xs text-gray-400 tracking-widest uppercase">
@@ -414,16 +414,26 @@ export default function GalleryPage() {
                                         <div className="absolute inset-0 flex flex-col justify-end p-5 pointer-events-none">
                                             <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                                                 <div className="h-[2px] w-8 bg-primary mb-2" />
-                                                {img.category && (
-                                                    <p className="text-primary-foreground/90 text-[9px] uppercase tracking-widest font-bold mb-1 bg-primary inline-block px-2 py-0.5 rounded-sm">
-                                                        {img.category}
-                                                    </p>
+                                                {(img.category || img.isBathroom) && (
+                                                    <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                                                        {img.category && (
+                                                            <p className="text-primary-foreground/90 text-[13px] uppercase tracking-widest font-bold bg-primary inline-flex items-center px-2 py-0.5 rounded-sm">
+                                                                {img.category}
+                                                            </p>
+                                                        )}
+                                                        {img.isBathroom && (
+                                                            <p className="text-primary text-[13px] uppercase tracking-widest font-bold bg-white inline-flex items-center gap-1 px-2 py-0.5 rounded-sm">
+                                                                <Bath className="w-3.5 h-3.5" />
+                                                                Bathroom
+                                                            </p>
+                                                        )}
+                                                    </div>
                                                 )}
                                                 <h3 className="text-white font-serif text-lg tracking-wide drop-shadow">
                                                     {img.section}
                                                 </h3>
                                                 {img.category && (
-                                                    <p className="text-white/70 text-[10px] tracking-widest uppercase mt-1">
+                                                    <p className="text-white/70 text-[12px] tracking-widest uppercase mt-1">
                                                         View features →
                                                     </p>
                                                 )}

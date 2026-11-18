@@ -83,8 +83,8 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
         }
     };
 
-    const inputClasses = "w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light text-sm";
-    const labelClasses = "block text-[10px] uppercase tracking-widest font-bold text-gray-800 mb-1 ml-1";
+    const inputClasses = "w-full bg-cream-dark border border-cream-deep rounded-xl px-5 py-4 text-ink focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light text-sm";
+    const labelClasses = "block text-[12px] uppercase tracking-widest font-bold text-gray-800 mb-1 ml-1";
     const today = new Date().toISOString().split('T')[0];
 
     return (
@@ -119,7 +119,7 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                             >
                                 <X size={20} />
                             </button>
-                            <p className="text-[10px] uppercase tracking-[0.2em] font-bold opacity-70 mb-1">Quick Reservation</p>
+                            <p className="text-[12px] uppercase tracking-[0.2em] font-bold opacity-70 mb-1">Quick Reservation</p>
                             <h2 className="text-3xl font-serif">Plan Your Stay</h2>
                             <p className="text-white/60 text-xs mt-2 font-light">Confirming request for <span className="text-white font-medium">{hotelName} Hotel</span></p>
                         </div>
@@ -186,7 +186,7 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                                 <Button
                                     type="submit"
                                     disabled={formStatus === "submitting"}
-                                    className="w-full h-14 rounded-xl bg-primary hover:bg-black transition-all duration-300 text-xs tracking-widest uppercase font-bold text-white mt-4"
+                                    className="w-full h-14 rounded-xl bg-primary hover:bg-maroon-dark transition-all duration-300 text-xs tracking-widest uppercase font-bold text-white mt-4"
                                 >
                                     {formStatus === "submitting" ? "Processing Application..." : "Send Reservation Request"}
                                 </Button>
@@ -198,7 +198,7 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                             {formStatus === "success" && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white flex flex-col items-center justify-center p-12 text-center z-10">
                                     <CheckCircle2 size={64} className="text-green-500 mb-4" />
-                                    <h3 className="text-2xl font-serif text-gray-900">Request Sent!</h3>
+                                    <h3 className="text-2xl font-serif text-ink">Request Sent!</h3>
                                     <p className="text-gray-500 mt-2 font-light">Your reservation request for {hotelName} has been received.</p>
                                     <p className="text-primary font-bold mt-4 animate-pulse">
                                         Redirecting to WhatsApp in {countdown}s...
@@ -214,9 +214,9 @@ export function QuickBookingModal({ isOpen, onClose, initialRoom = "", hotelName
                             {formStatus === "error" && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white flex flex-col items-center justify-center p-12 text-center z-10">
                                     <XCircle size={64} className="text-red-500 mb-4" />
-                                    <h3 className="text-2xl font-serif text-gray-900">System Error</h3>
+                                    <h3 className="text-2xl font-serif text-ink">System Error</h3>
                                     <p className="text-gray-500 mt-2 font-light">We encountered an issue processing your request. Please try again or contact us directly.</p>
-                                    <Button onClick={() => setFormStatus("idle")} className="mt-6 bg-gray-900">Try Again</Button>
+                                    <Button onClick={() => setFormStatus("idle")} className="mt-6 bg-maroon-dark">Try Again</Button>
                                 </motion.div>
                             )}
                         </AnimatePresence>

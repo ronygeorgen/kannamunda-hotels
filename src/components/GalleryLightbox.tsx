@@ -89,7 +89,7 @@ export function GalleryLightbox({
                     onClick={close}
                 >
                     <div className="absolute top-0 inset-x-0 h-16 flex items-center justify-between px-6 z-[120] bg-black/40 backdrop-blur-sm">
-                        <div className="text-white/70 font-medium text-[10px] tracking-widest uppercase">
+                        <div className="text-white/70 font-medium text-[12px] tracking-widest uppercase">
                             {index + 1} <span className="mx-1">/</span> {images.length}
                             <span className="ml-3 text-white/40 hidden sm:inline">· {activeImage.section}</span>
                         </div>
@@ -102,7 +102,7 @@ export function GalleryLightbox({
                                         e.stopPropagation();
                                         onBook(activeImage.category!);
                                     }}
-                                    className="flex items-center gap-2 bg-primary hover:bg-white hover:text-primary text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap"
+                                    className="flex items-center gap-2 bg-primary hover:bg-white hover:text-primary text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[13px] md:text-[12px] font-bold uppercase tracking-widest transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap"
                                 >
                                     <ShoppingBag size={14} />
                                     <span>Book<span className="hidden md:inline"> This Room</span></span>
@@ -167,7 +167,7 @@ export function GalleryLightbox({
 
                     <div className="absolute bottom-4 inset-x-0 text-center z-[110] px-4">
                         {activeImage.isBathroom && (
-                            <span className="inline-block mb-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[10px] uppercase tracking-[0.25em] font-bold">
+                            <span className="inline-block mb-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[12px] uppercase tracking-[0.25em] font-bold">
                                 Bathroom
                             </span>
                         )}

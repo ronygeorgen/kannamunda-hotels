@@ -21,13 +21,13 @@ export async function POST(req: Request) {
             subject: `New Booking Request: ${name} - ${location || 'Unknown Location'}`,
             html: `
                 <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 12px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.05);">
-                    <div style="background-color: #72091d; padding: 40px 20px; text-align: center;">
+                    <div style="background-color: #6F2C3A; padding: 40px 20px; text-align: center;">
                         <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 2px;">RESERVATION REQUEST</h1>
                         <p style="color: rgba(255,255,255,0.7); margin: 10px 0 0 0; text-transform: uppercase; font-size: 12px; letter-spacing: 3px;">Kannamundayil Residency</p>
                     </div>
 
                     <div style="padding: 40px;">
-                        <div style="border-left: 4px solid #72091d; padding-left: 20px; margin-bottom: 40px;">
+                        <div style="border-left: 4px solid #6F2C3A; padding-left: 20px; margin-bottom: 40px;">
                             <h2 style="color: #1a1a1a; margin: 0 0 5px 0; font-size: 20px;">Guest Details</h2>
                             <p style="color: #666; margin: 0; font-size: 14px;">Incoming request for a new room reservation</p>
                         </div>
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
                             <tr>
                                 <td colspan="2" style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
                                     <div style="font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px;">Hotel Location</div>
-                                    <div style="font-size: 18px; color: #72091d; font-weight: bold; margin-top: 4px;">${location || 'Not Specified'}</div>
+                                    <div style="font-size: 18px; color: #6F2C3A; font-weight: bold; margin-top: 4px;">${location || 'Not Specified'}</div>
                                 </td>
                             </tr>
                             <tr>
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
                             <tr>
                                 <td style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
                                     <div style="font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px;">Room Type</div>
-                                    <div style="font-size: 15px; background-color: #72091d; color: white; display: inline-block; padding: 2px 10px; border-radius: 4px; text-transform: capitalize; margin-top: 5px;">${room}</div>
+                                    <div style="font-size: 15px; background-color: #6F2C3A; color: white; display: inline-block; padding: 2px 10px; border-radius: 4px; text-transform: capitalize; margin-top: 5px;">${room}</div>
                                 </td>
                                 <td style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
                                     <div style="font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 1px;">Guest Count</div>

@@ -35,18 +35,18 @@ export function GoogleReviewsSection() {
     }
 
     return (
-        <section className="content-text bg-gray-50 py-20 md:py-28 border-t border-gray-100">
+        <section className="content-text bg-maroon-light py-20 md:py-28 border-t border-maroon/10">
             <div className="container px-6 max-w-7xl mx-auto">
                 <RevealGroup className="text-center mb-14 md:mb-16">
                     <motion.p
                         variants={fadeUp}
-                        className="text-primary uppercase tracking-[0.25em] text-[10px] md:text-xs font-bold mb-3"
+                        className="text-primary uppercase tracking-[0.25em] text-[12px] md:text-xs font-bold mb-3"
                     >
                         What Our Guests Say
                     </motion.p>
                     <motion.h2
                         variants={fadeUp}
-                        className="text-4xl md:text-5xl font-serif text-gray-900 mb-4"
+                        className="text-4xl md:text-5xl font-serif text-ink mb-4"
                     >
                         Guest Reviews
                     </motion.h2>
@@ -73,7 +73,7 @@ export function GoogleReviewsSection() {
                         <motion.article
                             key={review.id}
                             variants={fadeUp}
-                            className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 flex flex-col"
+                            className="bg-white rounded-2xl p-8 border border-cream-deep shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all duration-500 flex flex-col"
                         >
                             <StarRating rating={review.rating} />
 
@@ -83,8 +83,8 @@ export function GoogleReviewsSection() {
                                 </p>
                             </blockquote>
 
-                            <div className="pt-5 border-t border-gray-100">
-                                <p className="font-serif text-lg text-gray-900">{review.name}</p>
+                            <div className="pt-5 border-t border-cream-deep">
+                                <p className="font-serif text-lg text-ink">{review.name}</p>
                                 {review.date && (
                                     <p className="text-xs text-gray-400 tracking-wide mt-1 uppercase">
                                         {review.date}

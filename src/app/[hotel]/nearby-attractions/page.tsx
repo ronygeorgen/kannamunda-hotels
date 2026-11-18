@@ -2,15 +2,11 @@
 import { useHotel } from "@/lib/hotelContext";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { MapPin, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { MapPin, Navigation, ArrowUpRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import {
-    heroTagline, heroTitle, heroTitlePopup, lineWipe,
-    fadeUp, galleryContainer, galleryItem,
-    RevealGroup, Reveal,
-} from "@/components/animations";
+import { heroTagline, heroTitlePopup, lineWipe, Reveal } from "@/components/animations";
 
 interface AttractionPlace {
     name: string;
@@ -24,137 +20,160 @@ interface AttractionSection {
     places: AttractionPlace[];
 }
 
-const COLLAPSED_ITEM_LIMIT = 3;
+/** Descriptions longer than this get a "Read more" toggle. */
+const LONG_DESC_CHARS = 110;
 
-function AttractionSectionCard({
-    section,
-    sectionIdx,
-    expandedPlaceId,
-    expandedCardIdx,
-    onTogglePlace,
-    onToggleCard,
+/** "Within 10 km" -> "10 km" for the compact journey-line labels. */
+const shortDistance = (distance: string) => distance.replace(/^Within\s+/i, "");
+
+function DistanceJourney({
+    sections,
+    activeIdx,
+    onSelect,
 }: {
-    section: AttractionSection;
-    sectionIdx: number;
-    expandedPlaceId: string | null;
-    expandedCardIdx: number | null;
-    onTogglePlace: (id: string) => void;
-    onToggleCard: (idx: number) => void;
+    sections: AttractionSection[];
+    activeIdx: number;
+    onSelect: (idx: number) => void;
 }) {
-    const needsCardExpand = section.places.length > COLLAPSED_ITEM_LIMIT;
-    const isCardExpanded = expandedCardIdx === sectionIdx;
-    const visiblePlaces =
-        needsCardExpand && !isCardExpanded
-            ? section.places.slice(0, COLLAPSED_ITEM_LIMIT)
-            : section.places;
-    const hiddenCount = section.places.length - COLLAPSED_ITEM_LIMIT;
+    const count = sections.length;
+    // Dots sit at the centre of each equal-width column, so the line spans
+    // from the first column's centre to the last column's centre.
+    const edge = `${50 / count}%`;
+    const progress = count > 1 ? activeIdx / (count - 1) : 1;
 
     return (
-        <motion.div
-            variants={galleryItem}
-            className={cn(
-                "border-t-4 border-primary bg-gray-50 p-10 flex flex-col w-full hover:bg-white hover:shadow-xl transition-all duration-500 rounded-sm",
-                expandedCardIdx === null ? "h-full" : "self-start",
-                isCardExpanded && "shadow-xl bg-white relative z-10"
-            )}
-        >
-            <div className="flex items-center gap-4 mb-10 shrink-0">
-                <div className="w-12 h-12 bg-primary/10 flex items-center justify-center shrink-0 rounded-lg">
-                    <MapPin className="w-6 h-6 text-primary stroke-[1.5]" />
-                </div>
-                <h2 className="text-2xl font-serif text-gray-900">{section.distance}</h2>
+        <div className="relative mb-14 md:mb-16">
+            {/* Track + progress (desktop) */}
+            <div className="hidden md:block absolute top-[26px] h-[2px] bg-cream-deep" style={{ left: edge, right: edge }}>
+                <motion.div
+                    className="h-full bg-primary origin-left"
+                    initial={false}
+                    animate={{ scaleX: progress }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                />
             </div>
 
-            <div className="flex flex-col flex-1 min-h-0">
-                <div className="space-y-8 flex-1">
-                    {visiblePlaces.map((place, i) => {
-                        const originalIndex =
-                            needsCardExpand && !isCardExpanded ? i : section.places.indexOf(place);
-                        const resolvedItemId = `${sectionIdx}-${originalIndex}`;
-
-                        return (
-                            <AttractionPlaceItem
-                                key={resolvedItemId}
-                                place={place}
-                                itemId={resolvedItemId}
-                                isExpanded={expandedPlaceId === resolvedItemId}
-                                onToggle={onTogglePlace}
-                            />
-                        );
-                    })}
-                </div>
-
-                <div
-                    className={cn(
-                        "mt-auto shrink-0 w-full pt-5 mt-8 min-h-[52px] flex items-center justify-center",
-                        needsCardExpand ? "border-t border-gray-200" : "border-t border-transparent"
-                    )}
-                >
-                    {needsCardExpand && (
+            <div
+                className="relative flex md:grid gap-3 md:gap-0 overflow-x-auto no-scrollbar -mx-6 px-6 md:mx-0 md:px-0 snap-x"
+                style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
+            >
+                {sections.map((section, idx) => {
+                    const isActive = idx === activeIdx;
+                    const isPassed = idx < activeIdx;
+                    return (
                         <button
+                            key={section.distance}
                             type="button"
-                            onClick={() => onToggleCard(sectionIdx)}
-                            aria-expanded={isCardExpanded}
-                            className="w-full flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-semibold text-primary hover:text-gray-900 transition-colors cursor-pointer"
-                        >
-                            {isCardExpanded ? (
-                                <>Show Less<ChevronDown className="w-4 h-4 rotate-180 transition-transform" /></>
-                            ) : (
-                                <>
-                                    View {hiddenCount} More
-                                    <ChevronDown className="w-4 h-4 transition-transform" />
-                                </>
+                            onClick={() => onSelect(idx)}
+                            aria-pressed={isActive}
+                            className={cn(
+                                "group snap-start shrink-0 flex md:flex-col items-center gap-3 md:gap-4 cursor-pointer",
+                                "rounded-full md:rounded-none px-5 py-3 md:p-0 border md:border-0 transition-colors duration-300",
+                                isActive ? "bg-primary md:bg-transparent border-primary" : "bg-white md:bg-transparent border-cream-deep"
                             )}
+                        >
+                            <span
+                                className={cn(
+                                    "hidden md:flex w-[54px] h-[54px] rounded-full items-center justify-center border-2 transition-all duration-500",
+                                    isActive
+                                        ? "bg-primary border-primary text-white shadow-lg shadow-primary/30 scale-110"
+                                        : isPassed
+                                            ? "bg-maroon-light border-primary text-primary"
+                                            : "bg-white border-cream-deep text-ink/50 group-hover:border-primary group-hover:text-primary"
+                                )}
+                            >
+                                <MapPin className="w-5 h-5" />
+                            </span>
+                            <span className="flex flex-col md:items-center text-left md:text-center">
+                                <span
+                                    className={cn(
+                                        "whitespace-nowrap font-bold text-base md:text-lg leading-tight transition-colors",
+                                        isActive ? "text-white md:text-primary" : "text-ink group-hover:text-primary"
+                                    )}
+                                >
+                                    <span className="md:hidden">{section.distance}</span>
+                                    <span className="hidden md:inline">{shortDistance(section.distance)}</span>
+                                </span>
+                                <span
+                                    className={cn(
+                                        "whitespace-nowrap text-xs uppercase tracking-[0.18em] font-semibold mt-0.5",
+                                        isActive ? "text-white/80 md:text-ink/60" : "text-ink/50"
+                                    )}
+                                >
+                                    {section.places.length} {section.places.length === 1 ? "place" : "places"}
+                                </span>
+                            </span>
                         </button>
-                    )}
-                </div>
+                    );
+                })}
             </div>
-        </motion.div>
+        </div>
     );
 }
-function AttractionPlaceItem({
-    place,
-    itemId,
-    isExpanded,
-    onToggle,
-}: {
-    place: AttractionPlace;
-    itemId: string;
-    isExpanded: boolean;
-    onToggle: (id: string) => void;
-}) {
+
+function AttractionCard({ place, index }: { place: AttractionPlace; index: number }) {
+    const [expanded, setExpanded] = useState(false);
+    const isLong = place.desc.length > LONG_DESC_CHARS;
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place.name}, Kottayam, Kerala`)}`;
+
     return (
-        <div className="group pl-6 border-l-2 border-gray-200 hover:border-primary transition-colors duration-500">
-            <button
-                type="button"
-                onClick={() => onToggle(itemId)}
-                aria-expanded={isExpanded}
-                className="w-full text-left cursor-pointer min-w-0"
+        <motion.article
+            layout
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="group relative flex flex-col bg-white rounded-2xl border border-cream-deep p-7 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[box-shadow,transform] duration-500 overflow-hidden"
+        >
+            {/* Accent bar that sweeps in on hover */}
+            <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-primary to-maroon-light origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+
+            <div className="flex items-start justify-between gap-4 mb-6">
+                <span className="font-serif text-5xl leading-none text-primary/20 group-hover:text-primary/40 transition-colors duration-500 select-none">
+                    {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-maroon-light text-maroon-dark px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                    <Navigation className="w-3.5 h-3.5" />
+                    {place.km}
+                </span>
+            </div>
+
+            <h3
+                title={place.name}
+                className="text-xl md:text-[1.35rem] font-bold text-ink truncate mb-3 group-hover:text-primary transition-colors duration-300"
             >
-                <h3 className="font-serif text-xl text-gray-800 group-hover:text-primary transition-colors leading-snug break-words">
-                    {place.name}
-                </h3>
-                <div className="mt-1.5 flex items-center justify-end gap-1.5">
-                    <span className="text-xs font-semibold tracking-widest text-primary uppercase whitespace-nowrap">
-                        {place.km}
-                    </span>
-                    <ChevronDown
-                        className={cn(
-                            "w-4 h-4 shrink-0 text-gray-400 group-hover:text-primary transition-all duration-300",
-                            isExpanded && "rotate-180 text-primary"
-                        )}
-                    />
-                </div>
-                <p
-                    className={cn(
-                        "mt-2 text-gray-600 font-light leading-relaxed transition-all duration-300",
-                        !isExpanded && "line-clamp-1"
+                {place.name}
+            </h3>
+
+            <p className={cn("text-ink/75 leading-relaxed", !expanded && "line-clamp-3")}>{place.desc}</p>
+
+            <div className="mt-auto pt-6">
+                <div className="flex items-center justify-between gap-4 pt-5 border-t border-cream-deep">
+                    {isLong ? (
+                        <button
+                            type="button"
+                            onClick={() => setExpanded((v) => !v)}
+                            aria-expanded={expanded}
+                            className="inline-flex items-center gap-1 text-sm font-bold text-ink/70 hover:text-primary transition-colors cursor-pointer"
+                        >
+                            {expanded ? "Show less" : "Read more"}
+                            <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", expanded && "rotate-180")} />
+                        </button>
+                    ) : (
+                        <span />
                     )}
-                >
-                    {place.desc}
-                </p>
-            </button>
-        </div>
+                    <a
+                        href={mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm font-bold text-primary hover:text-maroon-dark transition-colors"
+                    >
+                        View on map
+                        <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                </div>
+            </div>
+        </motion.article>
     );
 }
 
@@ -247,70 +266,63 @@ const poonjarAttractions = [
 export default function NearbyAttractionsPage() {
     const hotel = useHotel();
     const attractions = hotel.id === "erattupetta" ? erattupettaAttractions : poonjarAttractions;
-    const [expandedPlaceId, setExpandedPlaceId] = useState<string | null>(null);
-    const [expandedCardIdx, setExpandedCardIdx] = useState<number | null>(null);
+    const [activeIdx, setActiveIdx] = useState(0);
     const heroRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-    const handleTogglePlace = (id: string) => {
-        setExpandedPlaceId((current) => (current === id ? null : id));
-    };
-
-    const handleToggleCard = (idx: number) => {
-        setExpandedCardIdx((current) => (current === idx ? null : idx));
-        setExpandedPlaceId(null);
-    };
+    const activeSection = attractions[Math.min(activeIdx, attractions.length - 1)];
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-cream text-ink">
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[70vh] md:h-screen flex items-end overflow-hidden">
                 <motion.div style={{ y }} className="absolute inset-0 z-0">
                     <Image src={`/${hotel.imagePrefix}-nearby-attractions/location3.webp`} alt="Nearby Attractions" fill className="object-cover" priority />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">
                     <motion.p variants={heroTagline} initial="hidden" animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         Explore Wonders
                     </motion.p>
                     <div className="overflow-hidden pb-1">
-                        <motion.h1 variants={heroTitlePopup} initial="hidden" animate="visible" className="text-5xl md:text-8xl font-serif leading-none">Nearby Attractions</motion.h1>
+                        <motion.h1 variants={heroTitlePopup} initial="hidden" animate="visible" className="text-5xl md:text-8xl font-serif leading-none text-white drop-shadow-2xl">Nearby Attractions</motion.h1>
                     </div>
                     <motion.div variants={lineWipe} initial="hidden" animate="visible" className="h-[3px] w-40 bg-primary mt-2" />
                 </div>
             </section>
 
             {/* ── Attractions ── */}
-            <section className="py-20 md:py-32 bg-white">
+            <section className="py-20 md:py-28 bg-cream">
                 <div className="container px-6 max-w-7xl mx-auto">
-                    <motion.div
-                        variants={galleryContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: false, margin: "-50px" }}
-                        className={cn(
-                            "grid sm:grid-cols-2 gap-8",
-                            expandedCardIdx === null ? "items-stretch" : "items-start",
-                            attractions.length === 3
-                                ? "lg:grid-cols-3"
-                                : "xl:grid-cols-4"
-                        )}
-                    >
-                        {attractions.map((section, idx) => (
-                            <AttractionSectionCard
-                                key={idx}
-                                section={section}
-                                sectionIdx={idx}
-                                expandedPlaceId={expandedPlaceId}
-                                expandedCardIdx={expandedCardIdx}
-                                onTogglePlace={handleTogglePlace}
-                                onToggleCard={handleToggleCard}
-                            />
-                        ))}
-                    </motion.div>
+                    <Reveal className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+                        <p className="text-primary uppercase tracking-[0.3em] text-xs font-bold mb-3">Plan Your Day Trips</p>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-5">Explore Around {hotel.name}</h2>
+                        <div className="h-[2px] w-16 bg-primary mx-auto mb-6" />
+                        <p className="text-ink/75 text-lg">
+                            Waterfalls, hill stations, heritage sites and viewpoints, sorted by how far they are from the hotel.
+                            Pick a distance to see what&apos;s nearby.
+                        </p>
+                    </Reveal>
+
+                    <DistanceJourney sections={attractions} activeIdx={activeIdx} onSelect={setActiveIdx} />
+
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeSection.distance}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="grid gap-6 md:gap-7 sm:grid-cols-2 lg:grid-cols-3 items-start"
+                        >
+                            {activeSection.places.map((place, i) => (
+                                <AttractionCard key={`${activeSection.distance}-${place.name}`} place={place} index={i} />
+                            ))}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             </section>
 

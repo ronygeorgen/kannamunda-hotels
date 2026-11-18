@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion";
-import { Wifi, ShieldCheck, Car, Wind, ArrowRight, ArrowLeft, RotateCcw, Compass, MapPin, ArrowUpSquare } from "lucide-react";
+import { Wifi, ShieldCheck, Car, Wind, ArrowRight, RotateCcw, Compass, MapPin, ArrowUpSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useHotel } from "@/lib/hotelContext";
 import {
@@ -22,154 +22,70 @@ const baseAmenities = [
     { icon: Car, title: "Ample Parking", desc: "Spacious parking facility for your vehicles." },
 ];
 
-const AmenitiesCarousel = ({ amenities }: { amenities: typeof baseAmenities }) => {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [showLeft, setShowLeft] = useState(false);
-    const [showRight, setShowRight] = useState(true);
-    const currentIndexRef = useRef(0);
-
-    const getCards = () => {
-        const el = scrollRef.current;
-        if (!el) return [];
-        return Array.from(el.children).filter(
-            (child) => (child as HTMLElement).dataset.card === 'true'
-        ) as HTMLElement[];
-    };
-
-    const updateArrows = useCallback(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-        setShowLeft(el.scrollLeft > 4);
-        setShowRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-    }, []);
-
-    useEffect(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-        // Short delay to allow layout to settle
-        setTimeout(updateArrows, 100);
-        el.addEventListener('scroll', updateArrows, { passive: true });
-        window.addEventListener('resize', updateArrows);
-        return () => {
-            el.removeEventListener('scroll', updateArrows);
-            window.removeEventListener('resize', updateArrows);
-        };
-    }, [updateArrows, amenities]);
-
-    const getCardStep = () => {
-        const cards = getCards();
-        if (!cards[0]) return 300;
-        const gap = window.innerWidth >= 768 ? 24 : 16;
-        return cards[0].offsetWidth + gap;
-    };
-
-    const goLeft = () => {
-        const el = scrollRef.current;
-        if (!el) return;
-        if (window.innerWidth < 768) {
-            // Mobile: center the previous card
-            const idx = Math.max(0, currentIndexRef.current - 1);
-            const cards = getCards();
-            if (!cards[idx]) return;
-            const card = cards[idx];
-            const offset = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
-            el.scrollTo({ left: offset, behavior: 'smooth' });
-            currentIndexRef.current = idx;
-        } else {
-            // Desktop: scroll left by one card step
-            el.scrollBy({ left: -getCardStep(), behavior: 'smooth' });
-        }
-    };
-
-    const goRight = () => {
-        const el = scrollRef.current;
-        if (!el) return;
-        if (window.innerWidth < 768) {
-            // Mobile: center the next card
-            const cards = getCards();
-            const idx = Math.min(amenities.length - 1, currentIndexRef.current + 1);
-            if (!cards[idx]) return;
-            const card = cards[idx];
-            const offset = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
-            el.scrollTo({ left: offset, behavior: 'smooth' });
-            currentIndexRef.current = idx;
-        } else {
-            // Desktop: scroll right by one card step
-            el.scrollBy({ left: getCardStep(), behavior: 'smooth' });
-        }
-    };
-
-    // Mobile swipe tracking
-    const updateMobileIndex = useCallback(() => {
-        const el = scrollRef.current;
-        if (!el || window.innerWidth >= 768) return;
-        const cards = getCards();
-        if (!cards.length) return;
-        const center = el.scrollLeft + el.clientWidth / 2;
-        let closest = 0, minDist = Infinity;
-        cards.forEach((card, i) => {
-            const dist = Math.abs((card.offsetLeft + card.offsetWidth / 2) - center);
-            if (dist < minDist) { minDist = dist; closest = i; }
-        });
-        currentIndexRef.current = closest;
-    }, []);
-
-    useEffect(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-        el.addEventListener('scroll', updateMobileIndex, { passive: true });
-        return () => el.removeEventListener('scroll', updateMobileIndex);
-    }, [updateMobileIndex]);
-
-    // Mouse wheel → horizontal scroll on desktop
-    const handleWheel = (e: React.WheelEvent) => {
-        const el = scrollRef.current;
-        if (!el || window.innerWidth < 768) return;
-        e.preventDefault();
-        el.scrollBy({ left: e.deltaY * 2, behavior: 'smooth' });
-    };
-
-    return (
-        <div className="relative">
-            {showLeft && (
-                <button
-                    onClick={goLeft}
-                    className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-12 z-30 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/10 hover:bg-primary backdrop-blur-md text-white transition-all shadow-2xl flex items-center justify-center"
-                >
-                    <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-                </button>
-            )}
-            {showRight && (
-                <button
-                    onClick={goRight}
-                    className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-12 z-30 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/10 hover:bg-primary backdrop-blur-md text-white transition-all shadow-2xl flex items-center justify-center"
-                >
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </button>
-            )}
-            <div
-                ref={scrollRef}
-                onWheel={handleWheel}
-                className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+const AmenitiesShowcase = ({ amenities, href }: { amenities: typeof baseAmenities; href: string }) => (
+    <div className="grid lg:grid-cols-12 gap-14 lg:gap-16 items-center">
+        {/* Intro */}
+        <Reveal className="lg:col-span-5 text-center lg:text-left">
+            <p className="text-primary uppercase tracking-[0.25em] text-xs font-bold mb-3">Our Commitments</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-ink leading-tight">Signatures of Comfort</h2>
+            <div className="h-[2px] w-16 bg-primary mt-6 mb-8 mx-auto lg:mx-0" />
+            <p className="text-ink/75 text-lg leading-relaxed mb-10 max-w-md mx-auto lg:mx-0">
+                Thoughtful essentials, ready the moment you arrive, so all that&apos;s left to do is unwind.
+            </p>
+            <Link
+                href={href}
+                className="group inline-flex items-center gap-3 rounded-full bg-primary text-white px-7 py-3.5 text-sm font-bold tracking-wide shadow-lg shadow-primary/20 hover:bg-maroon-dark transition-colors duration-300"
             >
-                {amenities.map((item, i) => (
-                    <div
-                        key={i}
-                        data-card="true"
-                        className="min-w-[80vw] md:min-w-[calc(33.33%-1rem)] lg:min-w-[calc(25%-1.125rem)] flex-shrink-0 bg-white/5 backdrop-blur-sm p-6 md:p-10 group hover:bg-white/10 hover:-translate-y-1 transition-all duration-500 border border-white/10 border-t-4 border-t-primary/40 hover:border-t-primary flex flex-col items-center text-center"
+                Explore all amenities
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+        </Reveal>
+
+        {/* Tiles */}
+        <div className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+            {amenities.map((item, i) => {
+                // With an odd count, the last tile spans both columns so the grid stays balanced.
+                const isWide = amenities.length % 2 === 1 && i === amenities.length - 1;
+                return (
+                    <motion.div
+                        key={item.title}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-40px" }}
+                        transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                        className={`group relative overflow-hidden rounded-2xl bg-white border border-maroon/10 p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[box-shadow,transform] duration-500 ${isWide ? "sm:col-span-2 sm:flex sm:items-center sm:gap-6" : ""}`}
                     >
-                        <div className="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-white/15 transition-colors duration-500">
-                            <item.icon className="h-9 w-9 text-white/60 group-hover:text-white transition-colors duration-500 stroke-[1.25]" />
+                        {/* Maroon fill that sweeps up on hover */}
+                        <span className="absolute inset-0 bg-primary origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out" />
+
+                        <div className={`relative flex items-start justify-between shrink-0 ${isWide ? "mb-6 sm:mb-0" : "mb-6"}`}>
+                            <span className="w-14 h-14 rounded-xl bg-maroon-light text-primary flex items-center justify-center group-hover:bg-white/15 group-hover:text-white transition-colors duration-500">
+                                <item.icon className="w-7 h-7 stroke-[1.5]" />
+                            </span>
+                            {!isWide && (
+                                <span className="font-serif text-4xl leading-none text-primary/15 group-hover:text-white/30 transition-colors duration-500 select-none">
+                                    {String(i + 1).padStart(2, "0")}
+                                </span>
+                            )}
                         </div>
-                        <h3 className="text-xl font-serif text-white mb-3">{item.title}</h3>
-                        <p className="text-white/60 font-light leading-relaxed group-hover:text-white/80 transition-colors duration-500">{item.desc}</p>
-                    </div>
-                ))}
-            </div>
+
+                        {/* Wide tile: number pinned top-right, same spot as the other tiles */}
+                        {isWide && (
+                            <span className="absolute top-7 right-7 font-serif text-4xl leading-none text-primary/15 group-hover:text-white/30 transition-colors duration-500 select-none">
+                                {String(i + 1).padStart(2, "0")}
+                            </span>
+                        )}
+
+                        <div className="relative">
+                            <h3 className="text-xl font-bold text-ink mb-2 group-hover:text-white transition-colors duration-500">{item.title}</h3>
+                            <p className="text-ink/70 leading-relaxed group-hover:text-white/85 transition-colors duration-500">{item.desc}</p>
+                        </div>
+                    </motion.div>
+                );
+            })}
         </div>
-    );
-};
+    </div>
+);
 
 
 const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'right') => void }) => {
@@ -219,7 +135,7 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
                     <div className="w-14 h-14 rounded-full border-2 border-primary/50 bg-primary/20 backdrop-blur-md flex items-center justify-center">
                         <RotateCcw className="text-primary h-6 w-6 -rotate-45" />
                     </div>
-                    <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Next</span>
+                    <span className="text-primary font-bold uppercase tracking-[0.2em] text-[12px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Next</span>
                 </motion.div>
 
                 <motion.div
@@ -229,11 +145,11 @@ const SwipeCard = ({ item, onSwipe }: { item: any, onSwipe: (dir: 'left' | 'righ
                     <div className="w-14 h-14 rounded-full border-2 border-primary bg-primary/20 backdrop-blur-md flex items-center justify-center">
                         <Compass className="text-primary h-7 w-7 animate-pulse" />
                     </div>
-                    <span className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Explore</span>
+                    <span className="text-primary font-bold uppercase tracking-[0.2em] text-[12px] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">Explore</span>
                 </motion.div>
 
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <span className="text-white text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block bg-primary px-4 py-1.5 rounded-sm shadow-xl border border-white/10">
+                    <span className="text-white text-[12px] tracking-[0.3em] uppercase font-bold mb-3 inline-block bg-primary px-4 py-1.5 rounded-sm shadow-xl border border-white/10">
                         {item.tag}
                     </span>
                     <h3 className="text-3xl font-serif text-white mb-3">
@@ -328,7 +244,7 @@ export default function HotelHomePage() {
         : baseAmenities;
 
     return (
-        <div className="flex flex-col min-h-screen bg-neutral-950 text-white">
+        <div className="flex flex-col min-h-screen bg-cream text-ink">
 
 
             {/* ───── HERO ───── */}
@@ -375,7 +291,7 @@ export default function HotelHomePage() {
                         >
                             <motion.div
                                 variants={fadeUp}
-                                className="flex items-center gap-3 md:gap-4 text-white md:text-white/80 text-[11px] md:text-xs uppercase font-semibold md:font-normal tracking-[0.2em] md:tracking-[0.35em] mb-5 md:mb-8 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
+                                className="flex items-center gap-3 md:gap-4 text-white md:text-white/80 text-[13px] md:text-xs uppercase font-semibold md:font-normal tracking-[0.2em] md:tracking-[0.35em] mb-5 md:mb-8 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
                             >
                                 <span className="h-px w-6 md:w-10 shrink-0 bg-white/70 md:bg-white/50" />
                                 Kannamundayil Residency · {hotel.name}
@@ -400,7 +316,7 @@ export default function HotelHomePage() {
                             <motion.div variants={fadeUp} className="mt-8 md:mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
                                 <Link
                                     href={`${hotel.basePath}/bookings`}
-                                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white text-neutral-900 text-sm font-medium tracking-wide hover:bg-primary hover:text-white transition-colors duration-300"
+                                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white text-ink text-sm font-medium tracking-wide hover:bg-primary hover:text-white transition-colors duration-300"
                                 >
                                     Book your stay
                                     <ArrowRight className="w-4 h-4" />
@@ -440,7 +356,7 @@ export default function HotelHomePage() {
             </section>
 
             {/* ───── ABOUT STRIP ───── */}
-            <section className="bg-white text-gray-900 py-32 relative overflow-hidden">
+            <section className="bg-white text-ink py-32 relative overflow-hidden">
                 <div className="absolute -right-10 top-1/2 -translate-y-1/2 text-[20vw] font-serif text-gray-100 select-none pointer-events-none leading-none">K</div>
 
                 <div className="container px-6 mx-auto max-w-7xl relative z-10">
@@ -460,7 +376,7 @@ export default function HotelHomePage() {
 
                         <RevealGroup>
                             <motion.p variants={fadeUp} className="text-gray-600 font-medium tracking-[0.25em] uppercase text-xs mb-3">Discover the {hotel.name} Residency</motion.p>
-                            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-serif mb-6 text-gray-900 leading-tight">
+                            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-serif mb-6 text-ink leading-tight">
                                 A Home Away From Home in Kerala
                             </motion.h2>
                             <motion.div variants={lineWipe} className="h-[2px] w-16 bg-primary mb-8" />
@@ -484,25 +400,19 @@ export default function HotelHomePage() {
             </section>
 
             {/* ───── AMENITIES ───── */}
-            <section className="bg-[#3a0a14] py-32 border-t border-white/5 overflow-hidden">
-                <div className="container px-6 mx-auto max-w-7xl relative">
-                    <div className="text-center mb-20">
-                        <p className="text-white/60 uppercase tracking-[0.25em] text-xs mb-3">Our Commitments</p>
-                        <h2 className="text-4xl md:text-5xl font-serif text-white">Signatures of Comfort</h2>
-                        <div className="h-[2px] w-16 bg-white mx-auto mt-8" />
-                    </div>
-
-                    <AmenitiesCarousel amenities={amenities} />
+            <section className="bg-maroon-light py-24 md:py-32 border-t border-cream-deep overflow-hidden">
+                <div className="container px-6 mx-auto max-w-7xl">
+                    <AmenitiesShowcase amenities={amenities} href={`${hotel.basePath}/amenities`} />
                 </div>
             </section>
 
             {/* ───── PORTAL SHOWCASE ───── */}
-            <section className="bg-white py-32 border-t border-gray-50 overflow-hidden">
+            <section className="bg-white py-32 border-t border-cream-deep overflow-hidden">
                 <div className="container px-6 mx-auto max-w-[1400px]">
                     <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-16 gap-8">
                         <RevealGroup className="max-w-xl">
                             <Reveal variants={fadeUp}>
-                                <p className="text-[#4b6b80] uppercase tracking-[0.2em] text-[10px] font-bold mb-4">
+                                <p className="text-[#4b6b80] uppercase tracking-[0.2em] text-[12px] font-bold mb-4">
                                     Gateway to Excellence
                                 </p>
                             </Reveal>
@@ -520,14 +430,14 @@ export default function HotelHomePage() {
                                     initial="hidden"
                                     whileInView="visible"
                                     viewport={{ once: true }}
-                                    className="text-4xl lg:text-5xl font-serif text-gray-900 leading-tight"
+                                    className="text-4xl lg:text-5xl font-serif text-ink leading-tight"
                                 >
                                     Explore the Residency Experience
                                 </motion.h2>
                             </div>
 
                             <Reveal variants={lineWipe} delay={0.4}>
-                                <div className="h-[2px] w-16 bg-[#6a1224]" />
+                                <div className="h-[2px] w-16 bg-[#8B3A4A]" />
                             </Reveal>
                         </RevealGroup>
 
@@ -573,7 +483,7 @@ export default function HotelHomePage() {
                             ))}
                         </div>
 
-                        <p className="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-4">
+                        <p className="text-center text-[12px] text-gray-500 uppercase tracking-widest mt-4">
                             Swipe Left for next • Swipe Right to visit
                         </p>
                     </div>
@@ -616,7 +526,7 @@ export default function HotelHomePage() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-all duration-700" />
 
                                 <div className="absolute inset-0 p-10 flex flex-col justify-end lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-700">
-                                    <span className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 inline-block transition-all duration-500 bg-primary text-white px-3 py-1 rounded-sm shadow-xl border border-white/10 lg:opacity-0 lg:group-hover:opacity-100 lg:bg-transparent lg:text-primary lg:border-none lg:shadow-none lg:px-0 lg:py-0 lg:group-hover:bg-primary lg:group-hover:text-white lg:group-hover:px-3 lg:group-hover:py-1 lg:group-hover:rounded-sm lg:group-hover:shadow-xl lg:group-hover:border lg:group-hover:border-white/10`}>
+                                    <span className={`text-[12px] tracking-[0.3em] uppercase font-bold mb-3 inline-block transition-all duration-500 bg-primary text-white px-3 py-1 rounded-sm shadow-xl border border-white/10 lg:opacity-0 lg:group-hover:opacity-100 lg:bg-transparent lg:text-primary lg:border-none lg:shadow-none lg:px-0 lg:py-0 lg:group-hover:bg-primary lg:group-hover:text-white lg:group-hover:px-3 lg:group-hover:py-1 lg:group-hover:rounded-sm lg:group-hover:shadow-xl lg:group-hover:border lg:group-hover:border-white/10`}>
                                         {item.tag}
                                     </span>
 

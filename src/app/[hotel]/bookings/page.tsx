@@ -111,7 +111,7 @@ export default function BookingPage() {
         }
     };
 
-    const inputClasses = "w-full bg-white border border-gray-200 rounded-xl px-5 py-4 text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light";
+    const inputClasses = "w-full bg-white border border-gray-200 rounded-xl px-5 py-4 text-ink focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 placeholder:text-gray-400 font-light";
     const labelClasses = "block text-xs uppercase tracking-widest font-bold text-gray-800 mb-2 ml-1";
 
     const today = new Date().toISOString().split('T')[0];
@@ -133,7 +133,7 @@ export default function BookingPage() {
 
                 <div className="container relative z-10 px-6 pb-16">
                     <motion.p variants={heroTagline} initial="hidden" animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         Reservation
                     </motion.p>
@@ -152,10 +152,10 @@ export default function BookingPage() {
             </section>
 
             {/* ── Booking Form Section ── */}
-            <section className="py-20 md:py-32 bg-gray-50">
+            <section className="py-20 md:py-32 bg-cream-dark">
                 <div className="container px-6 max-w-4xl mx-auto">
                     <Reveal className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-4">Confirm Your Reservation</h2>
+                        <h2 className="text-3xl md:text-4xl font-serif text-ink mb-4">Confirm Your Reservation</h2>
                         <p className="text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
                             Complete the form below to book your luxury experience at Kannamundayil Residency. Our team will contact you shortly to confirm your details.
                         </p>
@@ -166,14 +166,14 @@ export default function BookingPage() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-gray-200/50 border border-gray-100"
+                        className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-gray-200/50 border border-cream-deep"
                     >
                         <form onSubmit={handleSubmit} className="space-y-8">
                             {/* Selected Location Display */}
                             <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 flex items-center justify-between">
                                 <div>
-                                    <p className="text-[10px] uppercase tracking-[2px] font-bold text-primary mb-1">Confirming Reservation For</p>
-                                    <h3 className="text-xl font-serif text-gray-900">{hotel.name} Hotel</h3>
+                                    <p className="text-[12px] uppercase tracking-[2px] font-bold text-primary mb-1">Confirming Reservation For</p>
+                                    <h3 className="text-xl font-serif text-ink">{hotel.name} Hotel</h3>
                                 </div>
                                 <div className="hidden md:block">
                                     <div className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center">
@@ -339,7 +339,7 @@ export default function BookingPage() {
                             <Button
                                 type="submit"
                                 disabled={formStatus === "submitting"}
-                                className="w-full h-16 rounded-xl bg-primary hover:bg-gray-900 transition-all duration-300 text-sm tracking-[0.2em] uppercase font-bold shadow-xl shadow-primary/20 cursor-pointer"
+                                className="w-full h-16 rounded-xl bg-primary hover:bg-maroon-dark transition-all duration-300 text-sm tracking-[0.2em] uppercase font-bold shadow-xl shadow-primary/20 cursor-pointer"
                             >
                                 {formStatus === "submitting" ? (
                                     <div className="flex items-center gap-3">
@@ -362,7 +362,7 @@ export default function BookingPage() {
                         initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-gray-900" : "bg-red-900"}`}
+                        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-4 text-white px-8 py-5 rounded-2xl shadow-2xl border border-white/10 min-w-[320px] ${formStatus === "success" ? "bg-maroon-dark" : "bg-red-800"}`}
                     >
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${formStatus === "success" ? "bg-green-500" : "bg-red-500"}`}>
                             {formStatus === "success" ? <CheckCircle2 className="w-6 h-6 text-white" /> : <XCircle className="w-6 h-6 text-white" />}
@@ -379,7 +379,7 @@ export default function BookingPage() {
                             {formStatus === "success" && (
                                 <a
                                     href={`https://wa.me/919447189362?text=${encodeURIComponent(waMsg)}`}
-                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
+                                    className="block mt-4 bg-green-500 hover:bg-green-600 text-white text-[12px] font-bold uppercase tracking-widest py-2 px-4 rounded-lg transition-colors text-center"
                                 >
                                     Chat on WhatsApp Now
                                 </a>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
@@ -6,7 +6,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Jost', var(--font-geist-sans);
+  --font-sans: var(--font-nunito), 'Nunito', 'Jost', sans-serif;
+
+  /* ── Brand palette: warm whites + medium maroon ── */
+  --color-cream: #FBF8F3;        /* main page background (warm off-white) */
+  --color-cream-dark: #F4EEE5;   /* alternate section background */
+  --color-cream-deep: #EBE2D6;   /* borders / subtle panels */
+  --color-maroon: #8B3A4A;       /* medium maroon (primary) */
+  --color-maroon-dark: #6F2C3A;  /* hover / deeper accent */
+  --color-maroon-light: #F3E1E4; /* blush tint */
+  --color-ink: #3A3033;          /* warm dark text */
   --font-mono: var(--font-geist-mono);
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-montserrat: var(--font-montserrat), sans-serif;
@@ -47,15 +56,15 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #FBF8F3;
+  --foreground: #3A3033;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
 
-  /* Burgundy Primary */
-  --primary: #6a1224;
+  /* Medium maroon primary */
+  --primary: #8B3A4A;
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.97 0 0);
@@ -66,8 +75,8 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: #EBE2D6;
+  --input: #E3D8CB;
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -130,22 +139,61 @@
 
   body {
     @apply bg-background;
-    font-family: 'Jost', sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-nunito), 'Nunito', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
     line-height: 1.75;
-    color: #1a1a1a;
+    color: #3A3033;
     -webkit-font-smoothing: antialiased;
+
+    /* Bigger body / sub-heading text (main headings reset below) */
+    --text-xs: 0.8125rem;
+    --text-sm: 0.9688rem;
+    --text-base: 1.0938rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.375rem;
+    --text-2xl: 1.625rem;
+
+    /* A little more boldness everywhere (main headings reset below) */
+    --font-weight-light: 500;
+    --font-weight-normal: 500;
+    --font-weight-medium: 600;
+    --font-weight-semibold: 700;
+    --font-weight-bold: 800;
+  }
+
+  /* Main headings keep their original elegant look */
+  h1,
+  h2 {
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
   }
 
   h1,
-  h2,
+  h2 {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+
+  /* Sub-headings: rounded, bolder */
   h3,
   h4,
   h5,
   h6 {
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
+    font-family: var(--font-nunito), 'Nunito', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
   }
 
   p,
@@ -153,8 +201,10 @@
   span,
   label,
   td,
-  th {
-    font-family: 'Jost', sans-serif;
+  th,
+  a,
+  button {
+    font-family: var(--font-nunito), 'Nunito', sans-serif;
   }
 
   /* ── Form Inputs — Large & Readable Defaults ── */
@@ -166,11 +216,12 @@
   input[type='password'],
   textarea,
   select {
-    font-family: 'Jost', sans-serif;
-    font-size: 1rem;
-    color: #1a1a1a;
+    font-family: var(--font-nunito), 'Nunito', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: #3A3033;
     background-color: #fff;
-    border: 1.5px solid #d1d5db;
+    border: 1.5px solid #E3D8CB;
     border-radius: 0.375rem;
     padding: 0.75rem 1rem;
     width: 100%;
@@ -190,8 +241,8 @@
   textarea:focus,
   select:focus {
     outline: none;
-    border-color: #6a1224;
-    box-shadow: 0 0 0 3px rgba(106, 18, 36, 0.12);
+    border-color: #8B3A4A;
+    box-shadow: 0 0 0 3px rgba(139, 58, 74, 0.15);
   }
 }
 
@@ -213,7 +264,7 @@
   --color-neutral-700: oklch(20.5% 0 0);
 }
 
-.content-text :is(h1, h2, h3, h4, h5, h6) {
+.content-text :is(h1, h2) {
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -232,9 +283,15 @@
   letter-spacing: 0.01em;
 }
 
+/* Sub-headings stay rounded even when tagged font-serif */
+:is(h3, h4, h5, h6).font-serif {
+  font-family: var(--font-nunito), 'Nunito', sans-serif !important;
+  letter-spacing: 0;
+}
+
 label {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.9375rem;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }

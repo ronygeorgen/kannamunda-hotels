@@ -102,12 +102,12 @@ function ProjectCard({
                     <div className="w-full lg:w-1/2">
                         <div className="flex items-center gap-3 mb-5">
                             <project.icon className="w-6 h-6 text-gray-600 stroke-[1.5]" />
-                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[10px] font-medium">{project.type}</span>
+                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[12px] font-medium">{project.type}</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-8 leading-tight">{project.title}</h2>
+                        <h2 className="text-4xl md:text-5xl font-serif text-ink mb-8 leading-tight">{project.title}</h2>
                         <div className="h-[2px] w-16 bg-primary mb-8" />
                         <p className="text-gray-600 text-xl leading-relaxed font-light mb-12">{project.desc}</p>
-                        <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-gray-900 text-lg rounded-none hover:text-primary pl-1 h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
+                        <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-ink text-lg rounded-none hover:text-primary pl-1 h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
                             Discover More <ArrowRight className="ml-3 w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                         </Button>
                     </div>
@@ -133,17 +133,17 @@ export default function ProjectsPage() {
     const stackHeight = `${(totalCards - 1) * 200 + 100}vh`;
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-white">
+        <div className="min-h-screen bg-cream text-ink">
 
             {/* ── Hero ── */}
             <section ref={heroRef} className="relative h-[65vh] flex items-end overflow-hidden">
                 <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
                     <Image src={`/${hotel.imagePrefix}-projects/projects-1.webp`} alt="Portfolio" fill className="object-cover object-bottom" priority />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
                 </motion.div>
                 <div className="container relative z-10 px-6 pb-16">
                     <motion.p variants={heroTagline} initial="hidden" animate="visible"
-                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
+                        className="inline-block bg-primary text-white px-4 py-1.5 rounded-sm uppercase tracking-[0.3em] text-[12px] md:text-xs font-bold mb-6 shadow-xl border border-white/10"
                     >
                         Kannamundayil Group of Companies
                     </motion.p>
@@ -180,12 +180,12 @@ export default function ProjectsPage() {
                         {/* Text */}
                         <div className="flex items-center gap-3 mb-4">
                             <project.icon className="w-5 h-5 text-gray-600 stroke-[1.5]" />
-                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[10px] font-medium">{project.type}</span>
+                            <span className="text-gray-600 uppercase tracking-[0.2em] text-[12px] font-medium">{project.type}</span>
                         </div>
-                        <h2 className="text-3xl font-serif text-gray-900 mb-5 leading-tight">{project.title}</h2>
+                        <h2 className="text-3xl font-serif text-ink mb-5 leading-tight">{project.title}</h2>
                         <div className="h-[2px] w-12 bg-primary mb-5" />
                         <p className="text-gray-600 text-base leading-relaxed font-light mb-8">{project.desc}</p>
-                        <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-gray-900 rounded-none hover:text-primary h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
+                        <Button variant="ghost" className="group/btn px-0 hover:bg-transparent text-ink rounded-none hover:text-primary h-auto pb-2 border-b-2 border-primary/20 hover:border-primary transition-colors">
                             Discover More <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                         </Button>
                     </div>
