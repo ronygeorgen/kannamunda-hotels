@@ -123,7 +123,7 @@ function AttractionCard({ place, index }: { place: AttractionPlace; index: numbe
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative flex flex-col bg-white rounded-2xl border border-cream-deep p-7 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[box-shadow,transform] duration-500 overflow-hidden"
+            className="group relative flex flex-col w-full sm:w-[calc((100%-1.5rem)/2)] md:w-[calc((100%-1.75rem)/2)] lg:w-[calc((100%-3.5rem)/3)] bg-white rounded-2xl border border-cream-deep p-7 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-[box-shadow,transform] duration-500 overflow-hidden"
         >
             {/* Accent bar that sweeps in on hover */}
             <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-primary to-maroon-light origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
@@ -316,7 +316,7 @@ export default function NearbyAttractionsPage() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.25 }}
-                            className="grid gap-6 md:gap-7 sm:grid-cols-2 lg:grid-cols-3 items-start"
+                            className="flex flex-wrap justify-center items-start gap-6 md:gap-7"
                         >
                             {activeSection.places.map((place, i) => (
                                 <AttractionCard key={`${activeSection.distance}-${place.name}`} place={place} index={i} />
